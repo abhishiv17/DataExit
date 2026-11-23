@@ -73,6 +73,41 @@ export interface Footprint {
   status: FootprintStatus;
 }
 
+// ---- Contract shapes consumed by the UI (see docs/contract.md) ----
+
+export type EvidenceKind = "signup" | "welcome" | "otp" | "receipt" | "newsletter" | "reply";
+
+/** Gmail metadata for the message a footprint was found from. Never a body. */
+export interface EvidenceRef {
+  messageId: string;
+  date: string; // ISO
+  from: string;
+  subject: string;
+  kind: EvidenceKind;
+}
+
+/** A footprint joined with its company, as returned by discover_footprint. */
+export interface FootprintView {
+  footprintId: string;
+  company: Pick<Company, "id" | "name" | "sector" | "dataCategories" | "retentionDuties" | "domains"> & {
+    grievanceVerified: boolean;
+  };
+  firstSeen: string;
+  lastSeen: string;
+  discoveredVia: DiscoverySource[];
+  sensitivity: number; // 1..12
+  highSensitivity: boolean;
+  status: FootprintStatus;
+  evidence: EvidenceRef[];
+}
+
+export interface FootprintResult {
+  userId: string;
+  scannedAt: string;
+  footprints: FootprintView[];
+  unmatchedDomains: string[];
+}
+
 export type RequestType =
   | "stop_marketing"
   | "withdraw_consent"

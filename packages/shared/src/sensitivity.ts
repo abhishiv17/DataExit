@@ -21,6 +21,20 @@ export function sensitivityScore(categories: DataCategory[]): number {
   return categories.reduce((max, c) => Math.max(max, SENSITIVITY[c]), 0);
 }
 
+export type SensitivityBand = "low" | "medium" | "high";
+
+/**
+ * Coarse band for UI colour and prioritisation.
+ * low: contact/device/behavioural/transaction (1–4)
+ * medium: location/communications/financial (5–7)
+ * high: government ID, health, biometric, children, inferred profiles (8–12)
+ */
+export function sensitivityBand(score: number): SensitivityBand {
+  if (score >= SENSITIVITY.government_id) return "high";
+  if (score >= SENSITIVITY.location) return "medium";
+  return "low";
+}
+
 /** "High-sensitivity" for the wow moment: Aadhaar/PAN/KYC or bank details or above. */
 export function isHighSensitivity(company: Pick<Company, "dataCategories">): boolean {
   return company.dataCategories.some(
