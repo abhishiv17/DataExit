@@ -4,6 +4,7 @@
 // check_scam code from servers/scam-shield, shown as a badge under each verdict.
 // In production this runs on the WhatsApp bot (apps/whatsapp-bot) calling check_scam.
 
+import { gsap } from "gsap";
 import { AFTER_FRAUD, checkScam, LOAN_APP_CLEANUP, NEVER_ASK, SAMPLES, SIM_CHECK, type Bi, type ScamCheck } from "./scam";
 
 type Lang = "hi" | "en";
@@ -101,8 +102,8 @@ export function mountRural(host: HTMLElement) {
       <div class="rural-layout" lang="${lang}">
         <div class="phone">
           <div class="wa-head">
-            <div class="wa-avatar">↩</div>
-            <div><b>Wapas</b><div class="small">${t("title")}</div></div>
+            <div class="wa-avatar">D</div>
+            <div><b>Data Exit</b><div class="small">${t("title")}</div></div>
             <div class="lang wa-lang">
               <button data-lang="hi" aria-pressed="${lang === "hi"}">हिन्दी</button>
               <button data-lang="en" aria-pressed="${lang === "en"}">English</button>
@@ -126,13 +127,18 @@ export function mountRural(host: HTMLElement) {
           </form>
         </div>
         <aside class="rural-side">
-          <h2>${t("title")}</h2>
-          <p class="muted">${t("sub")}</p>
-          <p class="small"><b>${t("samples")}</b></p>
-          <div class="samples">${SAMPLES.map((s, i) => `<button class="chip" data-sample="${i}">${esc(s.label[lang])}</button>`).join("")}</div>
-          <div class="note small">${lang === "hi"
-            ? "डेमो मॉक-अप: असली सेवा WhatsApp पर चलेगी — वॉइस नोट भेजें, हिंदी में आवाज़ में जवाब पाएँ। यहाँ जाँच नियम-आधारित है; असली एजेंट मैसेज पढ़कर तय करेगा।"
-            : "Demo mock-up: the real service runs on WhatsApp, with a voice note in and a Hindi voice reply out. Checks here are rule-based; the real agent reads the message itself."}</div>
+          <h2>Try it in 10 seconds</h2>
+          <ol class="howto">
+            <li><b>Tap a sample message</b> below. These are real scam patterns Indians receive.</li>
+            <li>The bot replies with a <b>verdict</b>, the <b>reasons</b> and <b>what to do next</b>.</li>
+            <li>The reply is <b>read aloud</b>; press 🔊 to hear it again. You can also type or press 🎤 to speak.</li>
+          </ol>
+          <p class="samples-title">Sample messages</p>
+          <div class="samples">${SAMPLES.map((s, i) => `<button class="chip sample" data-sample="${i}"><span>${esc(s.label.en)}</span><small lang="hi">${esc(s.label.hi)}</small></button>`).join("")}</div>
+          <div class="how-note">
+            <div><b>Why this exists:</b> in villages the biggest data risk is fraud, not marketing email. People already use WhatsApp, so that's where this runs.</div>
+            <div class="stack-row"><span>Verdict: <code>check_scam</code> MCP tool on AWS Lambda</span><span>Voice: ElevenLabs</span><span>Never asks for OTP, PIN or Aadhaar</span></div>
+          </div>
         </aside>
       </div>`;
 
@@ -147,7 +153,7 @@ export function mountRural(host: HTMLElement) {
         : q === "sim" ? { title: { hi: "अपने नाम पर चल रहे SIM ऐसे जाँचें:", en: "Check the SIMs issued in your name:" }, items: SIM_CHECK }
         : { title: { hi: "लोन ऐप से अपना डेटा ऐसे बचाएँ:", en: "Protect your data from a loan app:" }, items: LOAN_APP_CLEANUP };
       msgs.push({ from: "user", text: UI[q][lang] }, { from: "bot", text: "", steps });
-      render(); speak(spoken(msgs.at(-1)!));
+      render(); popLast(); void speak(spoken(msgs.at(-1)!));
     }));
     host.querySelector<HTMLFormElement>("#wa-form")!.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -160,7 +166,7 @@ export function mountRural(host: HTMLElement) {
   function submit(text: string) {
     const bot: Msg = { from: "bot", text: "", check: checkScam(text), server: VOICE_API ? "pending" : undefined };
     msgs.push({ from: "user", text }, bot);
-    render();
+    render(); popLast();
     void speak(spoken(bot));
     if (VOICE_API) {
       fetch(`${VOICE_API}/check`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, language: lang }) })
@@ -169,6 +175,17 @@ export function mountRural(host: HTMLElement) {
         .catch(() => { bot.server = "offline"; })
         .finally(render);
     }
+  }
+
+  function popLast() {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const all = host.querySelectorAll<HTMLElement>(".wa-msg");
+    const [u, b] = [all[all.length - 2], all[all.length - 1]];
+    const tl = gsap.timeline();
+    tl.from(u, { scale: 0.85, autoAlpha: 0, transformOrigin: "right top", duration: 0.3, ease: "back.out(2)" })
+      .from(b, { scale: 0.85, autoAlpha: 0, transformOrigin: "left top", duration: 0.4, ease: "back.out(2)" }, "+=0.15")
+      .from(b.querySelectorAll(".verdict"), { scale: 0, duration: 0.4, ease: "back.out(3)" }, "-=0.15")
+      .from(b.querySelectorAll("p, li"), { autoAlpha: 0, y: 6, stagger: 0.04, duration: 0.25 }, "-=0.2");
   }
 
   function listenVoice() {

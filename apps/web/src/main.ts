@@ -6,6 +6,8 @@ import {
 import { draftRequest, getFootprint, listRequests, type Draft, type TrackedRequest } from "./api";
 import { BrowserAuditLog } from "./audit";
 import { createGraph, SECTOR_LABEL, type GraphHandle } from "./graph";
+import { gsap } from "gsap";
+import { mountHome } from "./home";
 import { mountRural } from "./rural";
 
 // ---------- helpers ----------
@@ -41,15 +43,17 @@ const state = {
   selected: new Set<string>(),
   focused: null as string | null,
   filter: "all" as FilterKey,
-  view: "map" as View,
+  view: "home" as View,
   review: [] as ReviewItem[],
   tracked: [] as TrackedRequest[],
   escalating: null as string | null,
   escalationLang: "en" as Language,
 };
-let graph: GraphHandle;
-type View = "map" | "review" | "tracker" | "rural";
+let graph: GraphHandle | null = null;
+type View = "home" | "map" | "review" | "tracker" | "rural";
 let ruralMounted = false;
+let homeCleanup: (() => void) | null = null;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 type FilterKey = "all" | "dormant1y" | "dormant3y" | "high" | "highDormant";
 const age = (fp: FootprintView) => (state.scannedAt.getTime() - new Date(fp.lastSeen).getTime()) / YEAR;
@@ -63,18 +67,28 @@ const FILTERS: Record<FilterKey, { label: string; fn: (fp: FootprintView) => boo
 const isOpen = (fp: FootprintView) => fp.status !== "closed" && fp.status !== "request_open";
 
 // ---------- shell ----------
+const LOGO = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9 8l-4 4 4 4"/><path d="M5 12h10"/></svg>`;
 document.querySelector("#app")!.innerHTML = `
   <header class="top">
-    <div class="brand"><span class="logo">↩</span> Wapas <small>Data Exit</small></div>
-    <nav class="tabs" role="tablist">
-      <button data-view="map" role="tab">Data map</button>
-      <button data-view="review" role="tab">Review &amp; approve <span id="review-count"></span></button>
-      <button data-view="tracker" role="tab">Tracker</button>
-      <button data-view="rural" role="tab">Rural: scam check</button>
+    <button class="brand" data-view="home" aria-label="Data Exit home"><span class="logo">${LOGO}</span> Data Exit</button>
+    <nav class="tabs app-only" aria-label="Demo steps">
+      <button data-view="map"><i>1</i> Discover</button>
+      <button data-view="review"><i>2</i> Approve <span id="review-count"></span></button>
+      <button data-view="tracker"><i>3</i> Track</button>
+      <button data-view="rural" class="tab-alt"><i>✦</i> Scam check</button>
     </nav>
-    <button id="audit-toggle" class="ghost">Audit log <span id="audit-count">0</span></button>
+    <nav class="home-links home-only">
+      <button class="link-btn" data-scroll=".how">How it works</button>
+      <button class="link-btn" data-scroll=".rural">Rural mode</button>
+      <button class="link-btn" data-scroll=".tech">Technology</button>
+    </nav>
+    <span class="spacer"></span>
+    <button id="audit-toggle" class="ghost app-only" title="Every action is logged in a tamper-evident hash chain">Audit log <span id="audit-count">0</span></button>
+    <button class="primary home-only" data-view="map">Open the demo →</button>
   </header>
+  <div class="guide app-only" id="guide"></div>
   <main>
+    <section id="view-home" class="view view-home"></section>
     <section id="view-map" class="view">
       <div class="headline" id="headline"></div>
       <div class="map-layout">
@@ -82,10 +96,10 @@ document.querySelector("#app")!.innerHTML = `
           <div class="filters" id="filters"></div>
           <div id="graph" class="graph-host"></div>
           <div class="legend">
-            <span><i class="dot band-high"></i>High (ID, health, children, profiling)</span>
-            <span><i class="dot band-medium"></i>Medium (location, messages, bank)</span>
-            <span><i class="dot band-low"></i>Low (contact, orders)</span>
-            <span class="muted">Further out = unused longer · bigger = more data · shift-click to multi-select</span>
+            <span><i class="dot band-high"></i>Holds ID, bank, health or children's data</span>
+            <span><i class="dot band-medium"></i>Holds location or messages</span>
+            <span><i class="dot band-low"></i>Contact details and orders only</span>
+            <span class="muted">Centre = Priya · further out = unused for longer · bigger dot = more kinds of data</span>
           </div>
         </div>
         <aside id="panel" class="panel"></aside>
@@ -99,19 +113,101 @@ document.querySelector("#app")!.innerHTML = `
   <aside id="audit" class="audit" hidden></aside>
 `;
 
-document.querySelectorAll<HTMLButtonElement>(".tabs button").forEach((b) =>
+document.querySelectorAll<HTMLButtonElement>("header [data-view]").forEach((b) =>
   b.addEventListener("click", () => setView(b.dataset.view as View)));
-$("#audit-toggle").addEventListener("click", () => { const a = $("#audit"); a.hidden = !a.hidden; });
+document.querySelectorAll<HTMLButtonElement>("[data-scroll]").forEach((b) =>
+  b.addEventListener("click", () => document.querySelector(b.dataset.scroll!)?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" })));
+$("#audit-toggle").addEventListener("click", () => {
+  const a = $("#audit"); a.hidden = !a.hidden;
+  if (!a.hidden && !reduceMotion) gsap.from(a, { x: 60, autoAlpha: 0, duration: 0.35, ease: "power3.out" });
+});
 audit.onChange(renderAudit);
 
+const GUIDE: Record<Exclude<View, "home">, { step: string; title: string; body: string; next: string; action: () => void }> = {
+  map: {
+    step: "Step 1 of 3", title: "Who has Priya's data?",
+    body: "Every dot is a company we found in Priya's inbox, from sign-up, OTP and receipt emails. <b>Further from the centre</b> means she hasn't used it for longer. <b>Orange</b> means it holds ID, bank or health data. Click any dot to see the email it came from.",
+    next: "Select the 12 riskiest", action: () => { pickHighRisk(); },
+  },
+  review: {
+    step: "Step 2 of 3", title: "Approve the requests",
+    body: "Data Exit wrote one request per company, addressed to its grievance officer. The two banks must keep KYC data by law, so it asks them to <b>restrict use</b> instead of erasing. <b>Nothing is sent until you approve.</b> High-risk requests wait 10 minutes so you can undo.",
+    next: "Next: track the replies", action: () => setView("tracker"),
+  },
+  tracker: {
+    step: "Step 3 of 3", title: "Track the replies",
+    body: "Companies get a deadline. Data Exit reads their replies, grades how they behaved, and drafts an escalation to the grievance officer for anyone who ignores you.",
+    next: "Next: rural scam check", action: () => setView("rural"),
+  },
+  rural: {
+    step: "Rural mode", title: "Is this message a scam?",
+    body: "For people who don't use email. Tap a sample message on the right, or type or speak one. The bot answers in Hindi (switch to English at the top of the phone) and <b>reads the answer aloud</b> with ElevenLabs.",
+    next: "Back to home", action: () => setView("home"),
+  },
+};
+
+function renderGuide(v: View) {
+  const host = $("#guide");
+  if (v === "home") { host.innerHTML = ""; return; }
+  const g = GUIDE[v];
+  host.innerHTML = `
+    <div class="guide-inner">
+      <div class="guide-text">
+        <div class="guide-step"><span class="step-pill">${g.step}</span> <span class="persona">Demo inbox: "Priya" (made up) · nothing is really sent</span></div>
+        <h1>${g.title}</h1>
+        <p>${g.body}</p>
+      </div>
+      <button class="primary guide-next">${g.next} →</button>
+    </div>`;
+  host.querySelector(".guide-next")!.addEventListener("click", g.action);
+  if (!reduceMotion) gsap.from(host.querySelectorAll(".guide-step, h1, p, .guide-next"), { y: 14, autoAlpha: 0, duration: 0.5, stagger: 0.06, ease: "power3.out", clearProps: "all" });
+}
+
+function ensureGraph() {
+  if (graph) return;
+  graph = createGraph($("#graph"), state.footprints, state.scannedAt, {
+    onClick: (fp, additive) => {
+      state.focused = fp.company.id;
+      if (additive) toggleSelect(fp.company.id);
+      graph!.focus(fp.company.id); renderPanel();
+      if (!reduceMotion) gsap.from("#panel > *", { y: 12, autoAlpha: 0, duration: 0.35, stagger: 0.03, ease: "power2.out", clearProps: "all" });
+    },
+    isSelected: (id) => state.selected.has(id),
+  });
+  graph.setMatch(FILTERS[state.filter].fn);
+}
+
 function setView(v: View) {
+  const prev = state.view;
   state.view = v;
+  document.body.dataset.view = v;
   document.querySelectorAll<HTMLElement>(".view").forEach((el) => (el.hidden = el.id !== `view-${v}`));
-  document.querySelectorAll<HTMLButtonElement>(".tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === v)));
+  document.querySelectorAll<HTMLButtonElement>(".tabs [data-view]").forEach((b) => b.setAttribute("aria-current", String(b.dataset.view === v)));
+  if (v !== "home" && homeCleanup) { homeCleanup(); homeCleanup = null; }
+  if (v === "home" && !homeCleanup) homeCleanup = mountHome($("#view-home"), state.footprints, (to) => setView(to));
+  if (v === "map") { ensureGraph(); if (prev !== "map") animateHeadline(); }
   if (v === "review") renderReview();
   if (v === "tracker") renderTracker();
   if (v === "rural" && !ruralMounted) { mountRural($("#view-rural")); ruralMounted = true; }
-  if (location.hash !== `#${v}`) history.replaceState(null, "", `#${v}`);
+  renderGuide(v);
+  const hash = v === "home" ? "" : `#${v}`;
+  if (location.hash !== hash) history.replaceState(null, "", hash || location.pathname);
+  window.scrollTo({ top: 0 });
+  if (!reduceMotion && v !== "home" && prev !== v) {
+    const view = $(`#view-${v}`);
+    gsap.fromTo(view, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: "power3.out", clearProps: "transform" });
+    const items = view.querySelectorAll(v === "review" ? ".card" : v === "tracker" ? ".tl, .digest, .report-card" : v === "map" ? ".filters .chip, .panel" : ".phone, .rural-side > *");
+    gsap.from(items, { y: 24, autoAlpha: 0, duration: 0.5, stagger: 0.04, ease: "power3.out", delay: 0.1, clearProps: "all" });
+  }
+}
+
+function animateHeadline() {
+  if (reduceMotion) return;
+  document.querySelectorAll<HTMLElement>("#headline .stat b").forEach((el) => {
+    const to = Number(el.textContent); const o = { v: 0 };
+    gsap.to(o, { v: to, duration: 1.3, ease: "power2.out", onUpdate: () => { el.textContent = String(Math.round(o.v)); } });
+  });
+  gsap.from("#headline > *", { y: 16, autoAlpha: 0, stagger: 0.08, duration: 0.5, ease: "power3.out", clearProps: "all" });
 }
 
 // ---------- map view ----------
@@ -120,10 +216,10 @@ function renderHeadline() {
   const d3y = fps.filter((f) => age(f) > 3);
   const high = d3y.filter((f) => f.highSensitivity);
   $("#headline").innerHTML = `
-    <div class="stat"><b>${fps.length}</b><span>companies have your data</span></div>
-    <div class="stat"><b>${d3y.length}</b><span>unused for 3+ years</span></div>
-    <div class="stat hot"><b>${high.length}</b><span>of those hold Aadhaar, PAN, bank or health data</span></div>
-    <button class="primary" id="pick-high">Select the ${high.length} high-risk accounts</button>`;
+    <div class="stat"><b>${fps.length}</b><span>companies have Priya's data</span></div>
+    <div class="stat"><b>${d3y.length}</b><span>she hasn't used in 3+ years</span></div>
+    <div class="stat hot"><b>${high.length}</b><span>of those hold her Aadhaar, PAN, bank or health data</span></div>
+    <button class="primary" id="pick-high">Select these ${high.length} →</button>`;
   $("#pick-high").addEventListener("click", pickHighRisk);
 }
 
@@ -131,7 +227,7 @@ function pickHighRisk() {
   const high = state.footprints.filter((f) => f.highSensitivity && age(f) > 3);
   state.selected = new Set(high.filter(isOpen).map((f) => f.company.id));
   state.filter = "highDormant";
-  renderFilters(); graph.setMatch(FILTERS[state.filter].fn); renderSelectionBar();
+  renderFilters(); graph?.setMatch(FILTERS[state.filter].fn); renderSelectionBar();
 }
 
 function renderFilters() {
@@ -142,7 +238,7 @@ function renderFilters() {
   }).join("");
   host.querySelectorAll<HTMLButtonElement>("button").forEach((b) => b.addEventListener("click", () => {
     state.filter = b.dataset.k as FilterKey;
-    graph.setMatch(FILTERS[state.filter].fn);
+    graph?.setMatch(FILTERS[state.filter].fn);
     renderFilters();
   }));
 }
@@ -151,7 +247,7 @@ function renderPanel() {
   const host = $("#panel");
   const fp = state.focused ? state.byId.get(state.focused) : null;
   if (!fp) {
-    host.innerHTML = `<div class="panel-empty"><h3>Click a company</h3><p>See which email we found it from, what data it probably holds, and whether the law lets it keep that data.</p></div>`;
+    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h3>Click any dot on the map</h3><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select these 12</b> above to jump straight to the riskiest ones.</p></div>`;
     return;
   }
   const c = fp.company;
@@ -188,19 +284,21 @@ function toggleSelect(id: string) {
   const fp = state.byId.get(id);
   if (!fp || !isOpen(fp)) return;
   state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id);
-  graph.refresh(); renderSelectionBar();
+  graph?.refresh(); renderSelectionBar();
 }
 
 function renderSelectionBar() {
   const bar = $("#selection-bar");
   const n = state.selected.size;
+  const wasShown = bar.classList.contains("show");
   bar.classList.toggle("show", n > 0);
+  if (n && !wasShown && !reduceMotion) gsap.fromTo(bar, { scale: 0.94 }, { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)", delay: 0.15, clearProps: "scale" });
   bar.innerHTML = n ? `
     <span><b>${n}</b> selected: ${[...state.selected].slice(0, 5).map((id) => esc(state.byId.get(id)!.company.name)).join(", ")}${n > 5 ? ` +${n - 5} more` : ""}</span>
     <span class="spacer"></span>
     <button class="ghost" id="clear-sel">Clear</button>
-    <button class="primary" id="go-review">Draft ${n} request${n > 1 ? "s" : ""} →</button>` : "";
-  bar.querySelector("#clear-sel")?.addEventListener("click", () => { state.selected.clear(); graph.refresh(); renderSelectionBar(); renderPanel(); });
+    <button class="primary" id="go-review">Draft ${n} request${n > 1 ? "s" : ""} (step 2) →</button>` : "";
+  bar.querySelector("#clear-sel")?.addEventListener("click", () => { state.selected.clear(); graph?.refresh(); renderSelectionBar(); renderPanel(); });
   bar.querySelector("#go-review")?.addEventListener("click", startReview);
 }
 
@@ -215,7 +313,7 @@ async function startReview() {
     state.review.push(item);
     await audit.append({ actor: "agent", action: "propose", target: id, sourceRef: draft.sourceRef, details: { type: draft.requestType, tier: draft.tier, changedFrom: draft.changed ? draft.goal : null } });
   }
-  state.selected.clear(); graph.refresh(); renderSelectionBar();
+  state.selected.clear(); graph?.refresh(); renderSelectionBar();
   setView("review");
 }
 
@@ -224,7 +322,8 @@ function renderReview() {
   const pending = state.review.filter((r) => r.status === "pending");
   $("#review-count").textContent = pending.length ? String(pending.length) : "";
   if (!state.review.length) {
-    host.innerHTML = `<div class="empty"><h2>Nothing to review yet</h2><p>Pick companies on the data map, then draft requests.</p></div>`;
+    host.innerHTML = `<div class="empty"><h2>Nothing to review yet</h2><p>Start at step 1: pick companies on the data map, then draft requests.</p><button class="primary" id="to-map">Go to step 1 →</button></div>`;
+    host.querySelector("#to-map")!.addEventListener("click", () => setView("map"));
     return;
   }
   const restricted = state.review.filter((r) => r.draft.changed).length;
@@ -234,8 +333,7 @@ function renderReview() {
   host.innerHTML = `
     <div class="review-head">
       <div>
-        <h2>Review &amp; approve</h2>
-        <p class="muted">${state.review.length} drafts · ${state.review.length - restricted} erase · ${restricted} switched to restrict-use · nothing is sent without your approval</p>
+        <div class="summary-pills"><span><b>${state.review.length}</b> drafted</span><span><b>${state.review.length - restricted}</b> erase</span><span class="sp-warn"><b>${restricted}</b> switched to restrict-use (law)</span><span class="sp-ok"><b>${state.review.filter((r) => r.status === "sent").length}</b> sent</span></div>
       </div>
       <div class="actions">
         ${pending.some((r) => r.draft.tier !== "high") ? `<button class="ghost" id="approve-medium">Approve all one-tap (${pending.filter((r) => r.draft.tier !== "high").length})</button>` : ""}
@@ -307,6 +405,10 @@ async function onCardAction(id: string, act: string) {
   else if (act === "undo") { r.status = "cancelled"; r.undoUntil = null; await audit.append({ actor: "user", action: "undo", target: id, sourceRef: r.draft.sourceRef, details: {} }); }
   else if (act === "ff") r.undoUntil = Date.now();
   renderReview();
+  if (!reduceMotion && (act === "approve" || act === "undo")) {
+    const card = document.querySelector(`[data-card="${CSS.escape(id)}"]`);
+    if (card) gsap.fromTo(card, { scale: 0.97 }, { scale: 1, duration: 0.5, ease: "back.out(3)", clearProps: "scale" });
+  }
 }
 
 async function approve(r: ReviewItem) {
@@ -359,8 +461,8 @@ function renderTracker() {
   host.innerHTML = `
     <div class="tracker-layout">
       <div>
-        <h2>Your requests</h2>
-        <p class="muted">Deadlines are 90 days from sending and sit in your Google Calendar.</p>
+        <h2>Priya's requests</h2>
+        <p class="muted">Each bar fills up towards the 90-day deadline. Deadlines are also added to Google Calendar.</p>
         <ol class="timeline">${all.map((r) => {
           const pct = Math.min(100, ((Date.now() - +new Date(r.sentAt)) / (+new Date(r.deadlineAt) - +new Date(r.sentAt))) * 100);
           return `<li class="tl st-${r.status}">
@@ -400,6 +502,7 @@ function renderTracker() {
     await audit.append({ actor: "user", action: "approve", target: r.id, sourceRef: r.gmailMessageId, details: { escalation: "grievance_officer" } });
     await audit.append({ actor: "agent", action: "status_change", target: r.id, sourceRef: r.gmailMessageId, details: { from: r.status, to: "escalated_go" } });
     r.status = "escalated_go"; state.escalating = null; renderTracker();
+    if (!reduceMotion) gsap.from(".tl.st-escalated_go", { backgroundColor: "rgba(52,211,153,0.35)", duration: 1.2 });
   });
 }
 
@@ -442,18 +545,9 @@ async function renderAudit() {
   state.byId = new Map(fr.footprints.map((f) => [f.company.id, f]));
   state.tracked = (await listRequests()).map((r) => ({ ...r }));
   renderHeadline(); renderFilters(); renderPanel(); renderAudit();
-  // Deep links for rehearsal / backup demo: #review-demo, #tracker, #rural
+  // Deep links for rehearsal / backup demo: #map, #review-demo, #tracker, #rural; anything else opens the home page.
   const hash = location.hash.slice(1);
-  setView("map");
-  graph = createGraph($("#graph"), state.footprints, state.scannedAt, {
-    onClick: (fp, additive) => {
-      state.focused = fp.company.id;
-      if (additive) toggleSelect(fp.company.id);
-      graph.focus(fp.company.id); renderPanel();
-    },
-    isSelected: (id) => state.selected.has(id),
-  });
-  graph.setMatch(FILTERS[state.filter].fn);
-  if (hash === "review-demo") { pickHighRisk(); await startReview(); }
-  else if (hash === "tracker" || hash === "rural") setView(hash);
+  if (hash === "review-demo") { setView("map"); pickHighRisk(); await startReview(); }
+  else if (hash === "map" || hash === "review" || hash === "tracker" || hash === "rural") setView(hash);
+  else setView("home");
 })();

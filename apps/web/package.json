@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@dataexit/shared": "0.1.0",
-    "d3": "^7.9.0"
+    "d3": "^7.9.0",
+    "gsap": "^3.13.0"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",

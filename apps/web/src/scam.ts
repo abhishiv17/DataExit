@@ -76,7 +76,7 @@ export function checkScam(text: string): ScamCheck {
 export const AFTER_FRAUD: Bi[] = [
   { hi: "अभी 1930 (राष्ट्रीय साइबर अपराध हेल्पलाइन) पर कॉल करें। जितनी जल्दी, पैसा रुकने की उतनी उम्मीद।", en: "Call 1930 (national cybercrime helpline) now. The sooner you call, the better the chance of stopping the money." },
   { hi: "बैंक के फ्रॉड नंबर पर कॉल करके कार्ड/UPI बंद करवाएँ।", en: "Call your bank's fraud line and block your card / UPI." },
-  { hi: "cybercrime.gov.in पर शिकायत दर्ज करें। Wapas शिकायत का मसौदा बना देगा, आप ख़ुद जमा करें।", en: "File a complaint at cybercrime.gov.in. Wapas drafts it; you submit it yourself." },
+  { hi: "cybercrime.gov.in पर शिकायत दर्ज करें। Data Exit शिकायत का मसौदा बना देगा, आप ख़ुद जमा करें।", en: "File a complaint at cybercrime.gov.in. Data Exit drafts it; you submit it yourself." },
   { hi: "मैसेज, कॉल लॉग और भुगतान के स्क्रीनशॉट सँभालकर रखें। कुछ भी डिलीट न करें।", en: "Keep screenshots of messages, call logs and payments. Don't delete anything." },
 ];
 
@@ -90,7 +90,7 @@ export const SIM_CHECK: Bi[] = [
 export const LOAN_APP_CLEANUP: Bi[] = [
   { hi: "फ़ोन की Settings → Apps → लोन ऐप → Permissions में जाकर Contacts, Photos, Camera, SMS बंद करें।", en: "Settings → Apps → the loan app → Permissions: turn off Contacts, Photos, Camera and SMS." },
   { hi: "चल रहा लोन न हो तो ऐप हटा दें। लोन हो तो भुगतान की रसीदें सँभालकर रखें।", en: "No running loan? Uninstall the app. If you have one, keep every repayment receipt." },
-  { hi: "Wapas आपकी तरफ़ से डेटा इस्तेमाल की सहमति वापस लेने का संदेश बनाएगा (आप मंज़ूरी देंगे)।", en: "Wapas drafts a consent-withdrawal message for you to approve." },
+  { hi: "Data Exit आपकी तरफ़ से डेटा इस्तेमाल की सहमति वापस लेने का संदेश बनाएगा (आप मंज़ूरी देंगे)।", en: "Data Exit drafts a consent-withdrawal message for you to approve." },
   { hi: "धमकी या ब्लैकमेल हो तो पैसे न दें: 1930 पर कॉल करें और sachet.rbi.org.in पर शिकायत करें।", en: "Threats or blackmail? Don't pay. Call 1930 and complain at sachet.rbi.org.in." },
 ];
 
