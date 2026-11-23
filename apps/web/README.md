@@ -5,7 +5,7 @@ The visual side of the wow moment. Vite + TypeScript + D3. Runs on mock JSON tod
 ```bash
 npm install            # from repo root
 npm run demo:seed      # builds TS, regenerates demo inbox + src/mock/*.json
-npm run web            # http://localhost:5173  (use 127.0.0.1 if Chrome returns HTTP 431)
+npm run web            # http://127.0.0.1:5173
 ```
 
 ## Screens

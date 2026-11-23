@@ -16,6 +16,16 @@ Uses the seeded inbox in [`demo/seed-inbox`](../../demo/seed-inbox). Never demo 
 | 2:40 | Rural mode teaser: forward a scam SMS by voice note → Hindi voice reply "This is a scam. Never share your OTP." | Social impact |
 | 2:55 | "India has the law. Wapas makes it usable." | Close |
 
+## Running it
+
+- `npm install && npm run demo:seed && npm run web`, then open http://127.0.0.1:5173 (use 127.0.0.1: Chrome can return HTTP 431 on localhost).
+- 0:35–0:55: **Data map** tab. "Select the 12 high-risk accounts" → "Draft 12 requests".
+- 1:05–1:50: **Review & approve**. The Kotak and YES Bank cards show the restrict-use note. Toggle हिन्दी on one card, approve, press Undo on another, then open **Audit log** ("hash chain intact").
+- 2:20: **Tracker**. Digest bubble → "Escalate Gaana" → EN/HI grievance-officer draft → approve. Report card on the right.
+- 2:40: **Rural: scam check**. Tap the "किसान योजना" or "QR कैशबैक" sample; the reply is read aloud in Hindi.
+
 ## Backup plan
-- Pre-recorded screen capture of every step.
-- Local copy of the graph page in case the connector is slow.
+- Deep links skip clicks if anything stalls: `#review-demo` (12 drafts ready), `#tracker`, `#rural`.
+- Everything runs offline on the seeded mock data; no live Gmail needed.
+- Pre-recorded screen capture of every step *(to record)*.
+- Pitch deck (11 slides, speaker notes follow this script): https://claude.ai/artifact/BpYZh21QkV4ac1AUCVuYfB
