@@ -1,0 +1,92 @@
+[
+  {
+    "id": "swiggy",
+    "name": "Swiggy",
+    "domains": ["swiggy.in", "swiggy.com"],
+    "sector": "food_delivery",
+    "dataCategories": ["contact", "transaction", "location", "behavioural"],
+    "retentionDuties": [],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zomato",
+    "name": "Zomato",
+    "domains": ["zomato.com"],
+    "sector": "food_delivery",
+    "dataCategories": ["contact", "transaction", "location", "behavioural"],
+    "retentionDuties": [],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "flipkart",
+    "name": "Flipkart",
+    "domains": ["flipkart.com"],
+    "sector": "ecommerce",
+    "dataCategories": ["contact", "transaction", "location", "behavioural", "inferred_profile"],
+    "retentionDuties": ["tax"],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "paytm",
+    "name": "Paytm",
+    "domains": ["paytm.com"],
+    "sector": "fintech",
+    "dataCategories": ["contact", "financial", "government_id", "transaction", "device"],
+    "retentionDuties": ["rbi_kyc", "pmla"],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hdfc-bank",
+    "name": "HDFC Bank",
+    "domains": ["hdfcbank.com", "hdfcbank.net"],
+    "sector": "bank",
+    "dataCategories": ["contact", "financial", "government_id", "transaction"],
+    "retentionDuties": ["rbi_kyc", "pmla", "tax"],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zerodha",
+    "name": "Zerodha",
+    "domains": ["zerodha.com", "zerodha.net"],
+    "sector": "broker",
+    "dataCategories": ["contact", "financial", "government_id", "transaction"],
+    "retentionDuties": ["pmla", "tax"],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jio",
+    "name": "Reliance Jio",
+    "domains": ["jio.com"],
+    "sector": "telecom",
+    "dataCategories": ["contact", "government_id", "location", "communications"],
+    "retentionDuties": ["telecom_licence"],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "makemytrip",
+    "name": "MakeMyTrip",
+    "domains": ["makemytrip.com"],
+    "sector": "travel",
+    "dataCategories": ["contact", "government_id", "location", "transaction"],
+    "retentionDuties": [],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "practo",
+    "name": "Practo",
+    "domains": ["practo.com"],
+    "sector": "health",
+    "dataCategories": ["contact", "health", "transaction"],
+    "retentionDuties": ["medical"],
+    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "privacyPolicyUrl": null
+  }
+]

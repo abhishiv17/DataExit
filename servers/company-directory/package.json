@@ -1,0 +1,17 @@
+{
+  "name": "@dataexit/company-directory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": { "dataexit-directory": "dist/index.js" },
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b && node dist/index.js"
+  },
+  "dependencies": {
+    "@dataexit/shared": "0.1.0",
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^3.23.8"
+  }
+}

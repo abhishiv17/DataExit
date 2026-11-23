@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/shared" },
+    { "path": "packages/policy" },
+    { "path": "servers/company-directory" },
+    { "path": "servers/request-engine" },
+    { "path": "servers/tracker" }
+  ]
+}

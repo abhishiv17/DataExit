@@ -1,0 +1,14 @@
+{
+  "_note": "Fictional demo persona. Do not replace with real data.",
+  "name": "Priya Demo",
+  "email": "priya.demo.dataexit@example.com",
+  "language": "en",
+  "city": "Pune",
+  "targets": {
+    "companies": 214,
+    "dormant3y": 61,
+    "highSensitivity": 12,
+    "banksWithKyc": 2,
+    "replies": { "confirmed": 5, "idRequested": 1, "noReply": 1 }
+  }
+}

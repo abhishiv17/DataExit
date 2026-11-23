@@ -1,0 +1,26 @@
+{
+  "name": "dataexit",
+  "private": true,
+  "version": "0.1.0",
+  "description": "DPDP data-rights agent powered by MCP",
+  "workspaces": [
+    "packages/shared",
+    "packages/policy",
+    "servers/company-directory",
+    "servers/request-engine",
+    "servers/tracker"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
+    "typecheck": "tsc -b --pretty",
+    "db:schema": "psql \"$DATABASE_URL\" -f db/schema.sql"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
