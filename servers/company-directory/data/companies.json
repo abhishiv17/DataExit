@@ -2,91 +2,7296 @@
   {
     "id": "swiggy",
     "name": "Swiggy",
-    "domains": ["swiggy.in", "swiggy.com"],
+    "domains": [
+      "swiggy.in",
+      "swiggy.com"
+    ],
     "sector": "food_delivery",
-    "dataCategories": ["contact", "transaction", "location", "behavioural"],
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
     "retentionDuties": [],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
     "id": "zomato",
     "name": "Zomato",
-    "domains": ["zomato.com"],
+    "domains": [
+      "zomato.com"
+    ],
     "sector": "food_delivery",
-    "dataCategories": ["contact", "transaction", "location", "behavioural"],
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
     "retentionDuties": [],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zepto",
+    "name": "Zepto",
+    "domains": [
+      "zeptonow.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "blinkit",
+    "name": "Blinkit",
+    "domains": [
+      "blinkit.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bigbasket",
+    "name": "BigBasket",
+    "domains": [
+      "bigbasket.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "dunzo",
+    "name": "Dunzo",
+    "domains": [
+      "dunzo.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "dominos-india",
+    "name": "Domino's Pizza India",
+    "domains": [
+      "dominos.co.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mcdonalds-india",
+    "name": "McDonald's India",
+    "domains": [
+      "mcdonaldsindia.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kfc-india",
+    "name": "KFC India",
+    "domains": [
+      "kfc.co.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pizza-hut-india",
+    "name": "Pizza Hut India",
+    "domains": [
+      "pizzahut.co.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "burger-king-india",
+    "name": "Burger King India",
+    "domains": [
+      "burgerking.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "starbucks-india",
+    "name": "Tata Starbucks",
+    "domains": [
+      "starbucks.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "eatsure",
+    "name": "EatSure",
+    "domains": [
+      "eatsure.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "box8",
+    "name": "Box8",
+    "domains": [
+      "box8.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "licious",
+    "name": "Licious",
+    "domains": [
+      "licious.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "freshtohome",
+    "name": "FreshToHome",
+    "domains": [
+      "freshtohome.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "country-delight",
+    "name": "Country Delight",
+    "domains": [
+      "countrydelight.in"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "chaayos",
+    "name": "Chaayos",
+    "domains": [
+      "chaayos.com"
+    ],
+    "sector": "food_delivery",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
     "id": "flipkart",
     "name": "Flipkart",
-    "domains": ["flipkart.com"],
+    "domains": [
+      "flipkart.com"
+    ],
     "sector": "ecommerce",
-    "dataCategories": ["contact", "transaction", "location", "behavioural", "inferred_profile"],
-    "retentionDuties": ["tax"],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
-    "id": "paytm",
-    "name": "Paytm",
-    "domains": ["paytm.com"],
-    "sector": "fintech",
-    "dataCategories": ["contact", "financial", "government_id", "transaction", "device"],
-    "retentionDuties": ["rbi_kyc", "pmla"],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "id": "amazon-india",
+    "name": "Amazon India",
+    "domains": [
+      "amazon.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "myntra",
+    "name": "Myntra",
+    "domains": [
+      "myntra.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "meesho",
+    "name": "Meesho",
+    "domains": [
+      "meesho.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "ajio",
+    "name": "AJIO",
+    "domains": [
+      "ajio.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jiomart",
+    "name": "JioMart",
+    "domains": [
+      "jiomart.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "nykaa",
+    "name": "Nykaa",
+    "domains": [
+      "nykaa.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tata-cliq",
+    "name": "Tata CLiQ",
+    "domains": [
+      "tatacliq.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tata-neu",
+    "name": "Tata Neu",
+    "domains": [
+      "tataneu.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural",
+      "financial"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "snapdeal",
+    "name": "Snapdeal",
+    "domains": [
+      "snapdeal.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "shopclues",
+    "name": "ShopClues",
+    "domains": [
+      "shopclues.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "firstcry",
+    "name": "FirstCry",
+    "domains": [
+      "firstcry.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "children"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hopscotch",
+    "name": "Hopscotch",
+    "domains": [
+      "hopscotch.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "children"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lenskart",
+    "name": "Lenskart",
+    "domains": [
+      "lenskart.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "health"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "purplle",
+    "name": "Purplle",
+    "domains": [
+      "purplle.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mamaearth",
+    "name": "Mamaearth",
+    "domains": [
+      "mamaearth.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sugar-cosmetics",
+    "name": "SUGAR Cosmetics",
+    "domains": [
+      "sugarcosmetics.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "boat",
+    "name": "boAt",
+    "domains": [
+      "boat-lifestyle.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "croma",
+    "name": "Croma",
+    "domains": [
+      "croma.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "reliance-digital",
+    "name": "Reliance Digital",
+    "domains": [
+      "reliancedigital.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "vijay-sales",
+    "name": "Vijay Sales",
+    "domains": [
+      "vijaysales.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pepperfry",
+    "name": "Pepperfry",
+    "domains": [
+      "pepperfry.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "urban-ladder",
+    "name": "Urban Ladder",
+    "domains": [
+      "urbanladder.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "decathlon-india",
+    "name": "Decathlon India",
+    "domains": [
+      "decathlon.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bewakoof",
+    "name": "Bewakoof",
+    "domains": [
+      "bewakoof.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "the-souled-store",
+    "name": "The Souled Store",
+    "domains": [
+      "thesouledstore.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "limeroad",
+    "name": "LimeRoad",
+    "domains": [
+      "limeroad.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "shoppers-stop",
+    "name": "Shoppers Stop",
+    "domains": [
+      "shoppersstop.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lifestyle-stores",
+    "name": "Lifestyle",
+    "domains": [
+      "lifestylestores.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "fabindia",
+    "name": "Fabindia",
+    "domains": [
+      "fabindia.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zivame",
+    "name": "Zivame",
+    "domains": [
+      "zivame.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "clovia",
+    "name": "Clovia",
+    "domains": [
+      "clovia.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "caratlane",
+    "name": "CaratLane",
+    "domains": [
+      "caratlane.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tanishq",
+    "name": "Tanishq",
+    "domains": [
+      "tanishq.co.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "government_id"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bluestone",
+    "name": "BlueStone",
+    "domains": [
+      "bluestone.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "dmart-ready",
+    "name": "DMart Ready",
+    "domains": [
+      "dmart.in"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "indiamart",
+    "name": "IndiaMART",
+    "domains": [
+      "indiamart.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "communications"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "udaan",
+    "name": "udaan",
+    "domains": [
+      "udaan.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "financial"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "healthkart",
+    "name": "HealthKart",
+    "domains": [
+      "healthkart.com"
+    ],
+    "sector": "ecommerce",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "health"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "facebook",
+    "name": "Facebook (Meta)",
+    "domains": [
+      "facebook.com",
+      "facebookmail.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "instagram",
+    "name": "Instagram (Meta)",
+    "domains": [
+      "instagram.com",
+      "mail.instagram.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "domains": [
+      "linkedin.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "x-twitter",
+    "name": "X (Twitter)",
+    "domains": [
+      "x.com",
+      "twitter.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "snapchat",
+    "name": "Snapchat",
+    "domains": [
+      "snapchat.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "location",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sharechat",
+    "name": "ShareChat",
+    "domains": [
+      "sharechat.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "moj",
+    "name": "Moj",
+    "domains": [
+      "mojapp.in"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "josh",
+    "name": "Josh",
+    "domains": [
+      "myjosh.in"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pinterest",
+    "name": "Pinterest",
+    "domains": [
+      "pinterest.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit",
+    "domains": [
+      "reddit.com",
+      "redditmail.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "quora",
+    "name": "Quora",
+    "domains": [
+      "quora.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "discord",
+    "name": "Discord",
+    "domains": [
+      "discord.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tinder",
+    "name": "Tinder",
+    "domains": [
+      "gotinder.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "location",
+      "behavioural",
+      "inferred_profile",
+      "biometric"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bumble",
+    "name": "Bumble",
+    "domains": [
+      "bumble.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "location",
+      "behavioural",
+      "inferred_profile",
+      "biometric"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "aisle",
+    "name": "Aisle",
+    "domains": [
+      "aisle.co"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "location",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "quackquack",
+    "name": "QuackQuack",
+    "domains": [
+      "quackquack.in"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "location",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "shaadi",
+    "name": "Shaadi.com",
+    "domains": [
+      "shaadi.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "government_id",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bharatmatrimony",
+    "name": "BharatMatrimony",
+    "domains": [
+      "bharatmatrimony.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "government_id",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jeevansathi",
+    "name": "Jeevansathi",
+    "domains": [
+      "jeevansathi.com"
+    ],
+    "sector": "social",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "government_id",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "truecaller",
+    "name": "Truecaller",
+    "domains": [
+      "truecaller.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "communications",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
     "id": "hdfc-bank",
     "name": "HDFC Bank",
-    "domains": ["hdfcbank.com", "hdfcbank.net"],
+    "domains": [
+      "hdfcbank.com",
+      "hdfcbank.net"
+    ],
     "sector": "bank",
-    "dataCategories": ["contact", "financial", "government_id", "transaction"],
-    "retentionDuties": ["rbi_kyc", "pmla", "tax"],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "icici-bank",
+    "name": "ICICI Bank",
+    "domains": [
+      "icicibank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sbi",
+    "name": "State Bank of India",
+    "domains": [
+      "sbi.co.in",
+      "onlinesbi.sbi"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "axis-bank",
+    "name": "Axis Bank",
+    "domains": [
+      "axisbank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kotak-bank",
+    "name": "Kotak Mahindra Bank",
+    "domains": [
+      "kotak.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "yes-bank",
+    "name": "YES Bank",
+    "domains": [
+      "yesbank.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "indusind-bank",
+    "name": "IndusInd Bank",
+    "domains": [
+      "indusind.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "idfc-first-bank",
+    "name": "IDFC FIRST Bank",
+    "domains": [
+      "idfcfirstbank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pnb",
+    "name": "Punjab National Bank",
+    "domains": [
+      "pnbindia.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bank-of-baroda",
+    "name": "Bank of Baroda",
+    "domains": [
+      "bankofbaroda.in",
+      "bankofbaroda.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "canara-bank",
+    "name": "Canara Bank",
+    "domains": [
+      "canarabank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "union-bank",
+    "name": "Union Bank of India",
+    "domains": [
+      "unionbankofindia.co.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "indian-bank",
+    "name": "Indian Bank",
+    "domains": [
+      "indianbank.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "idbi-bank",
+    "name": "IDBI Bank",
+    "domains": [
+      "idbibank.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "au-small-finance-bank",
+    "name": "AU Small Finance Bank",
+    "domains": [
+      "aubank.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "federal-bank",
+    "name": "Federal Bank",
+    "domains": [
+      "federalbank.co.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "rbl-bank",
+    "name": "RBL Bank",
+    "domains": [
+      "rblbank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bandhan-bank",
+    "name": "Bandhan Bank",
+    "domains": [
+      "bandhanbank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "equitas-sfb",
+    "name": "Equitas Small Finance Bank",
+    "domains": [
+      "equitasbank.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "ujjivan-sfb",
+    "name": "Ujjivan Small Finance Bank",
+    "domains": [
+      "ujjivansfb.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hsbc-india",
+    "name": "HSBC India",
+    "domains": [
+      "hsbc.co.in"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "standard-chartered-india",
+    "name": "Standard Chartered India",
+    "domains": [
+      "sc.com"
+    ],
+    "sector": "bank",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "paytm",
+    "name": "Paytm",
+    "domains": [
+      "paytm.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "phonepe",
+    "name": "PhonePe",
+    "domains": [
+      "phonepe.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mobikwik",
+    "name": "MobiKwik",
+    "domains": [
+      "mobikwik.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "freecharge",
+    "name": "Freecharge",
+    "domains": [
+      "freecharge.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cred",
+    "name": "CRED",
+    "domains": [
+      "cred.club"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "slice",
+    "name": "slice",
+    "domains": [
+      "sliceit.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jupiter",
+    "name": "Jupiter",
+    "domains": [
+      "jupiter.money"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "fi-money",
+    "name": "Fi",
+    "domains": [
+      "fi.money"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "navi",
+    "name": "Navi",
+    "domains": [
+      "navi.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kreditbee",
+    "name": "KreditBee",
+    "domains": [
+      "kreditbee.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "moneyview",
+    "name": "Moneyview",
+    "domains": [
+      "moneyview.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lazypay",
+    "name": "LazyPay",
+    "domains": [
+      "lazypay.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "simpl",
+    "name": "Simpl",
+    "domains": [
+      "getsimpl.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kissht",
+    "name": "Kissht",
+    "domains": [
+      "kissht.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mpokket",
+    "name": "mPokket",
+    "domains": [
+      "mpokket.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "stashfin",
+    "name": "Stashfin",
+    "domains": [
+      "stashfin.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cashe",
+    "name": "CASHe",
+    "domains": [
+      "cashe.co.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "fibe",
+    "name": "Fibe",
+    "domains": [
+      "fibe.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "onecard",
+    "name": "OneCard",
+    "domains": [
+      "getonecard.app"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bajaj-finserv",
+    "name": "Bajaj Finserv",
+    "domains": [
+      "bajajfinserv.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tata-capital",
+    "name": "Tata Capital",
+    "domains": [
+      "tatacapital.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "home-credit-india",
+    "name": "Home Credit India",
+    "domains": [
+      "homecredit.co.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hdb-financial",
+    "name": "HDB Financial Services",
+    "domains": [
+      "hdbfs.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "muthoot-finance",
+    "name": "Muthoot Finance",
+    "domains": [
+      "muthootfinance.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lendingkart",
+    "name": "Lendingkart",
+    "domains": [
+      "lendingkart.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bharatpe",
+    "name": "BharatPe",
+    "domains": [
+      "bharatpe.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "rbi_kyc",
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "paisabazaar",
+    "name": "Paisabazaar",
+    "domains": [
+      "paisabazaar.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bankbazaar",
+    "name": "BankBazaar",
+    "domains": [
+      "bankbazaar.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "indmoney",
+    "name": "INDmoney",
+    "domains": [
+      "indmoney.com"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jar",
+    "name": "Jar",
+    "domains": [
+      "myjar.app"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cleartax",
+    "name": "ClearTax",
+    "domains": [
+      "cleartax.in"
+    ],
+    "sector": "fintech",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
     "id": "zerodha",
     "name": "Zerodha",
-    "domains": ["zerodha.com", "zerodha.net"],
+    "domains": [
+      "zerodha.com",
+      "zerodha.net"
+    ],
     "sector": "broker",
-    "dataCategories": ["contact", "financial", "government_id", "transaction"],
-    "retentionDuties": ["pmla", "tax"],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "groww",
+    "name": "Groww",
+    "domains": [
+      "groww.in"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "upstox",
+    "name": "Upstox",
+    "domains": [
+      "upstox.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "angel-one",
+    "name": "Angel One",
+    "domains": [
+      "angelone.in"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "5paisa",
+    "name": "5paisa",
+    "domains": [
+      "5paisa.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "icici-direct",
+    "name": "ICICI Direct",
+    "domains": [
+      "icicidirect.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hdfc-securities",
+    "name": "HDFC Securities",
+    "domains": [
+      "hdfcsec.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kotak-securities",
+    "name": "Kotak Securities",
+    "domains": [
+      "kotaksecurities.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "dhan",
+    "name": "Dhan",
+    "domains": [
+      "dhan.co"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "paytm-money",
+    "name": "Paytm Money",
+    "domains": [
+      "paytmmoney.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "motilal-oswal",
+    "name": "Motilal Oswal",
+    "domains": [
+      "motilaloswal.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sharekhan",
+    "name": "Sharekhan",
+    "domains": [
+      "sharekhan.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "smallcase",
+    "name": "smallcase",
+    "domains": [
+      "smallcase.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kuvera",
+    "name": "Kuvera",
+    "domains": [
+      "kuvera.in"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "et-money",
+    "name": "ET Money",
+    "domains": [
+      "etmoney.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cams",
+    "name": "CAMS",
+    "domains": [
+      "camsonline.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kfintech",
+    "name": "KFintech",
+    "domains": [
+      "kfintech.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "nsdl",
+    "name": "NSDL",
+    "domains": [
+      "nsdl.co.in"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cdsl",
+    "name": "CDSL",
+    "domains": [
+      "cdslindia.com"
+    ],
+    "sector": "broker",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "policybazaar",
+    "name": "Policybazaar",
+    "domains": [
+      "policybazaar.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lic",
+    "name": "LIC of India",
+    "domains": [
+      "licindia.in"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hdfc-life",
+    "name": "HDFC Life",
+    "domains": [
+      "hdfclife.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "icici-prudential",
+    "name": "ICICI Prudential Life",
+    "domains": [
+      "iciciprulife.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sbi-life",
+    "name": "SBI Life",
+    "domains": [
+      "sbilife.co.in"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "axis-max-life",
+    "name": "Axis Max Life",
+    "domains": [
+      "axismaxlife.com",
+      "maxlifeinsurance.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tata-aia",
+    "name": "Tata AIA Life",
+    "domains": [
+      "tataaia.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bajaj-allianz",
+    "name": "Bajaj Allianz",
+    "domains": [
+      "bajajallianz.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "icici-lombard",
+    "name": "ICICI Lombard",
+    "domains": [
+      "icicilombard.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hdfc-ergo",
+    "name": "HDFC ERGO",
+    "domains": [
+      "hdfcergo.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "star-health",
+    "name": "Star Health",
+    "domains": [
+      "starhealth.in"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "niva-bupa",
+    "name": "Niva Bupa",
+    "domains": [
+      "nivabupa.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "care-health",
+    "name": "Care Health Insurance",
+    "domains": [
+      "careinsurance.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla",
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "acko",
+    "name": "Acko",
+    "domains": [
+      "acko.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "digit-insurance",
+    "name": "Go Digit",
+    "domains": [
+      "godigit.com"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "health"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "ditto",
+    "name": "Ditto Insurance",
+    "domains": [
+      "joinditto.in"
+    ],
+    "sector": "insurance",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "health"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
     "id": "jio",
     "name": "Reliance Jio",
-    "domains": ["jio.com"],
+    "domains": [
+      "jio.com"
+    ],
     "sector": "telecom",
-    "dataCategories": ["contact", "government_id", "location", "communications"],
-    "retentionDuties": ["telecom_licence"],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
-    "id": "makemytrip",
-    "name": "MakeMyTrip",
-    "domains": ["makemytrip.com"],
-    "sector": "travel",
-    "dataCategories": ["contact", "government_id", "location", "transaction"],
+    "id": "airtel",
+    "name": "Bharti Airtel",
+    "domains": [
+      "airtel.in",
+      "airtel.com"
+    ],
+    "sector": "telecom",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "vi",
+    "name": "Vodafone Idea (Vi)",
+    "domains": [
+      "myvi.in"
+    ],
+    "sector": "telecom",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bsnl",
+    "name": "BSNL",
+    "domains": [
+      "bsnl.co.in"
+    ],
+    "sector": "telecom",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "act-fibernet",
+    "name": "ACT Fibernet",
+    "domains": [
+      "actcorp.in"
+    ],
+    "sector": "telecom",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hathway",
+    "name": "Hathway",
+    "domains": [
+      "hathway.com"
+    ],
+    "sector": "telecom",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "excitel",
+    "name": "Excitel",
+    "domains": [
+      "excitel.com"
+    ],
+    "sector": "telecom",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [
+      "telecom_licence"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tata-play",
+    "name": "Tata Play",
+    "domains": [
+      "tataplay.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "behavioural",
+      "location"
+    ],
     "retentionDuties": [],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   },
   {
     "id": "practo",
     "name": "Practo",
-    "domains": ["practo.com"],
+    "domains": [
+      "practo.com"
+    ],
     "sector": "health",
-    "dataCategories": ["contact", "health", "transaction"],
-    "retentionDuties": ["medical"],
-    "grievance": { "email": null, "url": null, "officerName": null, "verified": false, "source": null, "lastChecked": null },
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pharmeasy",
+    "name": "PharmEasy",
+    "domains": [
+      "pharmeasy.in"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction",
+      "location"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "tata-1mg",
+    "name": "Tata 1mg",
+    "domains": [
+      "1mg.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction",
+      "location"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "netmeds",
+    "name": "Netmeds",
+    "domains": [
+      "netmeds.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction",
+      "location"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "apollo-247",
+    "name": "Apollo 24|7",
+    "domains": [
+      "apollo247.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction",
+      "location"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "medplus",
+    "name": "MedPlus",
+    "domains": [
+      "medplusmart.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "truemeds",
+    "name": "Truemeds",
+    "domains": [
+      "truemeds.in"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction",
+      "location"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "healthifyme",
+    "name": "HealthifyMe",
+    "domains": [
+      "healthifyme.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cult-fit",
+    "name": "cult.fit",
+    "domains": [
+      "cult.fit"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "behavioural",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lybrate",
+    "name": "Lybrate",
+    "domains": [
+      "lybrate.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "communications"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "eka-care",
+    "name": "Eka Care",
+    "domains": [
+      "eka.care"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "thyrocare",
+    "name": "Thyrocare",
+    "domains": [
+      "thyrocare.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "lal-pathlabs",
+    "name": "Dr Lal PathLabs",
+    "domains": [
+      "lalpathlabs.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "metropolis",
+    "name": "Metropolis Healthcare",
+    "domains": [
+      "metropolisindia.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "redcliffe-labs",
+    "name": "Redcliffe Labs",
+    "domains": [
+      "redcliffelabs.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "healthians",
+    "name": "Healthians",
+    "domains": [
+      "healthians.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "transaction"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "max-healthcare",
+    "name": "Max Healthcare",
+    "domains": [
+      "maxhealthcare.in"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "government_id",
+      "financial"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "fortis",
+    "name": "Fortis Healthcare",
+    "domains": [
+      "fortishealthcare.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "government_id",
+      "financial"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "manipal-hospitals",
+    "name": "Manipal Hospitals",
+    "domains": [
+      "manipalhospitals.com"
+    ],
+    "sector": "health",
+    "dataCategories": [
+      "contact",
+      "health",
+      "government_id",
+      "financial"
+    ],
+    "retentionDuties": [
+      "medical"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "makemytrip",
+    "name": "MakeMyTrip",
+    "domains": [
+      "makemytrip.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "goibibo",
+    "name": "Goibibo",
+    "domains": [
+      "goibibo.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cleartrip",
+    "name": "Cleartrip",
+    "domains": [
+      "cleartrip.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "yatra",
+    "name": "Yatra",
+    "domains": [
+      "yatra.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "easemytrip",
+    "name": "EaseMyTrip",
+    "domains": [
+      "easemytrip.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "ixigo",
+    "name": "ixigo",
+    "domains": [
+      "ixigo.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "confirmtkt",
+    "name": "ConfirmTkt",
+    "domains": [
+      "confirmtkt.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "irctc",
+    "name": "IRCTC",
+    "domains": [
+      "irctc.co.in"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "redbus",
+    "name": "redBus",
+    "domains": [
+      "redbus.in"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "abhibus",
+    "name": "AbhiBus",
+    "domains": [
+      "abhibus.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "indigo",
+    "name": "IndiGo",
+    "domains": [
+      "goindigo.in"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "air-india",
+    "name": "Air India",
+    "domains": [
+      "airindia.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "spicejet",
+    "name": "SpiceJet",
+    "domains": [
+      "spicejet.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "akasa-air",
+    "name": "Akasa Air",
+    "domains": [
+      "akasaair.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "oyo",
+    "name": "OYO",
+    "domains": [
+      "oyorooms.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "airbnb",
+    "name": "Airbnb",
+    "domains": [
+      "airbnb.com",
+      "airbnb.co.in"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "booking-com",
+    "name": "Booking.com",
+    "domains": [
+      "booking.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "agoda",
+    "name": "Agoda",
+    "domains": [
+      "agoda.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "treebo",
+    "name": "Treebo",
+    "domains": [
+      "treebo.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "fabhotels",
+    "name": "FabHotels",
+    "domains": [
+      "fabhotels.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "taj-hotels",
+    "name": "Taj Hotels (IHCL)",
+    "domains": [
+      "tajhotels.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "thomas-cook-india",
+    "name": "Thomas Cook India",
+    "domains": [
+      "thomascook.in"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "government_id",
+      "location",
+      "transaction",
+      "financial"
+    ],
+    "retentionDuties": [
+      "pmla"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "ola",
+    "name": "Ola",
+    "domains": [
+      "olacabs.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "uber",
+    "name": "Uber",
+    "domains": [
+      "uber.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "rapido",
+    "name": "Rapido",
+    "domains": [
+      "rapido.bike"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "device"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "yulu",
+    "name": "Yulu",
+    "domains": [
+      "yulu.bike"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zoomcar",
+    "name": "Zoomcar",
+    "domains": [
+      "zoomcar.com"
+    ],
+    "sector": "travel",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "byjus",
+    "name": "BYJU'S",
+    "domains": [
+      "byjus.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural",
+      "financial"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "unacademy",
+    "name": "Unacademy",
+    "domains": [
+      "unacademy.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "vedantu",
+    "name": "Vedantu",
+    "domains": [
+      "vedantu.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "physicswallah",
+    "name": "Physics Wallah",
+    "domains": [
+      "pw.live"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "whitehat-jr",
+    "name": "WhiteHat Jr",
+    "domains": [
+      "whitehatjr.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cuemath",
+    "name": "Cuemath",
+    "domains": [
+      "cuemath.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "extramarks",
+    "name": "Extramarks",
+    "domains": [
+      "extramarks.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "doubtnut",
+    "name": "Doubtnut",
+    "domains": [
+      "doubtnut.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "allen",
+    "name": "ALLEN",
+    "domains": [
+      "allen.in"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "aakash",
+    "name": "Aakash",
+    "domains": [
+      "aakash.ac.in"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "embibe",
+    "name": "Embibe",
+    "domains": [
+      "embibe.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "children",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "testbook",
+    "name": "Testbook",
+    "domains": [
+      "testbook.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "adda247",
+    "name": "Adda247",
+    "domains": [
+      "adda247.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "upgrad",
+    "name": "upGrad",
+    "domains": [
+      "upgrad.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "financial",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "simplilearn",
+    "name": "Simplilearn",
+    "domains": [
+      "simplilearn.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "great-learning",
+    "name": "Great Learning",
+    "domains": [
+      "mygreatlearning.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "scaler",
+    "name": "Scaler",
+    "domains": [
+      "scaler.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "financial",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "coursera",
+    "name": "Coursera",
+    "domains": [
+      "coursera.org"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "udemy",
+    "name": "Udemy",
+    "domains": [
+      "udemy.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "duolingo",
+    "name": "Duolingo",
+    "domains": [
+      "duolingo.com"
+    ],
+    "sector": "edtech",
+    "dataCategories": [
+      "contact",
+      "behavioural",
+      "device"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "dream11",
+    "name": "Dream11",
+    "domains": [
+      "dream11.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural",
+      "location"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mpl",
+    "name": "MPL",
+    "domains": [
+      "mpl.live"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural",
+      "location"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "my11circle",
+    "name": "My11Circle",
+    "domains": [
+      "my11circle.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural",
+      "location"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "winzo",
+    "name": "WinZO",
+    "domains": [
+      "winzogames.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "rummycircle",
+    "name": "RummyCircle",
+    "domains": [
+      "rummycircle.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural",
+      "location"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "junglee-rummy",
+    "name": "Junglee Rummy",
+    "domains": [
+      "jungleerummy.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural",
+      "location"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pokerbaazi",
+    "name": "PokerBaazi",
+    "domains": [
+      "pokerbaazi.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural",
+      "location"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zupee",
+    "name": "Zupee",
+    "domains": [
+      "zupee.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "howzat",
+    "name": "Howzat",
+    "domains": [
+      "howzat.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "financial",
+      "government_id",
+      "behavioural"
+    ],
+    "retentionDuties": [
+      "tax"
+    ],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "krafton-india",
+    "name": "Krafton India (BGMI)",
+    "domains": [
+      "krafton.com"
+    ],
+    "sector": "gaming",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "children"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jiohotstar",
+    "name": "JioHotstar",
+    "domains": [
+      "hotstar.com",
+      "jiohotstar.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "netflix",
+    "name": "Netflix",
+    "domains": [
+      "netflix.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sonyliv",
+    "name": "SonyLIV",
+    "domains": [
+      "sonyliv.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "zee5",
+    "name": "ZEE5",
+    "domains": [
+      "zee5.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mx-player",
+    "name": "MX Player",
+    "domains": [
+      "mxplayer.in"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "aha",
+    "name": "aha",
+    "domains": [
+      "aha.video"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "domains": [
+      "spotify.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "jiosaavn",
+    "name": "JioSaavn",
+    "domains": [
+      "jiosaavn.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "gaana",
+    "name": "Gaana",
+    "domains": [
+      "gaana.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "wynk",
+    "name": "Wynk Music",
+    "domains": [
+      "wynk.in"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "pocket-fm",
+    "name": "Pocket FM",
+    "domains": [
+      "pocketfm.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "kuku-fm",
+    "name": "Kuku FM",
+    "domains": [
+      "kukufm.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "inshorts",
+    "name": "Inshorts",
+    "domains": [
+      "inshorts.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "dailyhunt",
+    "name": "Dailyhunt",
+    "domains": [
+      "dailyhunt.in"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural",
+      "location",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "times-of-india",
+    "name": "Times of India",
+    "domains": [
+      "indiatimes.com",
+      "timesofindia.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "hindustan-times",
+    "name": "Hindustan Times",
+    "domains": [
+      "hindustantimes.com"
+    ],
+    "sector": "utility",
+    "dataCategories": [
+      "contact",
+      "device",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "bookmyshow",
+    "name": "BookMyShow",
+    "domains": [
+      "bookmyshow.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "district",
+    "name": "District by Zomato",
+    "domains": [
+      "district.in"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "transaction",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "naukri",
+    "name": "Naukri",
+    "domains": [
+      "naukri.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "foundit",
+    "name": "foundit",
+    "domains": [
+      "foundit.in"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "indeed",
+    "name": "Indeed",
+    "domains": [
+      "indeed.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "apna",
+    "name": "apna",
+    "domains": [
+      "apna.co"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "location",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "internshala",
+    "name": "Internshala",
+    "domains": [
+      "internshala.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "communications",
+      "behavioural",
+      "inferred_profile"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "housing",
+    "name": "Housing.com",
+    "domains": [
+      "housing.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural",
+      "financial"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "99acres",
+    "name": "99acres",
+    "domains": [
+      "99acres.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "magicbricks",
+    "name": "Magicbricks",
+    "domains": [
+      "magicbricks.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "nobroker",
+    "name": "NoBroker",
+    "domains": [
+      "nobroker.in"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural",
+      "financial",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "olx",
+    "name": "OLX India",
+    "domains": [
+      "olx.in"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "quikr",
+    "name": "Quikr",
+    "domains": [
+      "quikr.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "communications"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cardekho",
+    "name": "CarDekho",
+    "domains": [
+      "cardekho.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural",
+      "financial"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "cars24",
+    "name": "CARS24",
+    "domains": [
+      "cars24.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "financial",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "spinny",
+    "name": "Spinny",
+    "domains": [
+      "spinny.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "financial",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "carwale",
+    "name": "CarWale",
+    "domains": [
+      "carwale.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "urban-company",
+    "name": "Urban Company",
+    "domains": [
+      "urbancompany.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "justdial",
+    "name": "Justdial",
+    "domains": [
+      "justdial.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "sulekha",
+    "name": "Sulekha",
+    "domains": [
+      "sulekha.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "magicpin",
+    "name": "magicpin",
+    "domains": [
+      "magicpin.in"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "behavioural"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "park-plus",
+    "name": "Park+",
+    "domains": [
+      "parkplus.io"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "transaction",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "mygate",
+    "name": "MyGate",
+    "domains": [
+      "mygate.com"
+    ],
+    "sector": "other",
+    "dataCategories": [
+      "contact",
+      "location",
+      "device",
+      "communications"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "digilocker",
+    "name": "DigiLocker",
+    "domains": [
+      "digilocker.gov.in"
+    ],
+    "sector": "government",
+    "dataCategories": [
+      "contact",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
+    "privacyPolicyUrl": null
+  },
+  {
+    "id": "umang",
+    "name": "UMANG",
+    "domains": [
+      "umang.gov.in"
+    ],
+    "sector": "government",
+    "dataCategories": [
+      "contact",
+      "government_id"
+    ],
+    "retentionDuties": [],
+    "grievance": {
+      "email": null,
+      "url": null,
+      "officerName": null,
+      "verified": false,
+      "source": null,
+      "lastChecked": null
+    },
     "privacyPolicyUrl": null
   }
 ]
