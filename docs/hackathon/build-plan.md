@@ -2,7 +2,7 @@
 
 Two people build the MVP in 14 days. Person A owns the agent and MCP servers; Person B owns the data, interface, rural mode and demo. For a 36–48 hour hackathon, do Phases 1–3 only and use the cut list.
 
-Status as of 24 Nov 2026: **Person A's items are built and tested** (`npm test`: 16 tests, including an end-to-end run of every phase on the fixture inbox and a protocol test against the real server). Person B's items are open.
+Status as of 24 Nov 2026: Person A's servers are built and tested (`npm test`, 16 tests). Person B's UI, directory and demo inbox are built on mock JSON. **Next: integration**: switch `apps/web/src/api.ts` from mocks to the MCP tools and move the UI onto the contract types (it uses `@dataexit/shared/ui` until then).
 
 ## Roles
 
@@ -28,9 +28,9 @@ Person A
 - [x] Claude wiring: `.mcp.json` (Claude Code), Desktop config, HTTP mode for claude.ai
 
 Person B
-- [ ] Directory dataset v1: top 200 apps in `data/companies.csv` (9 seed rows, **no grievance contacts yet**; `npm run directory:check`)
+- [x] Directory dataset v1: 290 companies in `servers/company-directory/data/companies.csv` (7 verified grievance contacts so far; `npm run directory:check`)
 - [x] Sensitivity rules: in code (`packages/shared/src/sensitivity.ts`); B to review weights
-- [ ] Seed the demo inbox
+- [x] Seed the demo inbox (`npm run demo:seed`: `demo/seed-inbox/inbox.mbox` + `messages.json`)
 
 ## Phase 2: Data map
 
@@ -39,7 +39,7 @@ Person A
 - [x] Footprint JSON for the widget: `get_data_map` (cap 80 nodes + `others` cluster)
 
 Person B
-- [ ] Graph widget, node detail (source email), multi-select
+- [x] Graph widget, node detail (source email), multi-select (`apps/web`, on mock JSON)
 
 ## Phase 3: Requests with approval
 
@@ -52,7 +52,7 @@ Person A
 
 Person B
 - [x] Templates for 6 types × EN/HI exist (plus reminder and escalations); need legal review and native-speaker check
-- [ ] Approval screen
+- [x] Approval screen (on mock JSON; wire to `approve_request` / `send_request`)
 
 ## Phase 4: Follow-through and everyday hook
 
@@ -62,7 +62,8 @@ Person A
 - [x] New-signup detection: `check_new_signups` for a scheduled task; `weekly_digest`
 
 Person B
-- [ ] Digest delivery (chat / WhatsApp), status timeline view, seeded demo replies
+- [x] Digest bubble, status timeline view, seeded demo replies (UI mock-ups)
+- [ ] WhatsApp delivery
 
 ## Phase 5: Rural mode, polish, pitch
 
@@ -71,7 +72,8 @@ Person A
 - [x] Hardening: structured errors, Gmail rate limiting and retries, send limit, stderr logging, `delete_my_data`
 
 Person B
-- [ ] Voice in/out, guided SIM-check and loan-app scripts, deck, demo script, backup video
+- [x] Rural scam-check mock-up with voice in/out, SIM-check and loan-app quick replies; company report card; demo script; pitch deck
+- [ ] Backup video
 
 ## Integration points
 

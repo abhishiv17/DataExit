@@ -25,7 +25,7 @@ Claude Code picks up the server from [.mcp.json](.mcp.json). Real Gmail, Claude 
 ```
 DataExit/
 ├── docs/                     Product, legal, architecture, contract, build plan (start at docs/README.md)
-├── data/companies.csv        Company Directory dataset (Person B)
+├── servers/company-directory/data/companies.csv   Company Directory dataset (Person B, 290 companies)
 ├── packages/
 │   ├── shared/               Contract types, sensitivity scoring, DPDP constants
 │   ├── policy/               Approval tiers, approval state machine, hash-chained audit log

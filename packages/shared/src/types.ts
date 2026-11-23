@@ -54,6 +54,8 @@ export interface Company {
   grievance_verified?: boolean;
   grievance_source?: string | null;
   support_email?: string | null;
+  /** Web form, for companies that only take requests through a portal. */
+  grievance_url?: string | null;
 }
 
 export interface Footprint {

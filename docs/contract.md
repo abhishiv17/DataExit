@@ -76,3 +76,73 @@ Also available: `get_data_map`, `check_new_signups`, `get_retention_rules`, `rep
 | Digest / WhatsApp | `weekly_digest` | `text` is ready to send (en/hi) |
 | Rural flow | `check_scam` | `reply_text` for TTS; `safety_line` banner; `next_steps` |
 | Templates | `servers/request-engine/templates/<lang>/<type>.md` | placeholders listed in that folder's README; `{{last_interaction}}` is also available |
+
+## Current web UI mock shapes (Person B, pre-contract)
+
+The web app (`apps/web`) still runs on mock JSON made by `npm run demo:seed`, using the pre-contract types now exported as `@dataexit/shared/ui` (camelCase fields, tiers `low/medium/high`, `restrict_use`). When the UI switches to live tools, it moves to the contract above; the swap points are in [`apps/web/src/api.ts`](../apps/web/src/api.ts). Until then this section documents what the UI expects.
+
+The directory is edited in [`servers/company-directory/data/companies.csv`](../servers/company-directory/data/companies.csv) (Person B's columns, `;`-separated lists). The MCP servers read that file directly and map its names onto the contract (`government_id` → `gov_id`, `rbi_kyc` → `RBI_KYC`, …); `npm run directory:build` still produces `companies.json` for the demo generator.
+
+### Company (directory, owned by B, served by A)
+
+Edited in [`servers/company-directory/data/companies.csv`](../servers/company-directory/data/companies.csv),
+compiled to `companies.json` by `npm run directory:build` (validates sectors, categories, retention duties, duplicate domains).
+
+`Company`: `id, name, domains[], sector, dataCategories[], retentionDuties[], grievance{email,url,officerName,verified,source,lastChecked}, privacyPolicyUrl`
+
+- Empty `data_categories` in the CSV means the sector default (`SECTOR_DEFAULT_CATEGORIES`).
+- Grievance contacts stay `null` / `verified: false` until sourced. `verified: true` requires `source`.
+- Sensitivity: `sensitivityScore(categories)` → 1–12; `sensitivityBand(score)` → low (1–4) / medium (5–7) / high (8–12).
+- Not yet in the type: SMS sender IDs (`sms_sender_ids` in the build plan). Add when the SMS companion starts.
+
+### discover_footprint → `FootprintResult`
+
+```ts
+{ userId, scannedAt, unmatchedDomains: string[], footprints: FootprintView[] }
+
+FootprintView {
+  footprintId, firstSeen, lastSeen, discoveredVia[], sensitivity, highSensitivity, status,
+  company: { id, name, sector, domains, dataCategories, retentionDuties, grievanceVerified },
+  evidence: { messageId, date, from, subject, kind }[]   // Gmail metadata only, never bodies
+}
+```
+
+`kind`: `signup | welcome | otp | receipt | newsletter | reply`. `evidence` is what the UI shows under "Why we found it" (ground rule 7: cite the source).
+
+### draft_request → `Draft`
+
+Current request-engine output plus the fields the approval screen needs. The mock has one draft per open footprint, for goal `erase`, in both languages:
+
+```ts
+{ companyId, companyName, sector, goal, requestType, changed, reason, tier, legalBasis,
+  recipient, needsRecipient, sourceRef, en: {subject, body, missing[]}, hi: {subject, body, missing[]} }
+```
+
+`changed: true` means the engine switched erase → `restrict_use` because of a retention duty; `reason` names the law.
+**Ask for A:** return both languages (or let the UI call twice), plus `sourceRef` and `reason`.
+
+### list_requests → `TrackedRequest[]`
+
+As in `servers/tracker`: `id, companyId, companyName, type, status, sentAt, deadlineAt, gmailMessageId, calendarEventId, sourceRef, evidence[]`.
+The mock adds `escalation: {en, hi}` (rendered `escalation_grievance_officer`) on overdue rows. **Ask for A:** `draft_escalation` should return rendered text, not just template vars.
+
+### AuditEvent
+
+`userId, seq, at, actor, action, target, sourceRef, details, prevHash, hash`, where `hash = sha256(prevHash + canonicalJson(event))`.
+The UI mirrors this in the browser (`apps/web/src/audit.ts`) until approve/send go through the policy layer.
+
+### check_scam → `ScamCheck` (rural mode)
+
+```ts
+{ verdict: "scam" | "suspicious" | "no_signals",
+  signals: { id, label: {hi, en}, strong }[],
+  summary: {hi, en}, nextSteps: {hi, en}[], neverAsk: {hi, en} }
+```
+
+Never returns "safe": `no_signals` still reminds the user not to share an OTP or PIN. `neverAsk` is always present (ground rule 5).
+The UI mock is rule-based (`apps/web/src/scam.ts`); the real tool can let the agent decide and fill the same shape.
+
+### Tool names (MCP)
+
+`discover_footprint, lookup_company, draft_request, approve_request, send_request, list_requests, classify_reply, escalate_request, export_evidence, check_scam` (rural).
+Current servers also expose `match_senders, get_retention_rules, recommend_request, compute_deadline, record_request, update_status, draft_escalation, weekly_digest`.

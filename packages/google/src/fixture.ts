@@ -44,9 +44,23 @@ export class FixtureGmail implements GmailBackend {
     private readonly statePath: string,
     private readonly now: () => Date = () => new Date(),
   ) {
-    this.base = existsSync(fixturePath)
-      ? (JSON.parse(readFileSync(fixturePath, "utf8")) as FixtureFile)
-      : { user_email: "demo.user@example.com", messages: [] };
+    this.base = existsSync(fixturePath) ? FixtureGmail.parse(readFileSync(fixturePath, "utf8")) : { user_email: "demo.user@example.com", messages: [] };
+  }
+
+  /**
+   * Accepts our format, or Person B's demo index (demo/seed-inbox/messages.json):
+   * an array of { messageId, date, from, to, subject, kind } with no bodies.
+   */
+  static parse(text: string): FixtureFile {
+    const data = JSON.parse(text) as FixtureFile | Array<{ messageId: string; date: string; from: string; to?: string; subject: string }>;
+    if (!Array.isArray(data)) return data;
+    const counts = new Map<string, number>();
+    for (const m of data) if (m.to) counts.set(m.to, (counts.get(m.to) ?? 0) + 1);
+    const user = [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? "demo.user@example.com";
+    return {
+      user_email: user,
+      messages: data.map((m) => ({ id: m.messageId, from: m.from, to: m.to, subject: m.subject, date: m.date })),
+    };
   }
 
   private added(): FixtureMessage[] {

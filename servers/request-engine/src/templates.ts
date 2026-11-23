@@ -20,8 +20,10 @@ export const LEGAL_BASIS_NOTE: Record<Language, Record<Enforceability, string>> 
   },
 };
 
-export function loadTemplate(lang: Language, name: TemplateName): { subject: string; body: string } {
-  const raw = readFileSync(new URL(`${lang}/${name}.md`, TEMPLATE_DIR), "utf8");
+export function loadTemplate(lang: Language, name: TemplateName | "restrict_use"): { subject: string; body: string } {
+  // "restrict_use" is the pre-contract name still used by the demo generator.
+  const file = name === "restrict_use" ? "restrict" : name;
+  const raw = readFileSync(new URL(`${lang}/${file}.md`, TEMPLATE_DIR), "utf8");
   const [first, ...rest] = raw.split(/\r?\n/);
   if (!first.startsWith("Subject:")) throw new Error(`Template ${lang}/${name} must start with "Subject:"`);
   return { subject: first.slice("Subject:".length).trim(), body: rest.join("\n").trim() };

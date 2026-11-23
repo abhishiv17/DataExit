@@ -53,7 +53,7 @@ Keep `sandbox` until demo day (build plan risk: "real requests sent to real comp
 ```bash
 export DATABASE_URL=postgres://...
 npm run db:migrate            # applies db/schema.sql
-npm run db:seed-directory     # loads data/companies.csv into companies
+npm run db:seed-directory     # loads servers/company-directory/data/companies.csv into companies
 DIRECTORY_SOURCE=postgres npm start
 ```
 Needed only when running the servers as separate processes.
@@ -64,5 +64,5 @@ Needed only when running the servers as separate processes.
 ## Useful scripts
 | Script | Does |
 | --- | --- |
-| `npm run directory:check` | Validates `data/companies.csv`, lists missing contacts and domain clashes |
+| `npm run directory:check` | Validates `servers/company-directory/data/companies.csv`, lists missing contacts and domain clashes |
 | `npm run audit:verify` | Verifies the audit hash chain in the store |

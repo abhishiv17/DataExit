@@ -90,7 +90,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, overrides: Part
     userId: env.DATAEXIT_USER_ID || "local-user",
     databaseUrl,
     directorySource,
-    directoryCsvPath: abs(env.DIRECTORY_CSV || "data/companies.csv"),
+    directoryCsvPath: abs(env.DIRECTORY_CSV || "servers/company-directory/data/companies.csv"),
     gmailBackend,
     gmailFixturePath: abs(env.GMAIL_FIXTURE || "demo/seed-inbox/messages.json"),
     google,

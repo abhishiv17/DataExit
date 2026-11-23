@@ -14,9 +14,36 @@ import { normalizeSmsSender, registrableDomain } from "./domains.js";
 
 const list = (v: string | undefined) =>
   (v ?? "")
-    .split("|")
+    .split(/[|;]/)
     .map((x) => x.trim())
     .filter(Boolean);
+
+// Person B's CSV (servers/company-directory/data/companies.csv) uses the pre-contract names.
+const CATEGORY_ALIASES: Record<string, string> = { government_id: "gov_id", inferred_profile: "inferred" };
+const RETENTION_ALIASES: Record<string, string> = {
+  rbi_kyc: "RBI_KYC",
+  pmla: "PMLA",
+  sebi: "SEBI",
+  telecom_licence: "TELECOM",
+  telecom: "TELECOM",
+  insurance: "INSURANCE",
+  medical: "MEDICAL",
+  tax: "TAX",
+};
+
+/** Maps Person B's column layout (name, retention_duties, verified, source, …) onto the contract columns. */
+function normaliseRow(r: Record<string, string>): Record<string, string> {
+  if ("legal_name" in r) return r;
+  return {
+    ...r,
+    legal_name: r.name ?? "",
+    brands: r.name ?? "",
+    data_categories: list(r.data_categories).map((c) => CATEGORY_ALIASES[c] ?? c).join("|"),
+    retention_rule: list(r.retention_duties).map((d) => RETENTION_ALIASES[d] ?? d.toUpperCase()).join("|"),
+    grievance_verified: r.verified ?? "",
+    grievance_source: r.source ?? "",
+  };
+}
 
 const SECTORS = new Set(Object.keys(SECTOR_DEFAULT_CATEGORIES));
 
@@ -31,7 +58,8 @@ export function companiesFromRows(rows: Record<string, string>[]): { companies: 
   const issues: DirectoryIssue[] = [];
   const seen = new Set<string>();
   const companies: Company[] = [];
-  rows.forEach((r, i) => {
+  rows.forEach((raw, i) => {
+    const r = normaliseRow(raw);
     const row = i + 2; // header is row 1
     const id = (r.id ?? "").toLowerCase();
     const issue = (problem: string) => issues.push({ row, id, problem });
@@ -54,7 +82,9 @@ export function companiesFromRows(rows: Record<string, string>[]): { companies: 
     if (r.sensitivity && sensitivity !== r.sensitivity) issue(`invalid sensitivity "${r.sensitivity}"`);
     const grievance = r.grievance_email || null;
     if (grievance && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(grievance)) issue(`invalid grievance_email "${grievance}"`);
-    if (!grievance && !r.support_email) issue("no grievance_email or support_email: requests need a manual recipient");
+    if (!grievance && !r.support_email) {
+      issue(r.grievance_url ? "grievance via web form only: user must submit at grievance_url" : "no grievance_email or support_email: requests need a manual recipient");
+    }
 
     companies.push({
       id,
@@ -70,6 +100,7 @@ export function companiesFromRows(rows: Record<string, string>[]): { companies: 
       grievance_verified: r.grievance_verified === "true",
       grievance_source: r.grievance_source || null,
       support_email: r.support_email || null,
+      grievance_url: r.grievance_url || null,
     });
   });
   return { companies, issues };

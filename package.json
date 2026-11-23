@@ -16,7 +16,8 @@
     "servers/request-engine",
     "servers/tracker",
     "servers/scam-shield",
-    "servers/dataexit"
+    "servers/dataexit",
+    "apps/web"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -29,7 +30,10 @@
     "directory:check": "node servers/dataexit/dist/cli/check-directory.js",
     "audit:verify": "node servers/dataexit/dist/cli/verify-audit.js",
     "db:migrate": "node servers/dataexit/dist/cli/migrate.js",
-    "db:seed-directory": "node servers/dataexit/dist/cli/seed-directory.js"
+    "db:seed-directory": "node servers/dataexit/dist/cli/seed-directory.js",
+    "directory:build": "tsc -b packages/shared && node scripts/build-directory.mjs",
+    "demo:seed": "tsc -b && node demo/seed-inbox/generate.mjs",
+    "web": "npm run dev -w @dataexit/web"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
