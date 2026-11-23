@@ -271,7 +271,11 @@ function cardHtml(r: ReviewItem): string {
     </div>
     ${d.changed ? `<div class="note">⚖ You asked to erase, but they ${esc(d.reason.charAt(0).toLowerCase() + d.reason.slice(1))}. Asking them to <b>restrict use</b> to that legal purpose instead.</div>` : `<p class="small">Holds: ${fp.company.dataCategories.map((k) => esc(CATEGORY_LABEL[k])).join(", ")}</p>`}
     <p class="small source">Source: “${esc(src.subject)}” · ${fmtDate(src.date)}</p>
-    <p class="small ${d.needsRecipient ? "warn" : ""}">${d.needsRecipient ? "Grievance contact not verified yet. Test sends go to the sandbox inbox." : `To: ${esc(d.recipient)}`}</p>
+    <p class="small ${d.needsRecipient ? "warn" : ""}">${d.needsRecipient
+      ? "Grievance contact not verified yet. Test sends go to the sandbox inbox."
+      : d.recipient
+        ? `To: <b>${esc(d.recipient)}</b> <a href="${esc(d.recipientSource)}" target="_blank" rel="noopener">(source)</a>`
+        : `Submit via their <a href="${esc(d.recipientForm)}" target="_blank" rel="noopener">privacy request form</a>; we'll pre-fill the text for you to paste.`}</p>
     <div class="lang">
       <button data-act="lang-en" data-id="${id}" aria-pressed="${r.lang === "en"}">English</button>
       <button data-act="lang-hi" data-id="${id}" aria-pressed="${r.lang === "hi"}">हिन्दी</button>
@@ -286,7 +290,8 @@ function cardHtml(r: ReviewItem): string {
         <span class="countdown">Sending in <b data-countdown="${id}">${mm}:${ss}</b></span>
         <button class="ghost" data-act="ff" data-id="${id}" title="Demo only">Skip wait</button>
         <button class="danger" data-act="undo" data-id="${id}">Undo</button>` : ""}
-      ${r.status === "sent" ? `<span class="ok">✓ Sent from your Gmail · deadline ${fmtDate(new Date(Date.now() + 90 * 864e5).toISOString())} added to Calendar</span>` : ""}
+      ${r.status === "sent" && d.recipientForm ? `<span class="ok">✓ Approved · open the form and paste the request</span>` : ""}
+      ${r.status === "sent" && !d.recipientForm ? `<span class="ok">✓ Sent from your Gmail · deadline ${fmtDate(new Date(Date.now() + 90 * 864e5).toISOString())} added to Calendar</span>` : ""}
       ${r.status === "cancelled" ? `<span class="muted">Undone. Nothing was sent.</span>` : ""}
       ${r.status === "skipped" ? `<span class="muted">Skipped.</span>` : ""}
     </div>
@@ -375,6 +380,7 @@ function renderTracker() {
           ${overdue.length ? `<button class="primary block" data-escalate="${esc(overdue[0].id)}">Escalate ${esc(overdue[0].companyName)}</button>` : ""}
           <div class="small muted">I will never ask for your OTP, PIN or Aadhaar.</div>
         </div>
+        ${reportCardHtml(all)}
         ${esc_r?.escalation ? `
           <div class="email escalation">
             <div class="lang">
@@ -395,6 +401,24 @@ function renderTracker() {
     await audit.append({ actor: "agent", action: "status_change", target: r.id, sourceRef: r.gmailMessageId, details: { from: r.status, to: "escalated_go" } });
     r.status = "escalated_go"; state.escalating = null; renderTracker();
   });
+}
+
+function reportCardHtml(all: TrackedRequest[]): string {
+  const done = all.filter((r) => r.status !== "sent" || r.repliedAt);
+  if (!done.length) return "";
+  const days = (r: TrackedRequest) => Math.round((+new Date(r.repliedAt!) - +new Date(r.sentAt)) / 864e5);
+  const replied = done.filter((r) => r.repliedAt);
+  const sorted = replied.map(days).sort((a, b) => a - b);
+  const median = sorted.length ? sorted[Math.floor((sorted.length - 1) / 2)] : null;
+  const grade = (r: TrackedRequest) => r.status === "confirmed" ? (days(r) <= 15 ? "A" : "B") : r.status === "id_requested" ? "C" : r.status === "overdue" || r.status === "escalated_go" ? "F" : "–";
+  return `<div class="report-card">
+    <h3>Company report card</h3>
+    <p class="small muted">${replied.length}/${done.length} replied · median ${median ?? "–"} days · from your requests only</p>
+    <table><thead><tr><th>Company</th><th>Outcome</th><th>Days</th><th>Grade</th></tr></thead><tbody>
+    ${done.map((r) => `<tr><td>${esc(r.companyName)}</td><td>${STATUS_LABEL[r.status] ?? r.status}</td><td>${r.repliedAt ? days(r) : "—"}</td><td><span class="grade g-${grade(r)}">${grade(r)}</span></td></tr>`).join("")}
+    </tbody></table>
+    <p class="small muted">A: deleted within 15 days · B: deleted later · C: asked for ID · F: ignored past 90 days</p>
+  </div>`;
 }
 
 // ---------- audit drawer ----------

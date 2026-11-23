@@ -20,6 +20,9 @@ export interface Draft {
   tier: ApprovalTier;
   legalBasis: LegalBasis;
   recipient: string | null;
+  /** Verified web form when the company takes requests only through a portal. */
+  recipientForm: string | null;
+  recipientSource: string | null;
   needsRecipient: boolean;
   sourceRef: string;
   en: DraftText;
@@ -39,6 +42,7 @@ export interface TrackedRequest {
   calendarEventId: string | null;
   sourceRef: string | null;
   evidence: string[];
+  repliedAt?: string | null;
   escalation?: { en: { subject: string; body: string }; hi: { subject: string; body: string } };
 }
 

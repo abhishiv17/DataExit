@@ -12,7 +12,8 @@
     "sourceRef": "<seed-0179@dataexit.demo>",
     "evidence": [
       "<seed-0645@dataexit.demo>"
-    ]
+    ],
+    "repliedAt": "2026-08-20T10:47:42.832Z"
   },
   {
     "id": "req-snapdeal",
@@ -27,7 +28,8 @@
     "sourceRef": "<seed-0182@dataexit.demo>",
     "evidence": [
       "<seed-0647@dataexit.demo>"
-    ]
+    ],
+    "repliedAt": "2026-08-11T11:51:33.238Z"
   },
   {
     "id": "req-shopclues",
@@ -42,7 +44,8 @@
     "sourceRef": "<seed-0184@dataexit.demo>",
     "evidence": [
       "<seed-0649@dataexit.demo>"
-    ]
+    ],
+    "repliedAt": "2026-09-01T09:30:48.460Z"
   },
   {
     "id": "req-limeroad",
@@ -57,7 +60,8 @@
     "sourceRef": "<seed-0186@dataexit.demo>",
     "evidence": [
       "<seed-0651@dataexit.demo>"
-    ]
+    ],
+    "repliedAt": "2026-08-29T10:35:15.349Z"
   },
   {
     "id": "req-box8",
@@ -72,7 +76,8 @@
     "sourceRef": "<seed-0190@dataexit.demo>",
     "evidence": [
       "<seed-0653@dataexit.demo>"
-    ]
+    ],
+    "repliedAt": "2026-08-22T07:42:45.682Z"
   },
   {
     "id": "req-quikr",
@@ -87,7 +92,8 @@
     "sourceRef": "<seed-0193@dataexit.demo>",
     "evidence": [
       "<seed-0655@dataexit.demo>"
-    ]
+    ],
+    "repliedAt": "2026-08-31T08:11:55.589Z"
   },
   {
     "id": "req-gaana",
@@ -101,6 +107,7 @@
     "calendarEventId": null,
     "sourceRef": "<seed-0195@dataexit.demo>",
     "evidence": [],
+    "repliedAt": null,
     "escalation": {
       "en": {
         "subject": "Grievance: no satisfactory response to my data request dated 2026-08-08 – Priya Demo",

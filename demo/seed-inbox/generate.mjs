@@ -204,7 +204,7 @@ for (const { id, outcome } of EARLIER) {
   });
   const fp = footprints.find((f) => f.company.id === id);
   fp.status = outcome === "confirmed" ? "closed" : "request_open";
-  let replyId = null, status = "sent";
+  let replyId = null, repliedAt = null, status = "sent";
   if (outcome !== "no_reply") {
     const reply = addMessage({
       messageId: mid(), date: new Date(sentAt.getTime() + int(3, 25) * DAY), from: `${c.name} Grievance Desk <grievance@${c.domains[0]}>`, to: persona.email,
@@ -212,6 +212,7 @@ for (const { id, outcome } of EARLIER) {
     });
     fp.evidence.push({ messageId: reply.messageId, date: reply.date.toISOString(), from: reply.from, subject: reply.subject, kind: "reply" });
     replyId = reply.messageId;
+    repliedAt = reply.date.toISOString();
     status = outcome;
   }
   const deadlineAt = new Date(sentAt.getTime() + RESPONSE_DEADLINE_DAYS * DAY);
@@ -220,7 +221,7 @@ for (const { id, outcome } of EARLIER) {
     id: `req-${id}`, companyId: id, companyName: c.name, type, status,
     sentAt: sentAt.toISOString(), deadlineAt: deadlineAt.toISOString(),
     gmailMessageId: sent.messageId, calendarEventId: null, sourceRef: fp.evidence[0].messageId,
-    evidence: replyId ? [replyId] : [],
+    evidence: replyId ? [replyId] : [], repliedAt,
   });
 }
 
@@ -261,7 +262,10 @@ for (const id of footprints.filter((f) => f.status !== "closed").map((f) => f.co
     goal: "erase", requestType: type, changed: type !== "erase",
     reason: type !== "erase" ? `Must retain under ${c.retentionDuties.map((d) => RETENTION_LABELS[d]).join(", ")}` : `Unused since ${fp.lastSeen.slice(0, 10)}; holds ${c.dataCategories.join(", ")}`,
     tier: classifyTier(type, c.sector), legalBasis,
-    recipient: c.grievance.email, needsRecipient: !c.grievance.email,
+    recipient: c.grievance.verified ? c.grievance.email : null,
+    recipientForm: c.grievance.verified && !c.grievance.email ? c.grievance.url : null,
+    recipientSource: c.grievance.verified ? c.grievance.source : null,
+    needsRecipient: !(c.grievance.verified && (c.grievance.email || c.grievance.url)),
     sourceRef: fp.evidence[0].messageId,
     en: byLang.en, hi: byLang.hi,
   });
