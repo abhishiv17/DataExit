@@ -37,7 +37,7 @@ export const FLAGS: Flag[] = [
   {
     id: "block_threat",
     weight: 20,
-    pattern: /(account|card|sim|connection|electricity|bijli|बिजली|खाता|सिम)[\s\S]{0,50}(block|suspend|disconnect|deactivat|band ho|बंद हो|कट)/i,
+    pattern: /(account|card|sim|connection|electricity|bijli|बिजली|खाता|सिम)[\s\S]{0,50}(block|suspend|disconnect|deactivat|cut off|band ho|kat ja|kaat|बंद हो|कट)/i,
     reason: { en: "It threatens to cut off your account, SIM or electricity to rush you.", hi: "इसमें खाता, सिम या बिजली काटने की धमकी देकर जल्दबाज़ी कराई जा रही है।" },
   },
   {

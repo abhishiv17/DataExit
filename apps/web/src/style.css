@@ -224,3 +224,5 @@ main { padding: 20px 24px 90px; max-width: 1400px; margin: 0 auto; }
 .report-card td { padding: 5px 0; border-bottom: 1px solid var(--line); }
 .grade { display: inline-block; width: 22px; text-align: center; border-radius: 4px; font-weight: 700; color: #fff; }
 .g-A { background: var(--ok); } .g-B { background: var(--low); } .g-C { background: var(--medium); color: #1d1b16; } .g-F { background: var(--danger); }
+.server-check { margin-top: 6px; font-size: 11px; color: #1f5f3f; background: #e8f5ee; padding: 4px 6px; border-radius: 6px; }
+.server-check code { font-size: 11px; }

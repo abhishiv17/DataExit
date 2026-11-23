@@ -17,3 +17,4 @@ demo/private/
 # local runtime state: store, Google token, evidence bundles, fixture mailbox
 .data/
 tests/dist/
+!apps/web/.env.production

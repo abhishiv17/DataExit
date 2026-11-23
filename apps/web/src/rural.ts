@@ -1,11 +1,17 @@
 // Rural mode mock-up: "Is this a scam?" on WhatsApp, voice first, Hindi by default.
-// Voice in uses the browser's SpeechRecognition (Chrome); voice out uses speechSynthesis.
+// Voice in uses the browser's SpeechRecognition (Chrome). Voice out uses ElevenLabs through our AWS Lambda
+// (VITE_VOICE_API) and falls back to the browser's speechSynthesis. The Lambda also runs the real
+// check_scam code from servers/scam-shield, shown as a badge under each verdict.
 // In production this runs on the WhatsApp bot (apps/whatsapp-bot) calling check_scam.
 
 import { AFTER_FRAUD, checkScam, LOAN_APP_CLEANUP, NEVER_ASK, SAMPLES, SIM_CHECK, type Bi, type ScamCheck } from "./scam";
 
 type Lang = "hi" | "en";
-interface Msg { from: "user" | "bot"; text: string; check?: ScamCheck; steps?: { title: Bi; items: Bi[] } }
+interface ServerCheck { verdict: string; score: number; flags: Array<{ id: string }> }
+interface Msg { from: "user" | "bot"; text: string; check?: ScamCheck; server?: ServerCheck | "pending" | "offline"; steps?: { title: Bi; items: Bi[] } }
+
+const VOICE_API = (import.meta.env.VITE_VOICE_API as string | undefined)?.replace(/\/$/, "") ?? "";
+let audio: HTMLAudioElement | null = null;
 
 const esc = (s: unknown) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 const UI: Record<string, Bi> = {
@@ -33,8 +39,24 @@ export function mountRural(host: HTMLElement) {
   const msgs: Msg[] = [{ from: "bot", text: "" }];
   const t = (k: string) => UI[k][lang];
 
-  function speak(text: string) {
+  async function speak(text: string) {
     if (!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    audio?.pause();
+    if (VOICE_API) {
+      try {
+        const r = await fetch(`${VOICE_API}/tts`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, lang }) });
+        if (r.ok) {
+          audio = new Audio(URL.createObjectURL(await r.blob()));
+          await audio.play();
+          return;
+        }
+      } catch { /* fall back to the browser voice */ }
+    }
+    browserSpeak(text);
+  }
+
+  function browserSpeak(text: string) {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = lang === "hi" ? "hi-IN" : "en-IN";
@@ -58,13 +80,20 @@ export function mountRural(host: HTMLElement) {
         <p><b>${esc(c.summary[lang])}</b></p>
         ${c.signals.length ? `<p class="small">${t("why")}</p><ul>${c.signals.map((s) => `<li>${esc(s.label[lang])}</li>`).join("")}</ul>` : ""}
         <p class="small">${t("todo")}</p><ol>${c.nextSteps.map((s) => `<li>${esc(s[lang])}</li>`).join("")}</ol>
-        <p class="never">${esc(c.neverAsk[lang])}</p>${listen}`;
+        <p class="never">${esc(c.neverAsk[lang])}</p>${serverBadge(m)}${listen}`;
     }
     if (m.steps) {
       return `<p><b>${esc(m.steps.title[lang])}</b></p><ol>${m.steps.items.map((s) => `<li>${esc(s[lang])}</li>`).join("")}</ol>
         <p class="never">${esc(NEVER_ASK[lang])}</p>${listen}`;
     }
     return `<p>${esc(UI.hello[lang])}</p><p class="never">${esc(NEVER_ASK[lang])}</p>${listen}`;
+  }
+
+  function serverBadge(m: Msg): string {
+    if (!VOICE_API || !m.server) return "";
+    if (m.server === "pending") return `<p class="server-check small">⏳ check_scam · AWS Lambda…</p>`;
+    if (m.server === "offline") return `<p class="server-check small">check_scam · offline, local rules used</p>`;
+    return `<p class="server-check small">✓ MCP <code>check_scam</code> on AWS Lambda (Mumbai): <b>${esc(m.server.verdict)}</b>, score ${m.server.score}/100${m.server.flags.length ? ` · ${m.server.flags.map((f) => esc(f.id)).join(", ")}` : ""}</p>`;
   }
 
   function render() {
@@ -129,9 +158,17 @@ export function mountRural(host: HTMLElement) {
   }
 
   function submit(text: string) {
-    msgs.push({ from: "user", text }, { from: "bot", text: "", check: checkScam(text) });
+    const bot: Msg = { from: "bot", text: "", check: checkScam(text), server: VOICE_API ? "pending" : undefined };
+    msgs.push({ from: "user", text }, bot);
     render();
-    speak(spoken(msgs.at(-1)!));
+    void speak(spoken(bot));
+    if (VOICE_API) {
+      fetch(`${VOICE_API}/check`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, language: lang }) })
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((j: ServerCheck) => { bot.server = j; })
+        .catch(() => { bot.server = "offline"; })
+        .finally(render);
+    }
   }
 
   function listenVoice() {
