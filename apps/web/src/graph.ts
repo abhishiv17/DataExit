@@ -40,7 +40,7 @@ export function createGraph(
   const cx = width / 2, cy = height / 2;
   const maxR = Math.min(width, height) / 2 - 36;
   const ageYears = (fp: FootprintView) => (scannedAt.getTime() - new Date(fp.lastSeen).getTime()) / YEAR;
-  const dist = d3.scaleLinear().domain([0, 1, 3, 8]).range([maxR * 0.2, maxR * 0.45, maxR * 0.72, maxR]).clamp(true);
+  const dist = d3.scaleLinear().domain([0, 1, 3, 8]).range([maxR * 0.16, maxR * 0.58, maxR * 0.8, maxR]).clamp(true);
 
   // Sector wedges sized by count.
   const counts = d3.rollup(footprints, (v) => v.length, (f) => f.company.sector);
@@ -60,7 +60,7 @@ export function createGraph(
     const angle = a0 + (a1 - a0) * (0.15 + 0.7 * hash(fp.company.id));
     const d = dist(ageYears(fp));
     const tx = cx + d * Math.cos(angle), ty = cy + d * Math.sin(angle);
-    return { fp, r: 3.5 + fp.company.dataCategories.length * 1.4, tx, ty, x: tx, y: ty };
+    return { fp, r: 3 + fp.company.dataCategories.length * 1.1, tx, ty, x: tx, y: ty };
   });
 
   const sim = d3.forceSimulation(nodes)

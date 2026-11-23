@@ -56,6 +56,17 @@ The mock adds `escalation: {en, hi}` (rendered `escalation_grievance_officer`) o
 `userId, seq, at, actor, action, target, sourceRef, details, prevHash, hash`, where `hash = sha256(prevHash + canonicalJson(event))`.
 The UI mirrors this in the browser (`apps/web/src/audit.ts`) until approve/send go through the policy layer.
 
+## check_scam → `ScamCheck` (rural mode)
+
+```ts
+{ verdict: "scam" | "suspicious" | "no_signals",
+  signals: { id, label: {hi, en}, strong }[],
+  summary: {hi, en}, nextSteps: {hi, en}[], neverAsk: {hi, en} }
+```
+
+Never returns "safe": `no_signals` still reminds the user not to share an OTP or PIN. `neverAsk` is always present (ground rule 5).
+The UI mock is rule-based (`apps/web/src/scam.ts`); the real tool can let the agent decide and fill the same shape.
+
 ## Tool names (MCP)
 
 `discover_footprint, lookup_company, draft_request, approve_request, send_request, list_requests, classify_reply, escalate_request, export_evidence, check_scam` (rural).

@@ -6,6 +6,7 @@ import {
 import { draftRequest, getFootprint, listRequests, type Draft, type TrackedRequest } from "./api";
 import { BrowserAuditLog } from "./audit";
 import { createGraph, SECTOR_LABEL, type GraphHandle } from "./graph";
+import { mountRural } from "./rural";
 
 // ---------- helpers ----------
 const $ = <T extends HTMLElement>(sel: string) => document.querySelector(sel) as T;
@@ -40,13 +41,15 @@ const state = {
   selected: new Set<string>(),
   focused: null as string | null,
   filter: "all" as FilterKey,
-  view: "map" as "map" | "review" | "tracker",
+  view: "map" as View,
   review: [] as ReviewItem[],
   tracked: [] as TrackedRequest[],
   escalating: null as string | null,
   escalationLang: "en" as Language,
 };
 let graph: GraphHandle;
+type View = "map" | "review" | "tracker" | "rural";
+let ruralMounted = false;
 
 type FilterKey = "all" | "dormant1y" | "dormant3y" | "high" | "highDormant";
 const age = (fp: FootprintView) => (state.scannedAt.getTime() - new Date(fp.lastSeen).getTime()) / YEAR;
@@ -67,6 +70,7 @@ document.querySelector("#app")!.innerHTML = `
       <button data-view="map" role="tab">Data map</button>
       <button data-view="review" role="tab">Review &amp; approve <span id="review-count"></span></button>
       <button data-view="tracker" role="tab">Tracker</button>
+      <button data-view="rural" role="tab">Rural: scam check</button>
     </nav>
     <button id="audit-toggle" class="ghost">Audit log <span id="audit-count">0</span></button>
   </header>
@@ -90,21 +94,24 @@ document.querySelector("#app")!.innerHTML = `
     </section>
     <section id="view-review" class="view"></section>
     <section id="view-tracker" class="view"></section>
+    <section id="view-rural" class="view"></section>
   </main>
   <aside id="audit" class="audit" hidden></aside>
 `;
 
 document.querySelectorAll<HTMLButtonElement>(".tabs button").forEach((b) =>
-  b.addEventListener("click", () => setView(b.dataset.view as typeof state.view)));
+  b.addEventListener("click", () => setView(b.dataset.view as View)));
 $("#audit-toggle").addEventListener("click", () => { const a = $("#audit"); a.hidden = !a.hidden; });
 audit.onChange(renderAudit);
 
-function setView(v: typeof state.view) {
+function setView(v: View) {
   state.view = v;
   document.querySelectorAll<HTMLElement>(".view").forEach((el) => (el.hidden = el.id !== `view-${v}`));
   document.querySelectorAll<HTMLButtonElement>(".tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === v)));
   if (v === "review") renderReview();
   if (v === "tracker") renderTracker();
+  if (v === "rural" && !ruralMounted) { mountRural($("#view-rural")); ruralMounted = true; }
+  if (location.hash !== `#${v}`) history.replaceState(null, "", `#${v}`);
 }
 
 // ---------- map view ----------
@@ -117,11 +124,14 @@ function renderHeadline() {
     <div class="stat"><b>${d3y.length}</b><span>unused for 3+ years</span></div>
     <div class="stat hot"><b>${high.length}</b><span>of those hold Aadhaar, PAN, bank or health data</span></div>
     <button class="primary" id="pick-high">Select the ${high.length} high-risk accounts</button>`;
-  $("#pick-high").addEventListener("click", () => {
-    state.selected = new Set(high.filter(isOpen).map((f) => f.company.id));
-    state.filter = "highDormant";
-    renderFilters(); graph.setMatch(FILTERS[state.filter].fn); renderSelectionBar();
-  });
+  $("#pick-high").addEventListener("click", pickHighRisk);
+}
+
+function pickHighRisk() {
+  const high = state.footprints.filter((f) => f.highSensitivity && age(f) > 3);
+  state.selected = new Set(high.filter(isOpen).map((f) => f.company.id));
+  state.filter = "highDormant";
+  renderFilters(); graph.setMatch(FILTERS[state.filter].fn); renderSelectionBar();
 }
 
 function renderFilters() {
@@ -259,7 +269,7 @@ function cardHtml(r: ReviewItem): string {
         <span class="pill tier-${d.tier}" title="Approval tier">${d.tier === "high" ? "Full review · 10-min undo" : d.tier === "medium" ? "One-tap" : "Auto-eligible"}</span>
       </div>
     </div>
-    ${d.changed ? `<div class="note">⚖ You asked to erase, but ${esc(d.reason)}. Asking them to <b>restrict use</b> to that legal purpose instead.</div>` : `<p class="small">${esc(d.reason.replace(/_/g, " "))}</p>`}
+    ${d.changed ? `<div class="note">⚖ You asked to erase, but they ${esc(d.reason.charAt(0).toLowerCase() + d.reason.slice(1))}. Asking them to <b>restrict use</b> to that legal purpose instead.</div>` : `<p class="small">Holds: ${fp.company.dataCategories.map((k) => esc(CATEGORY_LABEL[k])).join(", ")}</p>`}
     <p class="small source">Source: “${esc(src.subject)}” · ${fmtDate(src.date)}</p>
     <p class="small ${d.needsRecipient ? "warn" : ""}">${d.needsRecipient ? "Grievance contact not verified yet. Test sends go to the sandbox inbox." : `To: ${esc(d.recipient)}`}</p>
     <div class="lang">
@@ -408,6 +418,8 @@ async function renderAudit() {
   state.byId = new Map(fr.footprints.map((f) => [f.company.id, f]));
   state.tracked = (await listRequests()).map((r) => ({ ...r }));
   renderHeadline(); renderFilters(); renderPanel(); renderAudit();
+  // Deep links for rehearsal / backup demo: #review-demo, #tracker, #rural
+  const hash = location.hash.slice(1);
   setView("map");
   graph = createGraph($("#graph"), state.footprints, state.scannedAt, {
     onClick: (fp, additive) => {
@@ -418,4 +430,6 @@ async function renderAudit() {
     isSelected: (id) => state.selected.has(id),
   });
   graph.setMatch(FILTERS[state.filter].fn);
+  if (hash === "review-demo") { pickHighRisk(); await startReview(); }
+  else if (hash === "tracker" || hash === "rural") setView(hash);
 })();
