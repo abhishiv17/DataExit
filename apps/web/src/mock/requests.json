@@ -1,0 +1,115 @@
+[
+  {
+    "id": "req-dunzo",
+    "companyId": "dunzo",
+    "companyName": "Dunzo",
+    "type": "erase",
+    "status": "confirmed",
+    "sentAt": "2026-08-08T10:47:42.832Z",
+    "deadlineAt": "2026-11-06T10:47:42.832Z",
+    "gmailMessageId": "<seed-0644@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0179@dataexit.demo>",
+    "evidence": [
+      "<seed-0645@dataexit.demo>"
+    ]
+  },
+  {
+    "id": "req-snapdeal",
+    "companyId": "snapdeal",
+    "companyName": "Snapdeal",
+    "type": "erase",
+    "status": "confirmed",
+    "sentAt": "2026-08-08T11:51:33.238Z",
+    "deadlineAt": "2026-11-06T11:51:33.238Z",
+    "gmailMessageId": "<seed-0646@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0182@dataexit.demo>",
+    "evidence": [
+      "<seed-0647@dataexit.demo>"
+    ]
+  },
+  {
+    "id": "req-shopclues",
+    "companyId": "shopclues",
+    "companyName": "ShopClues",
+    "type": "erase",
+    "status": "confirmed",
+    "sentAt": "2026-08-08T09:30:48.460Z",
+    "deadlineAt": "2026-11-06T09:30:48.460Z",
+    "gmailMessageId": "<seed-0648@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0184@dataexit.demo>",
+    "evidence": [
+      "<seed-0649@dataexit.demo>"
+    ]
+  },
+  {
+    "id": "req-limeroad",
+    "companyId": "limeroad",
+    "companyName": "LimeRoad",
+    "type": "erase",
+    "status": "confirmed",
+    "sentAt": "2026-08-08T10:35:15.349Z",
+    "deadlineAt": "2026-11-06T10:35:15.349Z",
+    "gmailMessageId": "<seed-0650@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0186@dataexit.demo>",
+    "evidence": [
+      "<seed-0651@dataexit.demo>"
+    ]
+  },
+  {
+    "id": "req-box8",
+    "companyId": "box8",
+    "companyName": "Box8",
+    "type": "erase",
+    "status": "confirmed",
+    "sentAt": "2026-08-08T07:42:45.682Z",
+    "deadlineAt": "2026-11-06T07:42:45.682Z",
+    "gmailMessageId": "<seed-0652@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0190@dataexit.demo>",
+    "evidence": [
+      "<seed-0653@dataexit.demo>"
+    ]
+  },
+  {
+    "id": "req-quikr",
+    "companyId": "quikr",
+    "companyName": "Quikr",
+    "type": "erase",
+    "status": "id_requested",
+    "sentAt": "2026-08-08T08:11:55.589Z",
+    "deadlineAt": "2026-11-06T08:11:55.589Z",
+    "gmailMessageId": "<seed-0654@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0193@dataexit.demo>",
+    "evidence": [
+      "<seed-0655@dataexit.demo>"
+    ]
+  },
+  {
+    "id": "req-gaana",
+    "companyId": "gaana",
+    "companyName": "Gaana",
+    "type": "erase",
+    "status": "overdue",
+    "sentAt": "2026-08-08T06:18:34.369Z",
+    "deadlineAt": "2026-11-06T06:18:34.369Z",
+    "gmailMessageId": "<seed-0656@dataexit.demo>",
+    "calendarEventId": null,
+    "sourceRef": "<seed-0195@dataexit.demo>",
+    "evidence": [],
+    "escalation": {
+      "en": {
+        "subject": "Grievance: no satisfactory response to my data request dated 2026-08-08 – Priya Demo",
+        "body": "Dear Grievance Officer, Gaana,\n\nOn 2026-08-08 I sent a request about my personal data (reference: <seed-0656@dataexit.demo>). I have not received a satisfactory response.\n\nI am raising this grievance under Section 13 [verify] of the Digital Personal Data Protection Act, 2023. Please resolve it within the period prescribed under the DPDP Rules. If it is not resolved, I may file a complaint with the Data Protection Board of India.\n\nA copy of my original request is below.\n\nI understand the data-principal rights provisions of the DPDP Rules, 2025 come into force on 13 May 2027. Until then, I make this request under your own privacy policy and in the spirit of the Act, and ask you to honour it now.\n\nRegards,\nPriya Demo\npriya.demo.dataexit@example.com\n2026-11-24"
+      },
+      "hi": {
+        "subject": "शिकायत: 2026-08-08 के मेरे डेटा अनुरोध का संतोषजनक उत्तर नहीं मिला – Priya Demo",
+        "body": "प्रिय शिकायत अधिकारी, Gaana,\n\n2026-08-08 को मैंने अपने व्यक्तिगत डेटा के बारे में अनुरोध भेजा था (संदर्भ: <seed-0656@dataexit.demo>)। मुझे अब तक संतोषजनक उत्तर नहीं मिला है।\n\nमैं डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम, 2023 की धारा 13 [verify] के तहत यह शिकायत दर्ज कर रहा/रही हूँ। कृपया DPDP नियमों में निर्धारित समय के भीतर इसका समाधान करें। समाधान न होने पर मैं भारतीय डेटा संरक्षण बोर्ड में शिकायत दर्ज कर सकता/सकती हूँ।\n\nमेरे मूल अनुरोध की प्रति नीचे है।\n\nमुझे पता है कि DPDP नियम, 2025 के डेटा प्रिंसिपल अधिकार 13 मई 2027 से लागू होंगे। तब तक, मैं यह अनुरोध आपकी अपनी गोपनीयता नीति और अधिनियम की भावना के अनुसार कर रहा/रही हूँ, और आपसे इसे अभी मानने का अनुरोध करता/करती हूँ।\n\nसादर,\nPriya Demo\npriya.demo.dataexit@example.com\n2026-11-24"
+      }
+    }
+  }
+]

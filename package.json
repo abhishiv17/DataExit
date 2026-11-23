@@ -8,13 +8,17 @@
     "packages/policy",
     "servers/company-directory",
     "servers/request-engine",
-    "servers/tracker"
+    "servers/tracker",
+    "apps/web"
   ],
   "scripts": {
     "build": "tsc -b",
     "clean": "tsc -b --clean",
     "typecheck": "tsc -b --pretty",
-    "db:schema": "psql \"$DATABASE_URL\" -f db/schema.sql"
+    "db:schema": "psql \"$DATABASE_URL\" -f db/schema.sql",
+    "directory:build": "tsc -b packages/shared && node scripts/build-directory.mjs",
+    "demo:seed": "tsc -b && node demo/seed-inbox/generate.mjs",
+    "web": "npm run dev -w @dataexit/web"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
