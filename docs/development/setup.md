@@ -1,37 +1,68 @@
 # Local setup
 
 ## Prerequisites
-- Node.js 20+
-- PostgreSQL 15+ (optional for the first milestone; servers fall back to JSON files)
+- Node.js 22+
+- For real Gmail: a Google Cloud project (below). For Postgres: any Postgres 14+ (optional).
 
-## Install and build
+## Install, build, test
 ```bash
 npm install
 cp .env.example .env
-npm run build
+npm test            # builds everything, runs unit, store (incl. Postgres via PGlite), end-to-end and MCP protocol tests
 ```
 
-## Database
-```bash
-createdb dataexit
-npm run db:schema
-```
+## Run offline (no Google account)
+With no Google token, the servers use the fixture mailbox at `GMAIL_FIXTURE` (default `demo/seed-inbox/messages.json`; format in [fixtures.md](fixtures.md)) and a fixture calendar in `.data/`.
 
-## Run an MCP server
-Each server speaks MCP over stdio:
 ```bash
-npm run dev -w @dataexit/company-directory
-npm run dev -w @dataexit/request-engine
-npm run dev -w @dataexit/tracker
+npm start           # all-in-one server on stdio
 ```
 
 ## Connect to Claude Code
-From the repo root, after `npm run build`:
-```bash
-claude mcp add dataexit-directory -- node servers/company-directory/dist/index.js
-claude mcp add dataexit-requests  -- node servers/request-engine/dist/index.js
-claude mcp add dataexit-tracker   -- node servers/tracker/dist/index.js
+The repo's [.mcp.json](../../.mcp.json) registers the all-in-one server as `dataexit`. Build, then open the folder in Claude Code and approve the server. Recommended: keep `approve_request` and `send_request` on "ask every time" in Claude's tool permissions.
+
+## Connect to Claude Desktop
+Add to `claude_desktop_config.json`:
+```json
+{ "mcpServers": { "dataexit": { "command": "node", "args": ["<repo>/servers/dataexit/dist/index.js"] } } }
 ```
 
-## Connect to Claude (web/desktop)
-Custom connectors need a remote (HTTP) MCP endpoint. For the demo, either use Claude Desktop with local stdio servers, or wrap the servers with a Streamable HTTP transport and expose them (e.g. via a tunnel). Enable the Gmail and Google Calendar connectors in Claude's settings and check that Gmail send is allowed on your plan.
+## Connect to claude.ai (custom connector)
+```bash
+MCP_HTTP_SECRET=<random 24+ chars> npm run start:http      # http://127.0.0.1:8787/mcp/<secret>
+```
+Expose it with a tunnel and add `https://<tunnel>/mcp/<secret>` as a custom connector. The secret in the path is the only protection: use the demo account, never a personal inbox, and stop the tunnel after the demo.
+
+## Real Gmail and Calendar
+1. Google Cloud console → new project → enable **Gmail API** and **Google Calendar API**.
+2. OAuth consent screen: External, testing mode; add both team members and the demo account as **test users**.
+3. Credentials → OAuth client ID → **Desktop app**. Put the id and secret in `.env` (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`).
+4. `npm run build && npm run auth:google`, open the printed URL, sign in with the demo account. The token goes to `.data/google-token.json` (git-ignored).
+5. Scopes: `gmail.readonly` (search needs it; discovery still reads headers only), `gmail.send`, `calendar.events`.
+
+## Sending safety
+| `SEND_MODE` | Effect |
+| --- | --- |
+| `dry_run` (default without `SANDBOX_EMAIL`) | Nothing sent; `send_request` returns previews |
+| `sandbox` (default with `SANDBOX_EMAIL`) | Every email goes to `SANDBOX_EMAIL`, subject prefixed `[SANDBOX → real recipient]` |
+| `live` | Real companies. Demo day only, from the demo account. |
+
+Keep `sandbox` until demo day (build plan risk: "real requests sent to real companies in testing").
+
+## Postgres (optional)
+```bash
+export DATABASE_URL=postgres://...
+npm run db:migrate            # applies db/schema.sql
+npm run db:seed-directory     # loads data/companies.csv into companies
+DIRECTORY_SOURCE=postgres npm start
+```
+Needed only when running the servers as separate processes.
+
+## Demo time travel
+`DATAEXIT_NOW=2027-03-01T10:00:00+05:30` fixes the clock, so requests sent today show as overdue and the escalation ladder can be demonstrated.
+
+## Useful scripts
+| Script | Does |
+| --- | --- |
+| `npm run directory:check` | Validates `data/companies.csv`, lists missing contacts and domain clashes |
+| `npm run audit:verify` | Verifies the audit hash chain in the store |

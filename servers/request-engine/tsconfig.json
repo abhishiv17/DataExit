@@ -5,5 +5,10 @@
     "outDir": "dist"
   },
   "include": ["src"],
-  "references": [{ "path": "../../packages/shared" }, { "path": "../../packages/policy" }]
+  "references": [
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/policy" },
+    { "path": "../../packages/directory" },
+    { "path": "../../packages/runtime" }
+  ]
 }

@@ -1,18 +1,25 @@
 {
   "name": "@dataexit/request-engine",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/tools.js",
+  "types": "dist/tools.d.ts",
+  "exports": {
+    ".": "./dist/tools.js",
+    "./ops": "./dist/ops.js",
+    "./templates": "./dist/templates.js"
+  },
   "bin": { "dataexit-requests": "dist/index.js" },
   "scripts": {
     "build": "tsc -b",
     "dev": "tsc -b && node dist/index.js"
   },
   "dependencies": {
+    "@dataexit/directory": "0.1.0",
     "@dataexit/policy": "0.1.0",
+    "@dataexit/runtime": "0.1.0",
     "@dataexit/shared": "0.1.0",
-    "@modelcontextprotocol/sdk": "^1.17.0",
     "zod": "^3.23.8"
   }
 }

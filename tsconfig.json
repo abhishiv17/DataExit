@@ -3,8 +3,16 @@
   "references": [
     { "path": "packages/shared" },
     { "path": "packages/policy" },
+    { "path": "packages/store" },
+    { "path": "packages/google" },
+    { "path": "packages/directory" },
+    { "path": "packages/runtime" },
+    { "path": "servers/discovery" },
     { "path": "servers/company-directory" },
     { "path": "servers/request-engine" },
-    { "path": "servers/tracker" }
+    { "path": "servers/tracker" },
+    { "path": "servers/scam-shield" },
+    { "path": "servers/dataexit" },
+    { "path": "tests" }
   ]
 }

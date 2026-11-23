@@ -32,7 +32,7 @@ Rules notified 13–14 Nov 2025.
 | Nominate someone | s.14 [verify] | future: nominee / family mode |
 | Erase once purpose is served | s.8(7) [verify] | argument in `erase` |
 
-Marketing opt-out (`stop_marketing`) and `restrict_use` are drafted as consent withdrawal limited to specific purposes.
+Marketing opt-out (`stop_marketing`) and `restrict` are drafted as consent withdrawal limited to specific purposes.
 
 ## Deadlines
 

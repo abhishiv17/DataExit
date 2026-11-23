@@ -1,19 +1,11 @@
 import { readFileSync } from "node:fs";
-import type { Language, LegalBasis } from "@dataexit/shared";
+import type { Enforceability, Language, RequestType } from "@dataexit/shared";
 
 const TEMPLATE_DIR = new URL("../templates/", import.meta.url);
 
-export type TemplateName =
-  | "stop_marketing"
-  | "withdraw_consent"
-  | "access"
-  | "correct"
-  | "erase"
-  | "restrict_use"
-  | "escalation_grievance_officer"
-  | "escalation_dpb";
+export type TemplateName = RequestType | "reminder" | "escalation_grievance_officer" | "escalation_dpb";
 
-export const LEGAL_BASIS_NOTE: Record<Language, Record<LegalBasis, string>> = {
+export const LEGAL_BASIS_NOTE: Record<Language, Record<Enforceability, string>> = {
   en: {
     statutory:
       "This request is made in exercise of my rights as a Data Principal under the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025.",
@@ -35,14 +27,14 @@ export function loadTemplate(lang: Language, name: TemplateName): { subject: str
   return { subject: first.slice("Subject:".length).trim(), body: rest.join("\n").trim() };
 }
 
-export function render(text: string, vars: Record<string, string | number | undefined>): string {
+export function render(text: string, vars: Record<string, string | number | null | undefined>): string {
   return text.replace(/\{\{(\w+)\}\}/g, (m, key: string) => {
     const v = vars[key];
-    return v === undefined || v === "" ? m : String(v);
+    return v === undefined || v === null || v === "" ? m : String(v);
   });
 }
 
-/** Placeholders left unfilled after rendering (so the agent can ask the user). */
+/** Placeholders left unfilled after rendering, so the agent can ask the user. */
 export function missingPlaceholders(text: string): string[] {
   return [...new Set([...text.matchAll(/\{\{(\w+)\}\}/g)].map((m) => m[1]))];
 }

@@ -10,6 +10,8 @@
 | Interactive pages / diagrams | Data-map visual for the demo |
 | Scheduled tasks | Weekly re-scans and follow-ups |
 
+**Decision (build phase):** our servers call the Gmail and Calendar APIs themselves (`packages/google`) instead of relying on Claude's connectors. That way `send_request` can enforce approval, the undo window, sandbox mode and the send limit in our code, and the demo does not depend on a paid-plan connector setting. Claude's connectors remain an option for read-only browsing.
+
 ## We build
 
 | Item | Where |

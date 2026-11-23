@@ -1,0 +1,20 @@
+{
+  "name": "@dataexit/runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@dataexit/directory": "0.1.0",
+    "@dataexit/google": "0.1.0",
+    "@dataexit/policy": "0.1.0",
+    "@dataexit/shared": "0.1.0",
+    "@dataexit/store": "0.1.0",
+    "@modelcontextprotocol/sdk": "^1.17.0",
+    "zod": "^3.23.8"
+  }
+}

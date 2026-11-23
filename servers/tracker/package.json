@@ -1,9 +1,16 @@
 {
   "name": "@dataexit/tracker",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/tools.js",
+  "types": "dist/tools.d.ts",
+  "exports": {
+    ".": "./dist/tools.js",
+    "./ops": "./dist/ops.js",
+    "./classify": "./dist/classify.js",
+    "./zip": "./dist/zip.js"
+  },
   "bin": { "dataexit-tracker": "dist/index.js" },
   "scripts": {
     "build": "tsc -b",
@@ -11,8 +18,9 @@
   },
   "dependencies": {
     "@dataexit/policy": "0.1.0",
+    "@dataexit/request-engine": "0.2.0",
+    "@dataexit/runtime": "0.1.0",
     "@dataexit/shared": "0.1.0",
-    "@modelcontextprotocol/sdk": "^1.17.0",
     "zod": "^3.23.8"
   }
 }

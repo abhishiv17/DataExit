@@ -4,11 +4,15 @@ This is the "controlled" part of the pitch. Code: [`packages/policy`](../../pack
 
 ## Tiers
 
-| Tier | Examples | Behaviour |
+| Tier (code) | Examples | Behaviour |
 | --- | --- | --- |
-| **Low** | Unsubscribe, marketing opt-out | Can run automatically once the user enables auto-mode for low tier |
-| **Medium** | Withdraw consent, access, correction, restrict use | One-tap approval |
-| **High** | Erasure; any request to banks, insurers, government, health | Full review, then a **10-minute undo window** before sending |
+| **Low** (`auto`) | Unsubscribe, marketing opt-out | Runs without asking only when the user turned on `auto_low_risk` (`set_preferences`); otherwise needs approval |
+| **Medium** (`one_tap`) | Withdraw consent, access, correction, restrict use | One-tap approval |
+| **High** (`full_review`) | Erasure; any request to banks, insurers, government, health (or RBI_KYC / INSURANCE / MEDICAL companies) | Full text shown, `approve_request` with `reviewed: true`, then a **10-minute undo window** before `send_request` will send it |
+
+Code: tiers in [`tiers.ts`](../../packages/policy/src/tiers.ts), the approval state machine (`approve`, `undo`, `reject`, `sendBlocker`) in [`approval.ts`](../../packages/policy/src/approval.ts). Every state change writes an audit event with `approval` set to `auto`, `approved`, `undone` or `rejected`.
+
+Claude cannot approve on its own: approval tools are described as user-only, the server instructions repeat it, and Claude's own permission prompt applies to each call. Keep `approve_request` and `send_request` on "ask every time".
 
 ### Escalation rules
 

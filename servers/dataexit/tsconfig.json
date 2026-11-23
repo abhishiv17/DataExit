@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/policy" },
+    { "path": "../../packages/store" },
+    { "path": "../../packages/google" },
+    { "path": "../../packages/directory" },
+    { "path": "../../packages/runtime" },
+    { "path": "../discovery" },
+    { "path": "../company-directory" },
+    { "path": "../request-engine" },
+    { "path": "../tracker" },
+    { "path": "../scam-shield" }
+  ]
+}

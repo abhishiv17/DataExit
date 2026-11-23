@@ -17,11 +17,13 @@ As of 23 November 2026.
 | Architecture | [architecture/privacy-by-design.md](architecture/privacy-by-design.md) | What we store, what we never store |
 | Architecture | [architecture/claude-capabilities.md](architecture/claude-capabilities.md) | What Claude connectors give us vs. what we build |
 | Decisions | [decisions/](decisions/) | Architecture decision records (ADRs) |
-| Hackathon | [hackathon/plan.md](hackathon/plan.md) | Milestones and task checklist |
+| Contract | [contract.md](contract.md) | Shared types and tools between Person A and Person B |
+| Hackathon | [hackathon/build-plan.md](hackathon/build-plan.md) | 2-person build plan with status |
 | Hackathon | [hackathon/demo-script.md](hackathon/demo-script.md) | Wow-moment demo script |
 | Hackathon | [hackathon/judging-map.md](hackathon/judging-map.md) | How each judging keyword is met |
 | Risks | [risks.md](risks.md) | Risks and mitigations |
 | Dev | [development/setup.md](development/setup.md) | Local setup, connecting servers to Claude |
+| Dev | [development/fixtures.md](development/fixtures.md) | Offline fixture mailbox format |
 | Dev | [development/contributing.md](development/contributing.md) | Branching, commits, conventions |
 
 ## Deliverables outside this repo

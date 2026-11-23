@@ -1,0 +1,29 @@
+{
+  "name": "@dataexit/server",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": { "dataexit": "dist/index.js" },
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b && node dist/index.js"
+  },
+  "dependencies": {
+    "@dataexit/company-directory": "0.2.0",
+    "@dataexit/directory": "0.1.0",
+    "@dataexit/discovery": "0.1.0",
+    "@dataexit/google": "0.1.0",
+    "@dataexit/policy": "0.1.0",
+    "@dataexit/request-engine": "0.2.0",
+    "@dataexit/runtime": "0.1.0",
+    "@dataexit/scam-shield": "0.1.0",
+    "@dataexit/shared": "0.1.0",
+    "@dataexit/store": "0.1.0",
+    "@dataexit/tracker": "0.2.0",
+    "@modelcontextprotocol/sdk": "^1.17.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.6.0"
+  }
+}

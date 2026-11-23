@@ -1,49 +1,55 @@
 # Data Exit (working name: Wapas)
 
-> An MCP-powered personal agent that finds every company holding an Indian user's personal data and helps them withdraw consent, correct it or erase it under the **DPDP Act, 2023**. It works inside the apps people already use (Gmail, SMS, Calendar, WhatsApp), and the user approves every sensitive action.
+> An MCP-powered personal agent that finds every company holding an Indian user's personal data and helps them withdraw consent, correct it or erase it under the **DPDP Act, 2023**. It works inside the apps people already use (Gmail, Calendar, WhatsApp), and the user approves every sensitive action.
 
 **Rural mode** extends the same agent into a voice-first scam shield for village users.
 
 > "City users need to take back their data. Village users need to stop losing their savings. The same agent does both."
 
----
+## Quick start
+
+```bash
+npm install
+npm test        # build + 16 tests (unit, Postgres store, end-to-end, MCP protocol)
+npm start       # all-in-one MCP server on stdio, offline fixture mailbox
+```
+
+Claude Code picks up the server from [.mcp.json](.mcp.json). Real Gmail, Claude Desktop and claude.ai setup: [docs/development/setup.md](docs/development/setup.md).
+
+## Tools
+
+`discover_footprint` · `get_data_map` · `check_new_signups` · `lookup_company` · `get_retention_rules` · `draft_request` · `approve_request` · `undo_request` · `reject_request` · `send_request` · `list_requests` · `check_replies` · `classify_reply` · `escalate_request` · `export_evidence` · `weekly_digest` · `get_audit_log` · `delete_my_data` · `check_scam` and more. Reference: [docs/architecture/mcp-servers.md](docs/architecture/mcp-servers.md). Shared types: [docs/contract.md](docs/contract.md).
 
 ## Repository layout
 
 ```
 DataExit/
-├── docs/                     Product, legal, architecture and hackathon docs (start at docs/README.md)
+├── docs/                     Product, legal, architecture, contract, build plan (start at docs/README.md)
+├── data/companies.csv        Company Directory dataset (Person B)
 ├── packages/
-│   ├── shared/               Domain types: Company, Footprint, Request, AuditEvent, sensitivity, tiers
-│   └── policy/               Policy & approval layer: tier rules, undo window, hash-chained audit log
-├── servers/                  Our own MCP servers
-│   ├── company-directory/    Grievance contacts, data categories, retention rules
-│   ├── request-engine/       Drafts DPDP requests (EN/HI), deadlines, reply classification
-│   ├── tracker/              Request tracker, evidence locker, DPB complaint drafts
-│   └── breach-watch/         (future) breach alerts
-├── apps/
-│   ├── web/                  Chat-side UI: data-map graph, approvals
-│   ├── whatsapp-bot/         WhatsApp digest, quick approvals, rural "Is this a scam?"
-│   └── android-sms/          (future) on-device SMS/OTP signup scanner
-├── db/                       Postgres schema and migrations
-├── demo/                     Seeded demo inbox and wow-moment script assets
-└── scripts/                  Dev utilities
+│   ├── shared/               Contract types, sensitivity scoring, DPDP constants
+│   ├── policy/               Approval tiers, approval state machine, hash-chained audit log
+│   ├── store/                JSON-file and Postgres stores
+│   ├── google/               OAuth, Gmail (headers-only search, UTF-8 send), Calendar, offline fixtures
+│   ├── directory/            Directory loader: domains, SMS sender ids, brand merge
+│   └── runtime/              Config, logging, context, MCP tool wrapper
+├── servers/
+│   ├── discovery/            discover_footprint, get_data_map, check_new_signups
+│   ├── company-directory/    lookup_company, get_retention_rules, …
+│   ├── request-engine/       draft/approve/undo/reject/send + EN/HI templates
+│   ├── tracker/              replies, escalation, evidence ZIP, digest, audit, delete
+│   ├── scam-shield/          check_scam (rural mode)
+│   ├── dataexit/             all tools in one server (stdio or --http) + CLI scripts
+│   └── breach-watch/         (future)
+├── apps/                     web graph, WhatsApp bot, Android SMS (Person B / future)
+├── db/schema.sql             Postgres schema
+├── tests/                    unit, store contract, end-to-end, MCP protocol
+└── demo/                     demo persona and seeded inbox (Person B)
 ```
-
-## Quick start
-
-```bash
-npm install
-npm run build
-# run an MCP server locally (stdio)
-npm run dev -w @dataexit/company-directory
-```
-
-Add the servers to Claude as custom connectors / MCP servers (see [docs/development/setup.md](docs/development/setup.md)).
 
 ## Status
 
-Hackathon scaffold, as of 23 Nov 2026. See [docs/hackathon/plan.md](docs/hackathon/plan.md) for milestones.
+Person A's work (all five phases) is built and tested. Person B's work is open. See [docs/hackathon/build-plan.md](docs/hackathon/build-plan.md).
 
 ## Disclaimer
 

@@ -14,3 +14,6 @@ Thumbs.db
 # never commit real user data
 demo/private/
 *.sqlite
+# local runtime state: store, Google token, evidence bundles, fixture mailbox
+.data/
+tests/dist/

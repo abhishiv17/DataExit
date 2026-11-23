@@ -26,6 +26,7 @@ flowchart TB
       DIR[Company Directory]
       REQ[Request Engine]
       TRK[Tracker & Evidence Locker]
+      SS[Scam Shield<br/>rural mode]
       BW[Breach Watch]
     end
   end
@@ -38,11 +39,12 @@ flowchart TB
 
 | Layer | Where in repo |
 | --- | --- |
-| Channels | `apps/web`, `apps/whatsapp-bot` |
-| Agent | Claude (prompting lives in `docs/architecture/mcp-servers.md` + server tool descriptions) |
-| Policy & approval | `packages/policy` |
-| Our MCP servers | `servers/*` |
-| Storage | `db/schema.sql` |
+| Channels | `apps/web`, `apps/whatsapp-bot` (Person B) |
+| Agent | Claude; server instructions and tool descriptions in `packages/runtime/src/mcp.ts` and `servers/*/src/tools.ts` |
+| Policy & approval | `packages/policy` (tiers, approval state machine, audit chain) |
+| Our MCP servers | `servers/discovery`, `company-directory`, `request-engine`, `tracker`, `scam-shield`; all-in-one `servers/dataexit` |
+| Gmail / Calendar access | `packages/google` (OAuth, Gmail API headers-only search, UTF-8 send, Calendar; offline fixtures) |
+| Storage | `packages/store` (JSON file or Postgres), `db/schema.sql` |
 
 ## Process flow
 

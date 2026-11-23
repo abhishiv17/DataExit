@@ -1,26 +1,41 @@
 {
   "name": "dataexit",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DPDP data-rights agent powered by MCP",
+  "type": "module",
   "workspaces": [
     "packages/shared",
     "packages/policy",
+    "packages/store",
+    "packages/google",
+    "packages/directory",
+    "packages/runtime",
+    "servers/discovery",
     "servers/company-directory",
     "servers/request-engine",
-    "servers/tracker"
+    "servers/tracker",
+    "servers/scam-shield",
+    "servers/dataexit"
   ],
   "scripts": {
     "build": "tsc -b",
     "clean": "tsc -b --clean",
     "typecheck": "tsc -b --pretty",
-    "db:schema": "psql \"$DATABASE_URL\" -f db/schema.sql"
+    "test": "tsc -b && node --test --test-reporter=spec \"tests/dist/**/*.test.js\"",
+    "start": "node servers/dataexit/dist/index.js",
+    "start:http": "node servers/dataexit/dist/index.js --http",
+    "auth:google": "node servers/dataexit/dist/cli/google-auth.js",
+    "directory:check": "node servers/dataexit/dist/cli/check-directory.js",
+    "audit:verify": "node servers/dataexit/dist/cli/verify-audit.js",
+    "db:migrate": "node servers/dataexit/dist/cli/migrate.js",
+    "db:seed-directory": "node servers/dataexit/dist/cli/seed-directory.js"
   },
   "devDependencies": {
-    "@types/node": "^20.14.0",
+    "@types/node": "^22.10.0",
     "typescript": "^5.5.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }

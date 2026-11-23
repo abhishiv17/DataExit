@@ -1,0 +1,19 @@
+{
+  "user_email": "priya.demo@example.com",
+  "messages": [
+    { "id": "m-swiggy-1", "from": "Swiggy <noreply@swiggy.in>", "subject": "Welcome to Swiggy!", "date": "2019-03-10T10:00:00Z", "list_unsubscribe": true },
+    { "id": "m-swiggy-2", "from": "Swiggy <no-reply@mailer.swiggy.in>", "subject": "Your order from Meghana Foods", "date": "2021-06-01T13:00:00Z" },
+    { "id": "m-zomato-1", "from": "Zomato <noreply@zomato.com>", "subject": "Your order summary", "date": "2020-02-01T19:00:00Z" },
+    { "id": "m-blinkit-1", "from": "blinkit <noreply@blinkit.com>", "subject": "Your order is on its way", "date": "2025-10-01T08:00:00Z" },
+    { "id": "m-flipkart-1", "from": "Flipkart <no-reply@flipkart.com>", "subject": "Order Confirmed: Your order for boAt Earphones", "date": "2018-11-11T09:00:00Z" },
+    { "id": "m-paytm-1", "from": "Paytm <no-reply@paytm.com>", "subject": "Your KYC is complete", "date": "2019-05-05T12:00:00Z" },
+    { "id": "m-hdfc-1", "from": "HDFC Bank InstaAlerts <alerts@hdfcbank.net>", "subject": "Transaction alert for your HDFC Bank account", "date": "2026-10-20T07:00:00Z" },
+    { "id": "m-zerodha-1", "from": "Zerodha <noreply@zerodha.net>", "subject": "Welcome to Zerodha", "date": "2020-04-15T06:00:00Z" },
+    { "id": "m-jio-1", "from": "Jio <care@jio.com>", "subject": "Your Jio invoice for March", "date": "2022-03-31T05:00:00Z" },
+    { "id": "m-mmt-1", "from": "MakeMyTrip <noreply@makemytrip.com>", "subject": "Booking Confirmed - Delhi to Goa", "date": "2019-12-20T10:00:00Z" },
+    { "id": "m-practo-1", "from": "Practo <no-reply@practo.com>", "subject": "Your OTP for Practo login", "date": "2021-08-08T10:00:00Z" },
+    { "id": "m-unknown-1", "from": "RandomShop <hello@news.randomshop.co.in>", "subject": "Welcome to RandomShop", "date": "2020-07-07T10:00:00Z" },
+    { "id": "m-friend-1", "from": "Riya <riya@gmail.com>", "subject": "Welcome party photos", "date": "2024-01-01T10:00:00Z" },
+    { "id": "m-other-1", "from": "Swiggy <noreply@swiggy.in>", "subject": "Weekend plans with Swiggy One", "date": "2026-01-01T10:00:00Z" }
+  ]
+}

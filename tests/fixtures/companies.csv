@@ -1,0 +1,11 @@
+id,legal_name,brands,domains,sms_sender_ids,grievance_email,data_categories,sensitivity,retention_rule,sector,grievance_verified,grievance_source,support_email
+swiggy,Swiggy Limited,Swiggy|Instamart,swiggy.in|swiggy.com,SWIGGY,grievance@swiggy.example,contact|transaction|location|behavioural,med,,food_delivery,true,test,
+eternal,Eternal Limited,Zomato|Blinkit,zomato.com|blinkit.com,,privacy@eternal.example,contact|transaction|location|behavioural,med,,food_delivery,true,test,
+flipkart,Flipkart Internet Private Limited,Flipkart,flipkart.com,,privacy@flipkart.example,contact|transaction|location|behavioural|inferred,med,TAX,ecommerce,true,test,
+paytm,One 97 Communications Limited,Paytm,paytm.com,,grievance@paytm.example,contact|financial|gov_id|transaction|device,high,RBI_KYC|PMLA,fintech,true,test,
+hdfc-bank,HDFC Bank Limited,HDFC Bank,hdfcbank.com|hdfcbank.net,HDFCBK,grievance@hdfc.example,contact|financial|gov_id|transaction,high,RBI_KYC|PMLA,bank,true,test,
+zerodha,Zerodha Broking Limited,Zerodha,zerodha.com|zerodha.net,,privacy@zerodha.example,contact|financial|gov_id|transaction,high,SEBI|PMLA,broker,true,test,
+jio,Reliance Jio Infocomm Limited,Jio,jio.com,JIOINF,grievance@jio.example,contact|gov_id|location|communications,high,TELECOM,telecom,true,test,
+makemytrip,MakeMyTrip (India) Private Limited,MakeMyTrip,makemytrip.com,,privacy@mmt.example,contact|gov_id|location|transaction,high,,travel,true,test,
+practo,Practo Technologies Private Limited,Practo,practo.com,,,contact|health|transaction,high,MEDICAL,health,false,,support@practo.example
+nocontact,No Contact Pvt Ltd,NoContact,nocontact.example,,,contact,low,,other,false,,
