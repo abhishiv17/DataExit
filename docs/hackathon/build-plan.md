@@ -1,103 +1,95 @@
-# Build plan (2 people): status
+# Build plan: wHACKiest 2026, Track 1 (Make MCP Matter)
 
-Two people build the MVP in 14 days. Person A owns the agent and MCP servers; Person B owns the data, interface, rural mode and demo. For a 36–48 hour hackathon, do Phases 1–3 only and use the cut list.
+Team **Data Exit** (Dr. Ambedkar Institute of Technology). Product name: **Wapas**.
 
-Status as of 24 Nov 2026: Person A's servers are built and tested (`npm test`, 16 tests). Person B's UI, directory and demo inbox are built on mock JSON. **Next: integration**: switch `apps/web/src/api.ts` from mocks to the MCP tools and move the UI onto the contract types (it uses `@dataexit/shared/ui` until then).
+| Date | Milestone |
+| --- | --- |
+| **24 Nov 2026, 11:59 PM** | Submit on Devnovate: PPT (`DataExit_Track1`), public repo, 3–5 min YouTube video, team details. MVP live. |
+| 26–27 Nov 2026 | Online pitch to shortlisted teams: 5 min + 3 min Q&A |
+| Hack day (24 h) | Build the pilot slice below on top of the MVP |
+
+**Goal for submission:** a judge can open one link, see the wow moment in 60 seconds, hear a scam verdict in Hindi or Kannada, and find tested MCP code behind it. That is what separates us from slide-only teams.
+
+## Where we are (24 Nov 2026)
+
+Live: https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/
+
+| Area | Status |
+| --- | --- |
+| 5 MCP servers, 23 tools, policy layer, Postgres/JSON store, Gmail/Calendar OAuth | ✅ Built, 16 tests pass (`npm test`) |
+| Company directory: 290 Indian companies, retention duties, 7 verified grievance contacts | ✅ |
+| Demo inbox: 656 messages → 214 companies / 61 dormant 3y+ / 12 high-risk | ✅ Deterministic (`npm run demo:seed`) |
+| Web app: data map, review & approve (tiers, EN/HI, undo, audit), tracker (digest, escalation, report card) | ✅ On seeded data |
+| Rural scam check: WhatsApp-style UI, Hindi voice in, never-ask banner, lost-money / SIM / loan-app flows | ✅ |
+| **AWS**: live on Lambda (ap-south-1) with `check_scam` at `/api/check` | ✅ |
+| **ElevenLabs**: TTS for every rural verdict (hi, en, kn) via the Lambda | ✅ |
+| Web app reads live MCP tools instead of seeded JSON | ⏳ Hack day |
+| WhatsApp bot, Kannada UI, Scribe STT, missed-call line | ⏳ Hack day / pilot |
 
 ## Roles
 
-| | Person A: agent and MCP servers | Person B: data, interface and demo |
+| Member | Owns | Submission tasks (24 Nov) |
 | --- | --- | --- |
-| Owns | Gmail discovery, Company Directory, Request Engine, Tracker, policy layer, Claude wiring | Directory dataset, sensitivity rules, templates (EN/HI), graph widget, digest and WhatsApp flow, rural flow, demo inbox, pitch |
-| Hands off | Working MCP tools with stable JSON ([contract.md](../contract.md)) | Directory data, templates, UI that uses tool outputs |
+| **Abhishek** (lead) | Agent, MCP servers, AWS | Final repo check, live link, Devnovate form |
+| **Sanvi** | WhatsApp, ElevenLabs | Record and narrate the video (Hindi rural part) |
+| **Afreen** | Web app, data map | Screen-record the web flow; check it on a phone |
+| **Rithikha** | Directory, templates, demo data | PPT on the template, named `DataExit_Track1`, Drive link set to "Anyone with the link" |
 
-## Day 0
+## Submission day checklist (24 Nov)
 
-- [x] Repo layout: `servers/` (A), `data/` (B), `docs/`. B's UI lives in `apps/web`.
-- [ ] Google Cloud project, Gmail + Calendar APIs, both people as OAuth test users ([setup](../development/setup.md#real-gmail-and-calendar))
-- [ ] Seeded demo Gmail account (B)
-- [ ] Pick the demo name
-- [x] Contract committed as [docs/contract.md](../contract.md)
+See [submission.md](submission.md) for the full list and form answers.
 
-## Phase 1: Discovery
+- [x] Live link works on desktop and phone (HTTPS)
+- [x] README: problem, live link, screenshots, architecture, real vs mocked, team
+- [x] ElevenLabs voice live; AWS deployment documented
+- [ ] Repo is **public** on GitHub
+- [ ] Video recorded (3–5 min), uploaded to YouTube as **unlisted** or public; link in README and form ([video-script.md](video-script.md))
+- [ ] PPT exported from the template, named `DataExit_Track1`, Drive sharing "Anyone with the link can view"
+- [ ] PPT updated so every claim matches the repo (see "Keep the deck honest" below)
+- [ ] Devnovate form submitted before 11:30 PM (keep 30 minutes spare)
 
-Person A
-- [x] Gmail server with OAuth (`npm run auth:google`); `discover_footprint` searches signup, OTP, receipt and welcome subjects, headers only
-- [x] `lookup_company` by domain or SMS sender ID; CSV or Postgres (`DIRECTORY_SOURCE=postgres`)
-- [x] Brand/legal-entity merge (brands share a directory row); `Footprint` rows written
-- [x] Claude wiring: `.mcp.json` (Claude Code), Desktop config, HTTP mode for claude.ai
+## Hack-day plan (24 hours, after shortlisting)
 
-Person B
-- [x] Directory dataset v1: 290 companies in `servers/company-directory/data/companies.csv` (7 verified grievance contacts so far; `npm run directory:check`)
-- [x] Sensitivity rules: in code (`packages/shared/src/sensitivity.ts`); B to review weights
-- [x] Seed the demo inbox (`npm run demo:seed`: `demo/seed-inbox/inbox.mbox` + `messages.json`)
+Ordered by what the judges see first. Each block ends with something demoable.
 
-## Phase 2: Data map
+| Hours | Abhishek | Sanvi | Afreen | Rithikha |
+| --- | --- | --- | --- | --- |
+| 0–4 | Deploy `servers/dataexit --http` to Lambda behind API Gateway | WhatsApp Cloud API webhook → `/api/check` → text + ElevenLabs voice note reply | Switch `apps/web/src/api.ts` from mock JSON to MCP HTTP calls | Verify 20 more grievance contacts (banks and fintech first) |
+| 4–8 | Real Gmail OAuth on the demo account; run discovery live | ElevenLabs **Scribe** for incoming voice notes (Hindi, Kannada) | Live data map from `get_data_map` | Kannada templates for erase + withdraw consent |
+| 8–14 | Step Functions + EventBridge: 30-day reminder → escalation | Kannada rural flow end to end (`language: "kn"` in `check_scam`) | Approve/undo wired to `approve_request` / `undo_request` | Kannada scam rules (common phrasings) + tests |
+| 14–20 | RDS Postgres (`DATABASE_URL`), S3 evidence bundle | Missed-call line: ElevenLabs Agents + Twilio (stretch) | Mobile polish, loading states | Demo data refresh; one real courtesy request in sandbox |
+| 20–24 | Freeze, smoke test, backup video | Rehearse rural part | Rehearse web part | Rehearse Q&A (law, retention, privacy) |
 
-Person A
-- [x] Prioritisation score 0-100 (sensitivity + breadth + dormancy); `top_risk_dormant`
-- [x] Footprint JSON for the widget: `get_data_map` (cap 80 nodes + `others` cluster)
+**Cut list, from the top:** missed-call line → Step Functions (fall back to Calendar reminders) → RDS (JSON store) → Kannada templates (keep Kannada voice). **Never cut:** discovery → map → approval tiers → send, and a Hindi or Kannada voice verdict.
 
-Person B
-- [x] Graph widget, node detail (source email), multi-select (`apps/web`, on mock JSON)
+## Keep the deck honest
 
-## Phase 3: Requests with approval
+The PPT was written before the build. Update these lines, or say "planned for pilot" when presenting:
 
-Person A
-- [x] `draft_request` fills B's templates (company, account, last interaction, legal basis)
-- [x] Policy layer: tiers, 10-minute undo window, hash-chained `AuditEvent`
-- [x] `send_request` from the user's Gmail + Calendar event at the deadline
-- [x] Retention check: banks, brokers, telecoms, insurers, health → `restrict` instead of `erase`
-- [x] Send safety: `SEND_MODE` dry_run / sandbox / live, hourly limit
-
-Person B
-- [x] Templates for 6 types × EN/HI exist (plus reminder and escalations); need legal review and native-speaker check
-- [x] Approval screen (on mock JSON; wire to `approve_request` / `send_request`)
-
-## Phase 4: Follow-through and everyday hook
-
-Person A
-- [x] `list_requests`, `check_replies`, `classify_reply` (confirmed / id_requested / refused_retention / redirected; unclear → agent)
-- [x] Escalation: reminder → grievance officer → DPB complaint draft; `export_evidence` (ZIP)
-- [x] New-signup detection: `check_new_signups` for a scheduled task; `weekly_digest`
-
-Person B
-- [x] Digest bubble, status timeline view, seeded demo replies (UI mock-ups)
-- [ ] WhatsApp delivery
-
-## Phase 5: Rural mode, polish, pitch
-
-Person A
-- [x] `check_scam`: verdict, reasons, next steps (1930, cybercrime.gov.in, Chakshu, bank), EN/HI reply text with the safety line
-- [x] Hardening: structured errors, Gmail rate limiting and retries, send limit, stderr logging, `delete_my_data`
-
-Person B
-- [x] Rural scam-check mock-up with voice in/out, SIM-check and loan-app quick replies; company report card; demo script; pitch deck
-- [ ] Backup video
+| PPT says | Repo today | Say |
+| --- | --- | --- |
+| Next.js + Prisma | Vite + TypeScript + D3; Postgres schema in `db/schema.sql` | "Web app in TypeScript; Postgres-ready store" |
+| 6 MCP servers incl. SMS and 1930 help | 5 servers, 23 tools; 1930 / cybercrime.gov.in steps are inside `check_scam` | "Five MCP servers, 23 tools" |
+| Lambda per MCP server, API Gateway, Step Functions, RDS, S3 Object Lock, Cognito | One Lambda live in Mumbai (web + `check_scam` + TTS) | "Live on Lambda today; per-server Lambdas in the pilot" |
+| Kannada voice via Scribe v2 + Multilingual TTS | Kannada **TTS** live; speech-to-text is the browser's (Hindi/English) | "Kannada voice replies live; Scribe for voice notes next" |
+| Agents + Twilio missed-call line | Not built | "Pilot" |
 
 ## Integration points
 
-| Day | From → To | Hand-off | Status |
-| --- | --- | --- | --- |
-| 2 | B → A | Directory CSV v1 | CSV loader ready; waiting on data |
-| 3 | A → B | `discover_footprint` JSON | ready |
-| 6 | B → A | Templates 6 × 2 | in repo, need review |
-| 8 | A → B | `draft_request`, `approve_request`, `send_request` | ready |
-| 11 | A → B | `list_requests`, `classify_reply` | ready |
-
-## Cut list (from the top)
-1. WhatsApp → digest in chat
-2. Voice in the rural flow → Hindi text
-3. Evidence bundle → audit log on screen
-4. Hindi templates → English only
-5. Never cut: discovery, graph, approval tiers, sending
+| From → To | Hand-off | Status |
+| --- | --- | --- |
+| Directory CSV → MCP directory | `servers/company-directory/data/companies.csv` | ✅ |
+| MCP → web | Contract in [docs/contract.md](../contract.md) | ✅ Types shared; web still on seeded JSON |
+| `check_scam` → web + WhatsApp | `/api/check` on Lambda | ✅ Web; WhatsApp on hack day |
+| Templates → request engine | `servers/request-engine/templates/{en,hi}` | ✅ Need lawyer + native-speaker review |
 
 ## Risks
 
-| Risk | Owner | Mitigation | Status |
-| --- | --- | --- | --- |
-| Gmail OAuth verification blocks sending | A | Test users on an unverified app; demo account | Flow built; needs the Cloud project |
-| Wrong or missing grievance emails | B | Top 200 first; mark unverified; support-email fallback | Fallback and no-recipient block built |
-| Real requests sent to companies in testing | A | `SEND_MODE=sandbox` until demo day | Built and tested |
-| Graph too slow | B | Cap 80 nodes; cluster the rest | Cap and cluster in `get_data_map` |
-| Integration slips | Both | Fixture mailbox + contract from day 1 | Fixture backend built |
+| Risk | Owner | Mitigation |
+| --- | --- | --- |
+| Live link down during judging | Abhishek | Lambda has no servers to fall over; video and local `npm run web` as backup |
+| ElevenLabs quota runs out | Sanvi | Browser speech fallback is automatic; key is restricted to TTS/STT/voices |
+| Gmail OAuth verification blocks real sends | Abhishek | Demo on seeded inbox; test users on unverified app |
+| Wrong grievance contact | Rithikha | Only verified contacts are used; unverified ones block sending |
+| A real company gets a test request | Abhishek | `SEND_MODE=sandbox` until the pitch |
+| CloudFront needs AWS account verification | Abhishek | Function URL serves HTTPS today; support case for CloudFront |

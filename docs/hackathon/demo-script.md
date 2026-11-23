@@ -18,14 +18,17 @@ Uses the seeded inbox in [`demo/seed-inbox`](../../demo/seed-inbox). Never demo 
 
 ## Running it
 
+- **Live:** https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/ (AWS Lambda, Mumbai; rural replies use ElevenLabs voice).
+
 - `npm install && npm run demo:seed && npm run web`, then open http://127.0.0.1:5173 (use 127.0.0.1: Chrome can return HTTP 431 on localhost).
 - 0:35–0:55: **Data map** tab. "Select the 12 high-risk accounts" → "Draft 12 requests".
 - 1:05–1:50: **Review & approve**. The Kotak and YES Bank cards show the restrict-use note. Toggle हिन्दी on one card, approve, press Undo on another, then open **Audit log** ("hash chain intact").
 - 2:20: **Tracker**. Digest bubble → "Escalate Gaana" → EN/HI grievance-officer draft → approve. Report card on the right.
-- 2:40: **Rural: scam check**. Tap the "किसान योजना" or "QR कैशबैक" sample; the reply is read aloud in Hindi.
+- 2:40: **Rural: scam check**. Tap the "किसान योजना" or "QR कैशबैक" sample; the reply is read aloud in Hindi by ElevenLabs, and the green badge shows the `check_scam` verdict from AWS Lambda.
 
 ## Backup plan
 - Deep links skip clicks if anything stalls: `#review-demo` (12 drafts ready), `#tracker`, `#rural`.
 - Everything runs offline on the seeded mock data; no live Gmail needed.
-- Pre-recorded screen capture of every step *(to record)*.
+- Pre-recorded screen capture of every step: see [video-script.md](video-script.md).
+- If the live link fails: `npm run web` locally (browser voice instead of ElevenLabs).
 - Pitch deck (11 slides, speaker notes follow this script): https://claude.ai/artifact/BpYZh21QkV4ac1AUCVuYfB

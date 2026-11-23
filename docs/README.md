@@ -1,6 +1,6 @@
 # Data Exit documentation
 
-As of 23 November 2026.
+As of 24 November 2026. Live demo: https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/
 
 | Area | Doc | What's in it |
 | --- | --- | --- |
@@ -15,10 +15,13 @@ As of 23 November 2026.
 | Architecture | [architecture/approval-and-audit.md](architecture/approval-and-audit.md) | Approval tiers, undo window, hash-chained audit log |
 | Architecture | [architecture/data-model.md](architecture/data-model.md) | Company, Footprint, Request, AuditEvent |
 | Architecture | [architecture/privacy-by-design.md](architecture/privacy-by-design.md) | What we store, what we never store |
+| Architecture | [architecture/deployment-aws.md](architecture/deployment-aws.md) | Live AWS Lambda deployment, ElevenLabs proxy, pilot architecture |
 | Architecture | [architecture/claude-capabilities.md](architecture/claude-capabilities.md) | What Claude connectors give us vs. what we build |
 | Decisions | [decisions/](decisions/) | Architecture decision records (ADRs) |
 | Contract | [contract.md](contract.md) | Shared types and tools between Person A and Person B |
-| Hackathon | [hackathon/build-plan.md](hackathon/build-plan.md) | 2-person build plan with status |
+| Hackathon | [hackathon/build-plan.md](hackathon/build-plan.md) | 4-person build plan: status, submission day, 24-hour hack-day plan |
+| Hackathon | [hackathon/submission.md](hackathon/submission.md) | Devnovate checklist and copy-paste form answers |
+| Hackathon | [hackathon/video-script.md](hackathon/video-script.md) | 4-minute video script |
 | Hackathon | [hackathon/demo-script.md](hackathon/demo-script.md) | Wow-moment demo script |
 | Hackathon | [hackathon/judging-map.md](hackathon/judging-map.md) | How each judging keyword is met |
 | Risks | [risks.md](risks.md) | Risks and mitigations |
