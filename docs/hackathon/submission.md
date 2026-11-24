@@ -34,12 +34,12 @@ Before submitting, check:
 | Afreen Hossain | 1DA24CS013 |
 | Rithikha R | 1DA24CS157 |
 
-**Project name:** Wapas (Data Exit)
+**Project name:** Data Exit
 
 **One-liner:** An MCP-powered agent that finds every company holding your data and helps you take it back under India's DPDP Act, with a voice-first scam shield for rural users.
 
 **Description (short):**
-Indians have handed Aadhaar, PAN and bank details to hundreds of apps, and 69% don't know they can withdraw consent. Wapas reads only Gmail headers to find every company holding your data (214 in our demo inbox), ranks them by risk, and drafts the right DPDP request in English or Hindi, addressed to the verified grievance officer. Every action passes an approval tier, a 10-minute undo and a hash-chained audit log. It knows the law: RBI KYC and other retention rules turn "erase" into "restrict use". It then tracks replies, escalates and drafts a Data Protection Board complaint. Rural mode uses the same agent as a scam shield: forward or speak a suspicious message and hear the verdict in Hindi or Kannada. Built as 5 MCP servers with 23 tools and 16 passing tests, live on AWS Lambda (Mumbai) with ElevenLabs voice.
+Indians have handed Aadhaar, PAN and bank details to hundreds of apps, and 69% don't know they can take that consent back. Data Exit reads only Gmail headers to find every company holding your data (214 in our demo inbox), ranks them by risk, and drafts the right DPDP request in English or Hindi, addressed to the verified grievance officer. Every action passes an approval tier, a 10-minute undo and a hash-chained audit log. It knows the law: RBI KYC and other retention rules turn "erase" into "restrict use". It then tracks replies, escalates and drafts a Data Protection Board complaint. Rural mode uses the same agent as a scam shield: forward or speak a suspicious message and hear the verdict in Hindi or Kannada. Built as 5 MCP servers with 23 tools and 16 passing tests, live on AWS Lambda (Mumbai) with ElevenLabs voice.
 
 **Live link:** https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/
 **Repo:** https://github.com/abhishiv17/DataExit

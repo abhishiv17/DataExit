@@ -21,9 +21,12 @@ As of 24 November 2026. Live demo: https://isozxdci5aem2ewbe7utcwv6i40oulpk.lamb
 | Contract | [contract.md](contract.md) | Shared types and tools between Person A and Person B |
 | Hackathon | [hackathon/build-plan.md](hackathon/build-plan.md) | 4-person build plan: status, submission day, 24-hour hack-day plan |
 | Hackathon | [hackathon/submission.md](hackathon/submission.md) | Devnovate checklist and copy-paste form answers |
-| Hackathon | [hackathon/video-script.md](hackathon/video-script.md) | 4-minute video script |
+| Hackathon | [hackathon/video-script.md](hackathon/video-script.md) | 4-minute video script, matched to the live UI |
 | Hackathon | [hackathon/demo-script.md](hackathon/demo-script.md) | Wow-moment demo script |
 | Hackathon | [hackathon/judging-map.md](hackathon/judging-map.md) | How each judging keyword is met |
+| Hackathon | [hackathon/metrics.md](hackathon/metrics.md) | Lighthouse scores, load times, before/after of the 24 Nov polish |
+| Research | [research/sources.md](research/sources.md) | Source for every number on the site, README, PPT and video |
+| Research | [research/grievance-contacts.md](research/grievance-contacts.md) | How the 7 verified grievance contacts were sourced |
 | Risks | [risks.md](risks.md) | Risks and mitigations |
 | Dev | [development/setup.md](development/setup.md) | Local setup, connecting servers to Claude |
 | Dev | [development/fixtures.md](development/fixtures.md) | Offline fixture mailbox format |

@@ -294,7 +294,8 @@ main { min-height: calc(100vh - 60px); }
 .hero-note svg { width: 15px; height: 15px; }
 .scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 13px; color: var(--muted); }
 
-.scan-card { background: color-mix(in srgb, var(--surface) 85%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.04); }
+/* Top-aligned, not centred: centring made it jump when the web font loaded (CLS). */
+.scan-card { align-self: start; margin-top: 44px; background: color-mix(in srgb, var(--surface) 85%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.04); }
 .scan-head { font-size: 13px; display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
 .live { width: 8px; height: 8px; border-radius: 50%; background: var(--high); animation: pulse 1.4s infinite; }
 .scan-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; min-height: 330px; }
@@ -415,6 +416,7 @@ main { min-height: calc(100vh - 60px); }
   .eyebrow { white-space: normal; flex-wrap: wrap; }
   .chat { max-width: 100%; }
   .hero { padding-top: 32px; min-height: 0; }
+  .scan-card { margin-top: 0; }
   .band { padding: 72px 16px; }
   .stats3, .facts4 { grid-template-columns: 1fr 1fr; }
   .tiles, .steps { grid-template-columns: 1fr; }

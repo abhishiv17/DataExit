@@ -3,7 +3,7 @@
 Context for AI assistants working in this repo.
 
 ## What this is
-Data Exit (brand candidate: **Wapas**) is a hackathon project: an MCP-powered agent that helps Indian users discover which companies hold their personal data and exercise their DPDP Act 2023 rights (withdraw consent, access, correct, erase, restrict use). It runs through apps users already have (Gmail, Calendar, WhatsApp, SMS). Rural mode adds a voice-first scam shield.
+Data Exit (formerly "Wapas"; use **Data Exit** everywhere) is a hackathon project: an MCP-powered agent that helps Indian users discover which companies hold their personal data and exercise their DPDP Act 2023 rights (withdraw consent, access, correct, erase, restrict use). It runs through apps users already have (Gmail, Calendar, WhatsApp, SMS). Rural mode adds a voice-first scam shield.
 
 Full background: `docs/README.md`. Product: `docs/product/`. Law: `docs/legal/dpdp-act.md`. Architecture: `docs/architecture/`.
 

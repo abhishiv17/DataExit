@@ -14,7 +14,7 @@ Uses the seeded inbox in [`demo/seed-inbox`](../../demo/seed-inbox). Never demo 
 | 2:00 | Requests sent from the user's own Gmail; deadlines appear in Calendar | Existing apps |
 | 2:20 | WhatsApp digest: **"5 confirmed deletion, 1 asked for ID, 1 ignored you. Escalate?"** → tap Escalate → grievance-officer draft | Follow-through, everyday |
 | 2:40 | Rural mode teaser: forward a scam SMS by voice note → Hindi voice reply "This is a scam. Never share your OTP." | Social impact |
-| 2:55 | "India has the law. Wapas makes it usable." | Close |
+| 2:55 | "India has the law. Data Exit makes it usable." | Close |
 
 ## Running it
 

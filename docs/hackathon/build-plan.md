@@ -1,6 +1,6 @@
 # Build plan: wHACKiest 2026, Track 1 (Make MCP Matter)
 
-Team **Data Exit** (Dr. Ambedkar Institute of Technology). Product name: **Wapas**.
+Team **Data Exit** (Dr. Ambedkar Institute of Technology). Product name: **Data Exit** (matches the PPT and the live site).
 
 | Date | Milestone |
 | --- | --- |
@@ -19,7 +19,9 @@ Live: https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/
 | 5 MCP servers, 23 tools, policy layer, Postgres/JSON store, Gmail/Calendar OAuth | ✅ Built, 16 tests pass (`npm test`) |
 | Company directory: 290 Indian companies, retention duties, 7 verified grievance contacts | ✅ |
 | Demo inbox: 656 messages → 214 companies / 61 dormant 3y+ / 12 high-risk | ✅ Deterministic (`npm run demo:seed`) |
-| Web app: data map, review & approve (tiers, EN/HI, undo, audit), tracker (digest, escalation, report card) | ✅ On seeded data |
+| Web app: landing page, data map, review & approve (tiers, EN/HI, undo, audit), tracker (digest, escalation, report card) | ✅ On seeded data; redesign live since 24 Nov |
+| Lighthouse (desktop / mobile): accessibility, best practices, SEO 100; performance 98 / 80–84 | ✅ [metrics.md](metrics.md) |
+| Every quoted number sourced | ✅ [../research/sources.md](../research/sources.md) |
 | Rural scam check: WhatsApp-style UI, Hindi voice in, never-ask banner, lost-money / SIM / loan-app flows | ✅ |
 | **AWS**: live on Lambda (ap-south-1) with `check_scam` at `/api/check` | ✅ |
 | **ElevenLabs**: TTS for every rural verdict (hi, en, kn) via the Lambda | ✅ |
@@ -73,6 +75,9 @@ The PPT was written before the build. Update these lines, or say "planned for pi
 | Lambda per MCP server, API Gateway, Step Functions, RDS, S3 Object Lock, Cognito | One Lambda live in Mumbai (web + `check_scam` + TTS) | "Live on Lambda today; per-server Lambdas in the pilot" |
 | Kannada voice via Scribe v2 + Multilingual TTS | Kannada **TTS** live; speech-to-text is the browser's (Hindi/English) | "Kannada voice replies live; Scribe for voice notes next" |
 | Agents + Twilio missed-call line | Not built | "Pilot" |
+| "400% rise in cybercrime since 2021" (slide 2) | Not re-verified ([sources](../research/sources.md)) | Swap for "₹22,845 crore lost to cyber fraud in 2024, up 206%" or drop it |
+| "seniors are the prime targets" (slide 2) | Not verified | Drop it; "₹4,058 crore since 2022" stands on its own |
+| Team ID blank on slides 1–8 | Fill in before upload | Use the Team ID from Devnovate |
 
 ## Integration points
 

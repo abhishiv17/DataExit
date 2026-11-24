@@ -22,13 +22,18 @@ Why not CloudFront + S3? CloudFront requires account verification on this new AW
 ```bash
 npm run build && npm run build -w @dataexit/web   # MCP code + web app (VITE_VOICE_API=/api from apps/web/.env.production)
 sh infra/voice-lambda/build.sh                    # assembles infra/voice-lambda/out
-cd infra/voice-lambda/out && zip -r ../voice.zip . # or Compress-Archive on Windows
+cd infra/voice-lambda/out && zip -r ../voice.zip .   # on Windows use the Python line below, NOT Compress-Archive
+# python -c "import zipfile,os;z=zipfile.ZipFile('../voice.zip','w',8);[z.write(os.path.join(r,f),os.path.relpath(os.path.join(r,f)).replace(os.sep,'/')) for r,_,fs in os.walk('.') for f in fs]"
 aws s3 cp ../voice.zip s3://dataexit-wapas-<account>/_deploy/voice.zip
 aws lambda update-function-code --region ap-south-1 --function-name dataexit-voice \
   --s3-bucket dataexit-wapas-<account> --s3-key _deploy/voice.zip
 ```
 
 Rotate or set the ElevenLabs key: put `ELEVENLABS_API_KEY=...` in `.env`, then run `powershell -File infra/voice-lambda/set-key.ps1` (the script never prints the key).
+
+Windows PowerShell 5.1's `Compress-Archive` writes `\` path separators, so Lambda (Linux) can't find `site/assets/*` and the page loads without its scripts. Zip with forward slashes.
+
+After deploying, check: `curl <live>/api/health` returns `{"ok":true,"tts":true}`, and the CSS file named in the live `index.html` matches `apps/web/dist/assets/`.
 
 ## Production architecture (pilot)
 

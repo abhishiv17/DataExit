@@ -1,6 +1,6 @@
-# Wapas (Data Exit)
+# Data Exit
 
-**Take your data back.** Wapas is an MCP-powered agent that finds every company holding an Indian user's personal data, then helps them withdraw consent, correct it, restrict it or erase it under the **DPDP Act, 2023**. It works inside apps people already use (Gmail, Calendar, WhatsApp), and the user approves every sensitive action.
+**Take your data back.** Data Exit is an MCP-powered agent that finds every company holding an Indian user's personal data, then helps them withdraw consent, correct it, restrict it or erase it under the **DPDP Act, 2023**. It works inside apps people already use (Gmail, Calendar, WhatsApp), and the user approves every sensitive action.
 
 **Rural mode** turns the same agent into a voice-first scam shield: forward a suspicious SMS or say it out loud, and hear back in Hindi or Kannada whether it is a scam and what to do next.
 
@@ -12,6 +12,7 @@ wHACKiest 2026 · **Track 1: Make MCP Matter** · Bonus tracks: **Best Use of AW
 
 | Jump to | What you'll see |
 | --- | --- |
+| [Landing page](https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/) | What Data Exit does in plain language: the problem, your DPDP rights, how it works, safety rules, rural mode |
 | [Data map](https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/#map) | 214 companies found in a demo inbox, 61 unused for 3+ years, 12 holding Aadhaar, PAN, bank or health data |
 | [Review & approve](https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/#review-demo) | 12 drafted requests: 10 erase, 2 banks switched to restrict-use by RBI KYC rules, 10-minute undo, audit log |
 | [Tracker](https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/#tracker) | Replies classified, WhatsApp-style digest, one-tap escalation to the grievance officer, company report card |
@@ -19,19 +20,24 @@ wHACKiest 2026 · **Track 1: Make MCP Matter** · Bonus tracks: **Best Use of AW
 
 The live site uses a seeded demo persona ("Priya Demo"), never a real inbox. Nothing is sent to any company: `SEND_MODE=sandbox`.
 
-| Data map | Review & approve |
+| Landing page | Step 1: Discover (data map) |
 | --- | --- |
-| ![Data map](docs/img/map.png) | ![Review and approve](docs/img/review.png) |
-| **Tracker** | **Rural: scam check** |
-| ![Tracker](docs/img/tracker.png) | ![Rural scam check](docs/img/rural.png) |
+| ![Landing page](docs/img/home.png) | ![Data map with Kotak Mahindra Bank selected](docs/img/map.png) |
+| **Step 2: Approve (Kotak switched to restrict-use)** | **Step 3: Track (escalate Gaana)** |
+| ![Review and approve](docs/img/review.png) | ![Tracker](docs/img/tracker.png) |
+| **Rural: scam check, live verdict from AWS Lambda** | **On a phone** |
+| ![Rural scam check](docs/img/rural.png) | <img src="docs/img/mobile.png" alt="Landing page on a phone" width="260"> |
 
 ## The problem
 
-- **69%** of Indians don't know they can withdraw consent they gave to a company (PwC, Oct 2024).
-- **1 in 5** UPI-using families has been hit by fraud (LocalCircles, 2025). **₹4,058 crore** has been lost to "digital arrest" scams.
+- **69%** of Indians don't know they can take back consent they gave to a company (PwC India survey of 3,233 consumers, Oct 2024).
+- **1 in 5** families with a UPI user was hit by UPI fraud in the last 3 years, and half never complained (LocalCircles, Jun 2025).
+- **₹4,058 crore** lost to "digital arrest" scams since 2022 (government data, to May 2026).
+Sources for every number: [docs/research/sources.md](docs/research/sources.md).
+
 - The DPDP Act gives every Indian the right to withdraw consent, access, correct and erase their data. But nobody knows *which* companies hold their data, *who* to write to, or *what* to say.
 
-## What Wapas does (the five-step loop)
+## What Data Exit does (the five-step loop)
 
 1. **Discover.** Reads Gmail *headers only* (signup, OTP, receipt and welcome emails) and matches senders against a 290-company Indian directory. No email bodies are stored.
 2. **Prioritise.** Scores each company 0–100 on data sensitivity (Aadhaar, PAN, bank, health), breadth and dormancy, and draws a data map.
@@ -43,7 +49,7 @@ The live site uses a seeded demo persona ("Priya Demo"), never a real inbox. Not
 
 ## Why MCP (Track 1)
 
-Wapas is 20+ MCP tools across five servers, orchestrated by Claude. It goes well beyond wrapping one API:
+Data Exit is 23 MCP tools across five servers, orchestrated by Claude. It goes well beyond wrapping one API:
 
 ```
 discover_footprint ─▶ lookup_company ─▶ get_retention_rules ─▶ draft_request ─▶ approve_request ─▶ send_request
@@ -75,6 +81,15 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 | `check_scam` + ElevenLabs voice | **Real and live** on AWS Lambda. |
 | Web app (data map, approvals, tracker) | **Real UI on seeded data**: a deterministic demo inbox of 656 messages. Next step: point `apps/web/src/api.ts` at the MCP HTTP server. |
 | WhatsApp bot, SMS on Android, missed-call line | **Designed, not built.** The rural UI is a WhatsApp-style mock-up. |
+
+## Quality, measured
+
+| Lighthouse | Performance | Accessibility | Best practices | SEO |
+| --- | --- | --- | --- | --- |
+| Desktop | 98 | 100 | 100 | 100 |
+| Mobile | 80–84 | 100 | 100 | 100 |
+
+16/16 tests pass · 0 console errors across all views · works at 390 px wide. Details and before/after: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
 
 ## Run it locally
 
@@ -122,7 +137,7 @@ docs/                      Product, legal, architecture, hackathon (start at doc
 - **Never** asks for OTP, PIN or Aadhaar, and says so in every rural-mode reply.
 - No grievance contact is invented. Unverified contacts are flagged, and the request is blocked until a recipient is confirmed.
 - Every suggestion cites the email it came from.
-- `delete_my_data` wipes everything Wapas stored about the user.
+- `delete_my_data` wipes everything Data Exit stored about the user.
 
 ## Team
 
@@ -137,4 +152,4 @@ Plan and status: [docs/hackathon/build-plan.md](docs/hackathon/build-plan.md) ·
 
 ## Disclaimer
 
-Wapas is not a legal service. Request templates are drafts that need a lawyer's review before real use; DPDP section numbers are marked `[verify]`. Before **13 May 2027**, data-principal rights under the DPDP Rules are not yet in force, so requests sent before then are policy-based (courtesy) requests.
+Data Exit is not a legal service. Request templates are drafts that need a lawyer's review before real use; DPDP section numbers are marked `[verify]`. Before **13 May 2027**, data-principal rights under the DPDP Rules are not yet in force, so requests sent before then are policy-based (courtesy) requests.
