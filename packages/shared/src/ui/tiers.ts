@@ -26,7 +26,9 @@ export function classifyTier(type: RequestType, sector: Sector): ApprovalTier {
   return RANK[base] >= RANK[floor] ? base : floor;
 }
 
-export const UNDO_WINDOW_MS = Number(process.env.UNDO_WINDOW_SECONDS ?? 600) * 1000;
+// This module is also bundled into the browser, where `process` does not exist.
+const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
+export const UNDO_WINDOW_MS = Number(env?.UNDO_WINDOW_SECONDS ?? 600) * 1000;
 
 export interface ApprovalDecision {
   tier: ApprovalTier;

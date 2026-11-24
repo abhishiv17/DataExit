@@ -550,4 +550,10 @@ async function renderAudit() {
   if (hash === "review-demo") { setView("map"); pickHighRisk(); await startReview(); }
   else if (hash === "map" || hash === "review" || hash === "tracker" || hash === "rural") setView(hash);
   else setView("home");
+  // Back/forward and in-page #links route too.
+  addEventListener("hashchange", () => {
+    const h = location.hash.slice(1);
+    const v: View = h === "map" || h === "review" || h === "tracker" || h === "rural" ? h : "home";
+    if (v !== state.view) setView(v);
+  });
 })();
