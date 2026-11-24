@@ -66,18 +66,17 @@ Ordered by what the judges see first. Each block ends with something demoable.
 
 ## Keep the deck honest
 
-The PPT was written before the build. Update these lines, or say "planned for pilot" when presenting:
+Fixed in the Canva deck on 24 Nov 2026 (`wHACKiest26_ppt.pptx`):
 
-| PPT says | Repo today | Say |
+| Slide | Was | Now |
 | --- | --- | --- |
-| Next.js + Prisma | Vite + TypeScript + D3; Postgres schema in `db/schema.sql` | "Web app in TypeScript; Postgres-ready store" |
-| 6 MCP servers incl. SMS and 1930 help | 5 servers, 23 tools; 1930 / cybercrime.gov.in steps are inside `check_scam` | "Five MCP servers, 23 tools" |
-| Lambda per MCP server, API Gateway, Step Functions, RDS, S3 Object Lock, Cognito | One Lambda live in Mumbai (web + `check_scam` + TTS) | "Live on Lambda today; per-server Lambdas in the pilot" |
-| Kannada voice via Scribe v2 + Multilingual TTS | Kannada **TTS** live; speech-to-text is the browser's (Hindi/English) | "Kannada voice replies live; Scribe for voice notes next" |
-| Agents + Twilio missed-call line | Not built | "Pilot" |
-| "400% rise in cybercrime since 2021" (slide 2) | Not re-verified ([sources](../research/sources.md)) | Swap for "₹22,845 crore lost to cyber fraud in 2024, up 206%" or drop it |
-| "seniors are the prime targets" (slide 2) | Not verified | Drop it; "₹4,058 crore since 2022" stands on its own |
-| Team ID blank on slides 1–8 (`<Team ID>` in every footer, empty on slide 1) | Fill in before upload | **43af82f0** |
+| 1–8 | Team ID blank / `<Team ID>` | 43af82f0 |
+| 2 | "400% rise in cybercrime since 2021 (Home Ministry)" | "₹22,845 cr lost to cyber fraud in 2024, up 206% on 2023 (Govt data in Parliament)" |
+| 2 | "…since 2022; seniors are the prime targets" | "…since 2022" (claim not verified) |
+| 4, 5, 7 | 6 MCP servers incl. Gmail, SMS, 1930 help | 5 MCP servers, 23 tools: discovery, requests, company directory, tracker, scam check |
+| 4, 7 | Next.js + Prisma | TypeScript web app + D3 |
+
+Still say "planned for pilot" when presenting these slide-4/5 items, which are not built yet: API Gateway and one Lambda per server, Step Functions, RDS, S3 Object Lock, Cognito, ElevenLabs Scribe and Agents + Twilio missed-call line. Live today: one Lambda in Mumbai serving the web app, `check_scam` and ElevenLabs TTS.
 
 ## Integration points
 
