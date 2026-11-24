@@ -86,10 +86,10 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 
 | Lighthouse | Performance | Accessibility | Best practices | SEO |
 | --- | --- | --- | --- | --- |
-| Desktop | 98 | 100 | 100 | 100 |
-| Mobile | 80–84 | 100 | 100 | 100 |
+| Desktop | 97 | 100 | 100 | 100 |
+| Mobile | 90 | 100 | 100 | 100 |
 
-16/16 tests pass · 0 console errors across all views · works at 390 px wide. Details and before/after: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
+16/16 tests pass · 0 console errors across all views · accessibility 100 on all 5 views · works at 390 px wide. Details and before/after: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
 
 ## Run it locally
 

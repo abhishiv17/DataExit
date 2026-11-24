@@ -67,10 +67,11 @@ const FILTERS: Record<FilterKey, { label: string; fn: (fp: FootprintView) => boo
 const isOpen = (fp: FootprintView) => fp.status !== "closed" && fp.status !== "request_open";
 
 // ---------- shell ----------
-const LOGO = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9 8l-4 4 4 4"/><path d="M5 12h10"/></svg>`;
+// Door on the right; the arrow and three "bits" of data slip out of it on a loop (see .logo in style.css).
+const LOGO = `<svg viewBox="0 0 24 24" aria-hidden="true"><path class="lg-door" d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><g class="lg-arrow"><path d="M9 8l-4 4 4 4"/><path d="M5 12h10"/></g><circle class="lg-bit b1" cx="15" cy="9" r="1.1"/><circle class="lg-bit b2" cx="16" cy="15" r="1.1"/><circle class="lg-bit b3" cx="14" cy="12" r="0.9"/></svg>`;
 document.querySelector("#app")!.innerHTML = `
   <header class="top">
-    <button class="brand" data-view="home" aria-label="Data Exit home"><span class="logo">${LOGO}</span> Data Exit</button>
+    <button class="brand" data-view="home" aria-label="Data Exit home"><span class="logo">${LOGO}</span> <span class="brand-word">Data <b>Exit</b></span></button>
     <nav class="tabs app-only" aria-label="Demo steps">
       <button data-view="map"><i>1</i> Discover</button>
       <button data-view="review"><i>2</i> Approve <span id="review-count"></span></button>
@@ -245,7 +246,7 @@ function renderPanel() {
   const host = $("#panel");
   const fp = state.focused ? state.byId.get(state.focused) : null;
   if (!fp) {
-    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h3>Click any dot on the map</h3><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select the 12 riskiest</b> above to jump straight to the riskiest ones.</p></div>`;
+    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h2>Click any dot on the map</h2><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select the 12 riskiest</b> above to jump straight to the riskiest ones.</p></div>`;
     return;
   }
   const c = fp.company;
@@ -254,7 +255,7 @@ function renderPanel() {
   const sel = state.selected.has(c.id);
   host.innerHTML = `
     <div class="panel-head">
-      <h3>${esc(c.name)}</h3>
+      <h2>${esc(c.name)}</h2>
       <span class="badge band-${band}">${band} sensitivity</span>
     </div>
     <p class="muted">${esc(SECTOR_LABEL[c.sector] ?? c.sector)} · ${esc(c.domains.join(", "))}</p>
@@ -357,7 +358,7 @@ function cardHtml(r: ReviewItem): string {
   <article class="card status-${r.status}" data-card="${id}">
     <div class="card-top">
       <div>
-        <h3>${esc(d.companyName)}</h3>
+        <h2>${esc(d.companyName)}</h2>
         <div class="muted small">${esc(SECTOR_LABEL[d.sector] ?? d.sector)} · unused since ${fmtDate(fp.lastSeen)}</div>
       </div>
       <div class="pills">

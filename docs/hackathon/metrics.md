@@ -15,13 +15,15 @@ Measured on the production build (`npm run build -w @dataexit/web`), the same bu
 | Stat sources | ₹4,058 cr labelled "2024" (wrong) | "since 2022, to May 2026", every number sourced in [sources.md](../research/sources.md) |
 | Explains your rights | No | "What the law lets you ask for" section |
 | Lighthouse SEO | 91 (no robots.txt) | 100 |
+| Look and feel | Dark navy with neon green | Light theme: warm ivory, forest green, Fraunces + DM Sans, animated logo (data slipping out of a door) |
+| Accessibility, all 5 views | Not measured per view | 100 on landing, map, review, tracker, scam check |
 
 ## Lighthouse (landing page)
 
 | | Performance | Accessibility | Best practices | SEO | FCP | LCP | TBT | CLS |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Desktop | **98** | **100** | **100** | **100** | 0.6 s | 0.6 s | 0 ms | 0.085 |
-| Mobile | **80–84** | **100** | **100** | **100** | 2.4–3.5 s | 3.4–3.6 s | 0–300 ms | 0.055 |
+| Desktop | **97** | **100** | **100** | **100** | 0.6 s | 0.7 s | 0 ms | 0.067 |
+| Mobile | **90** | **100** | **100** | **100** | — | 2.8 s | — | 0.004 |
 
 Mobile performance varies a few points run to run. The main cost is one 465 KB script (D3, GSAP and the seeded footprint data). Next step: load the data map and its data only when the user opens the demo.
 
@@ -29,8 +31,8 @@ Mobile performance varies a few points run to run. The main cost is one 465 KB s
 
 | | |
 | --- | --- |
-| Page weight (landing, first visit) | 338 KB transferred |
-| Lambda bundle | 164 KB zipped |
+| Page weight (landing, first visit) | 302 KB desktop / 344 KB mobile (fonts trimmed to the weights we use) |
+| Lambda bundle | 161 KB zipped |
 | Load to network idle, live site, 1440×900 | ~1.9–2.6 s per view |
 | `/api/check` (scam verdict) | Responds with verdict, score and reasons |
 | `/api/tts` (ElevenLabs, Hindi) | 200, `audio/mpeg` |
