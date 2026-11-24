@@ -77,7 +77,7 @@ The PPT was written before the build. Update these lines, or say "planned for pi
 | Agents + Twilio missed-call line | Not built | "Pilot" |
 | "400% rise in cybercrime since 2021" (slide 2) | Not re-verified ([sources](../research/sources.md)) | Swap for "₹22,845 crore lost to cyber fraud in 2024, up 206%" or drop it |
 | "seniors are the prime targets" (slide 2) | Not verified | Drop it; "₹4,058 crore since 2022" stands on its own |
-| Team ID blank on slides 1–8 | Fill in before upload | Use the Team ID from Devnovate |
+| Team ID blank on slides 1–8 (`<Team ID>` in every footer, empty on slide 1) | Fill in before upload | **43af82f0** |
 
 ## Integration points
 

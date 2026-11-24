@@ -10,7 +10,7 @@ Submit everything on the **Devnovate** platform. Keep 30 minutes spare; late ent
 | 2 | GitHub repo | **Public**. README shows the live link, screenshots and how to run. Do not commit `.env`. | Abhishek | ☐ |
 | 3 | Video | 3–5 minutes on YouTube, **public or unlisted**. Covers problem, solution, technical approach and a prototype walkthrough. Script: [video-script.md](video-script.md). | Sanvi + Afreen | ☐ |
 | 4 | Live MVP link | https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/ | Abhishek | ✅ |
-| 5 | Team details | Names, USNs, college, track | Abhishek | ☐ |
+| 5 | Team details | Names, USNs, college, track, Team ID 43af82f0 | Abhishek | ☐ |
 | 6 | Bonus tracks | Mention **Best Use of AWS** and **Best Use of ElevenLabs** in the form and the video | Abhishek | ☐ |
 
 Before submitting, check:
@@ -24,6 +24,7 @@ Before submitting, check:
 ## Form answers (copy and paste)
 
 **Team name:** Data Exit
+**Team ID:** 43af82f0
 **Track:** Track 1: Make MCP Matter
 **College:** Dr. Ambedkar Institute of Technology
 
