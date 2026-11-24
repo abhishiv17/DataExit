@@ -218,9 +218,7 @@ function renderHeadline() {
   $("#headline").innerHTML = `
     <div class="stat"><b>${fps.length}</b><span>companies have Priya's data</span></div>
     <div class="stat"><b>${d3y.length}</b><span>she hasn't used in 3+ years</span></div>
-    <div class="stat hot"><b>${high.length}</b><span>of those hold her Aadhaar, PAN, bank or health data</span></div>
-    <button class="primary" id="pick-high">Select these ${high.length} →</button>`;
-  $("#pick-high").addEventListener("click", pickHighRisk);
+    <div class="stat hot"><b>${high.length}</b><span>of those hold her Aadhaar, PAN, bank or health data</span></div>`;
 }
 
 function pickHighRisk() {
@@ -247,7 +245,7 @@ function renderPanel() {
   const host = $("#panel");
   const fp = state.focused ? state.byId.get(state.focused) : null;
   if (!fp) {
-    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h3>Click any dot on the map</h3><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select these 12</b> above to jump straight to the riskiest ones.</p></div>`;
+    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h3>Click any dot on the map</h3><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select the 12 riskiest</b> above to jump straight to the riskiest ones.</p></div>`;
     return;
   }
   const c = fp.company;

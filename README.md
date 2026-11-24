@@ -21,7 +21,7 @@ The live site uses a seeded demo persona ("Priya Demo"), never a real inbox. Not
 
 | Data map | Review & approve |
 | --- | --- |
-| ![Data map](docs/img/map.png) | ![Review and approve](docs/img/review-demo.png) |
+| ![Data map](docs/img/map.png) | ![Review and approve](docs/img/review.png) |
 | **Tracker** | **Rural: scam check** |
 | ![Tracker](docs/img/tracker.png) | ![Rural scam check](docs/img/rural.png) |
 

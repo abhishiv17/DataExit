@@ -120,6 +120,8 @@ export function createGraph(
 
   dots.transition().duration(700).delay((_, i) => i * 3).attr("r", (n) => n.r);
 
+  // Move ring labels above the dots so they stay readable.
+  root.append("g").attr("class", "ring-labels").node()!.append(...(rings.selectAll<SVGTextElement, unknown>("text").nodes()));
   root.append("circle").attr("class", "me").attr("cx", cx).attr("cy", cy).attr("r", 18);
   root.append("text").attr("class", "me-label").attr("x", cx).attr("y", cy).attr("dominant-baseline", "central").attr("text-anchor", "middle").text("You");
 

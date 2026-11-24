@@ -6,7 +6,7 @@
 import { readFile } from "node:fs/promises";
 import { checkScam } from "./scam-shield/ops.js";
 
-const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json", ".ico": "image/x-icon" };
+const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".json": "application/json", ".ico": "image/x-icon", ".txt": "text/plain; charset=utf-8" };
 async function serveStatic(path) {
   const rel = path === "/" || !path.includes(".") ? "index.html" : path.replace(/^\/+/, "");
   if (rel.includes("..")) return null;

@@ -71,12 +71,25 @@ export function mountHome(host: HTMLElement, footprints: FootprintView[], go: (v
       <h2 class="reveal">The problem</h2>
       <p class="lead reveal">Indians have handed their identity to hundreds of apps. The law now says they can take it back, but nobody knows where to start.</p>
       <div class="stats3">
-        <div class="bigstat reveal"><b data-count="69" data-suffix="%">0%</b><p>of Indians don't know they can withdraw consent they gave to a company.</p><small>PwC, Oct 2024</small></div>
-        <div class="bigstat reveal"><b data-count="5" data-prefix="1 in ">1 in 0</b><p>UPI-using families have been hit by fraud.</p><small>LocalCircles, 2025</small></div>
-        <div class="bigstat reveal"><b data-count="4058" data-prefix="₹" data-suffix=" cr">₹0 cr</b><p>lost to "digital arrest" scams alone.</p><small>Reported losses, 2024</small></div>
+        <div class="bigstat reveal"><b data-count="69" data-suffix="%">69%</b><p>of Indians don't know they can take back consent they gave to a company.</p><small>PwC India survey of 3,233 consumers, Oct 2024</small></div>
+        <div class="bigstat reveal"><b>1 in 5</b><p>families with a UPI user were hit by UPI fraud in 3 years. Half never complained.</p><small>LocalCircles survey, Jun 2025</small></div>
+        <div class="bigstat reveal"><b data-count="4058" data-prefix="₹" data-suffix=" cr">₹4,058 cr</b><p>lost to "digital arrest" scams since 2022.</p><small>Government data, 2022 – May 2026</small></div>
       </div>
     </section>
 
+
+    <section class="band rights">
+      <h2 class="reveal">What the law lets you ask for</h2>
+      <p class="lead reveal">India's Digital Personal Data Protection Act, 2023 gives every person these rights. Data Exit turns each one into a ready-to-send request.</p>
+      <div class="rights-grid">
+        <div class="right reveal"><b>Withdraw consent</b><span>"Stop using my data for this."</span></div>
+        <div class="right reveal"><b>Erase</b><span>"Delete my data. I don't use you any more."</span></div>
+        <div class="right reveal"><b>Restrict use</b><span>"Keep only what the law forces you to keep."</span></div>
+        <div class="right reveal"><b>Access</b><span>"Tell me what you hold about me."</span></div>
+        <div class="right reveal"><b>Correct</b><span>"Fix what's wrong."</span></div>
+        <div class="right reveal"><b>Complain</b><span>Grievance officer first, then the Data Protection Board.</span></div>
+      </div>
+    </section>
     <section class="band how" id="how">
       <h2 class="reveal">How Data Exit works</h2>
       <p class="lead reveal">Four steps. You make every decision; the agent does the paperwork.</p>
