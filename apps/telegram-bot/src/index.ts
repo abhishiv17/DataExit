@@ -2,7 +2,7 @@
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { findRoot, loadDotEnv } from "@dataexit/runtime";
-import { checkScam } from "@dataexit/scam-shield/ops";
+import { checkScamWithAi } from "@dataexit/scam-shield/ai";
 import { BOT_VERSION, routeMessage, type Request, type TelegramMessage } from "./handler.js";
 import { answer, chooseLanguage, synthesize, transcribe, type ConversationTurn, type SpokenLanguage } from "./sarvam.js";
 
@@ -100,22 +100,24 @@ async function handle(request: Request): Promise<void> {
 
   let reply: { text: string; languageCode: SpokenLanguage };
   try {
-    reply = await answer(sarvamKey!, input, histories.get(historyKey) ?? [], request.action, languageHint);
-  } catch (error) {
-    console.error(error instanceof Error ? error.message : "Sarvam chat failed");
-    const languageCode = chooseLanguage(input, languageHint);
-    if (request.action === "check" && languageCode !== "kn-IN") {
-      const firstCheck = checkScam({ text: input, language: languageCode === "hi-IN" ? "hi" : "en" });
-      reply = { text: `${languageCode === "hi-IN" ? "AI उत्तर अभी उपलब्ध नहीं है। शुरुआती नियम-आधारित जाँच: " : "AI reply is unavailable. Rule-based first check: "}${firstCheck.reply_text}`, languageCode };
+    if (request.action === "check") {
+      const languageCode = chooseLanguage(input, languageHint);
+      const language = languageCode === "kn-IN" ? "kn" : languageCode === "hi-IN" ? "hi" : "en";
+      const result = await checkScamWithAi({ text: input, language });
+      reply = { text: result.reply_text, languageCode };
     } else {
-      const unavailable = languageCode === "kn-IN"
-        ? "ಕ್ಷಮಿಸಿ, AI ಉತ್ತರ ಈಗ ಲಭ್ಯವಿಲ್ಲ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
-        : languageCode === "hi-IN"
-          ? "माफ़ कीजिए, AI उत्तर अभी उपलब्ध नहीं है। थोड़ी देर बाद फिर कोशिश करें।"
-          : "The AI reply is unavailable right now. Please try again shortly.";
-      await sendText(request, unavailable);
-      return;
+      reply = await answer(sarvamKey!, input, histories.get(historyKey) ?? [], request.action, languageHint);
     }
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : "Assistant reply failed");
+    const languageCode = chooseLanguage(input, languageHint);
+    const unavailable = languageCode === "kn-IN"
+      ? "ಕ್ಷಮಿಸಿ, AI ಉತ್ತರ ಈಗ ಲಭ್ಯವಿಲ್ಲ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+      : languageCode === "hi-IN"
+        ? "माफ़ कीजिए, AI उत्तर अभी उपलब्ध नहीं है। थोड़ी देर बाद फिर कोशिश करें।"
+        : "The AI reply is unavailable right now. Please try again shortly.";
+    await sendText(request, unavailable);
+    return;
   }
   const heardLabel = reply.languageCode === "kn-IN" ? "ನಾನು ಕೇಳಿದ್ದು" : reply.languageCode === "hi-IN" ? "मैंने सुना" : "I heard";
   const display = request.voiceFile ? `${heardLabel}: ${input.slice(0, 500)}\n\n${reply.text}` : reply.text;

@@ -57,3 +57,11 @@ test("AI failure falls back to the same rule result", async () => {
   assert.equal(aiConfig({ GROQ_API_KEY: "key" }).groqModel, "openai/gpt-oss-120b");
   assert.equal(redactForModel("OTP 123456, email me@site.com, https://x.com/?token=secret"), "OTP [number redacted], email [email redacted], https://x.com/?token=[redacted]");
 });
+
+test("Kannada checks do not append an English AI explanation", async () => {
+  const input = { text: "ನಿಮ್ಮ OTP ಹೇಳಿ", language: "kn" as const };
+  const english = (async () => Response.json({ choices: [{ message: { content: "Share your OTP is a warning sign." } }] })) as typeof fetch;
+  const result = await checkScamWithAi(input, config, english);
+  assert.equal(result.ai.status, "unavailable");
+  assert.equal(result.reply_text, checkScam(input).reply_text);
+});

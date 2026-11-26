@@ -1,6 +1,6 @@
 # Telegram test bot
 
-This local bot uses Telegram long polling, Data Exit's `checkScam` engine, and Sarvam AI. It accepts text questions and voice notes, transcribes voice with Saaras v4, writes answers with Sarvam 105B Conversations, and sends spoken MP3 replies with Bulbul v3 in English, Hindi or Kannada. It does not connect to Gmail, approve or send data-rights requests, or read screenshots. Telegram carries the messages; the bot sends voice and text to Sarvam for processing. It keeps only the last four turns per user in memory until restart or `/reset`, and does not store message text on disk. Only chats listed in `TELEGRAM_ALLOWED_CHAT_IDS` can use AI or voice.
+This local bot uses Telegram long polling, Data Exit's scam-shield engine, Groq or Anthropic for optional scam explanations, and Sarvam for general questions and speech. It accepts text questions and voice notes in English, Hindi or Kannada. `/check` uses the same rule verdict and AI explanation as the scam-shield MCP tool; Sarvam transcribes and speaks voice notes. It does not connect to Gmail, approve or send data-rights requests, or read screenshots. It keeps only the last four turns per user in memory until restart or `/reset`, and does not store message text on disk. Only chats listed in `TELEGRAM_ALLOWED_CHAT_IDS` can use AI or voice.
 
 ## What you need to provide
 
@@ -26,6 +26,7 @@ Edit `.env`:
 TELEGRAM_BOT_TOKEN=the_token_from_BotFather
 TELEGRAM_ALLOWED_CHAT_IDS=-1001234567890,123456789
 SARVAM_API_KEY=the_key_from_Sarvam
+GROQ_API_KEY=the_key_from_Groq
 ```
 
 For the first run, leave `TELEGRAM_ALLOWED_CHAT_IDS` empty so `/chatid` works, then fill it in and restart. Run one polling instance at a time:
@@ -41,7 +42,7 @@ The terminal must stay open during testing. No public URL or webhook is needed. 
 - In a private chat, send `/start`, then send a text question or a voice note of up to 30 seconds. Private chat access requires adding its ID to the allowlist.
 - In the group, send `/ask@YourBotUsername What does KYC mean?` for an AI text answer.
 - `/voice @YourBotUsername ...` also works if you put a space before the bot mention, though `/voice@YourBotUsername ...` is the simpler form.
-- Send `/check@YourBotUsername Share your OTP to unblock your bank account` for an AI scam assessment grounded in the rule-based warning signs, or reply to a suspicious text message with `/check@YourBotUsername`.
+- Send `/check@YourBotUsername Share your OTP to unblock your bank account` for a scam-shield assessment, or reply to a suspicious text message with `/check@YourBotUsername`. The rule result still works when Groq is unavailable.
 - Send `/voice@YourBotUsername What should I do if a suspicious link arrived?` to get both text and spoken audio.
 - To test a group voice note while privacy mode stays on, **reply to one of the bot's messages** with a voice note. The bot replies with the transcript, an AI answer, and a spoken answer.
 - Send `/reset@YourBotUsername` to clear that user's short conversation memory.

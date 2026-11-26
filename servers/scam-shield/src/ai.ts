@@ -71,6 +71,8 @@ async function requestExplanation(provider: Exclude<ScamProvider, "none">, confi
   };
   const explanation = (provider === "groq" ? data.choices?.[0]?.message?.content : data.content?.find((c) => c.type === "text")?.text)?.trim();
   if (!explanation || explanation.length > 350 || /(?:^|\s)(?:https?:\/\/|www\.)/i.test(explanation)) throw new Error(`${provider} returned an unusable explanation`);
+  if (base.language === "kn" && !/[\u0c80-\u0cff]/u.test(explanation)) throw new Error(`${provider} returned the wrong language`);
+  if (base.language === "hi" && !/[\u0900-\u097f]/u.test(explanation)) throw new Error(`${provider} returned the wrong language`);
   return explanation;
 }
 
