@@ -98,8 +98,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, overrides: Part
     sandboxEmail,
     undoWindowMs: num(env.UNDO_WINDOW_SECONDS, 600) * 1000,
     sendLimitPerHour: num(env.SEND_LIMIT_PER_HOUR, 40),
-    discoveryMaxMessages: num(env.DISCOVERY_MAX_MESSAGES, 2000),
-    discoveryLookbackYears: num(env.DISCOVERY_LOOKBACK_YEARS, 10),
+    discoveryMaxMessages: num(env.DISCOVERY_MAX_MESSAGES, 3000),
+    discoveryLookbackYears: num(env.DISCOVERY_LOOKBACK_YEARS, 0), // 0 = whole mailbox
     fixedNow: env.DATAEXIT_NOW || null,
     logLevel: (env.LOG_LEVEL as Config["logLevel"]) || "info",
     ...overrides,

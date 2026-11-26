@@ -71,6 +71,20 @@ export interface Footprint {
   display_name: string;
   domains: string[];
   message_count: number;
+  /** Count of messages per signal: otp, signup, welcome, account (prove an account), receipt (proves use). */
+  signals?: Partial<Record<"otp" | "signup" | "welcome" | "account" | "receipt", number>>;
+  /** Earliest signup, welcome or OTP message; null when only receipts were seen. */
+  signed_up_at?: string | null;
+  /** Why it was found: header metadata only, digits in subjects masked. Earliest signup first, then newest. */
+  evidence?: EvidenceRef[];
+}
+
+export interface EvidenceRef {
+  message_id: string;
+  date: string;
+  kind: "otp" | "signup" | "welcome" | "account" | "receipt";
+  subject: string;
+  from_domain: string;
 }
 
 export type RequestType =
