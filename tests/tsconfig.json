@@ -2,5 +2,5 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": { "rootDir": "src", "outDir": "dist" },
   "include": ["src"],
-  "references": [{ "path": "../servers/dataexit" }]
+  "references": [{ "path": "../servers/dataexit" }, { "path": "../apps/telegram-bot" }]
 }

@@ -54,7 +54,7 @@ Gmail and Calendar are accessed by **our** servers through the Gmail/Calendar AP
 
 | Tool | Does |
 | --- | --- |
-| `check_scam` | Weighted red-flag rules (OTP/PIN/Aadhaar requests, KYC and block threats, fake officials/"digital arrest", prizes, remote-access apps, task jobs, loan apps, investment, scheme impersonation, wrong-transfer refunds, urgency) plus link checks (shorteners, risky TLDs, brand lookalikes). Verdict `scam / likely_scam / suspicious / no_red_flags` (never "safe"), reasons and next steps in en/hi, after-fraud mode (1930 first), and the safety line in every reply. Nothing stored. |
+| `check_scam` | Weighted red-flag rules (OTP/PIN/Aadhaar requests, KYC and block threats, fake officials/"digital arrest", prizes, remote-access apps, task jobs, loan apps, investment, scheme impersonation, wrong-transfer refunds, urgency) plus link checks (shorteners, risky TLDs, brand lookalikes). Verdict `scam / likely_scam / suspicious / no_red_flags` (never "safe"), reasons and next steps in en/hi/kn, after-fraud mode (1930 first), and the safety line in every reply. Optional Groq or Anthropic adds one contextual explanation; on provider failure the rule result is returned. Nothing stored. |
 
 ## Typical agent flow
 

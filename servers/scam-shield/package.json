@@ -7,7 +7,8 @@
   "types": "dist/tools.d.ts",
   "exports": {
     ".": "./dist/tools.js",
-    "./ops": "./dist/ops.js"
+    "./ops": "./dist/ops.js",
+    "./ai": "./dist/ai.js"
   },
   "bin": { "dataexit-scam-shield": "dist/index.js" },
   "scripts": {
@@ -17,6 +18,7 @@
   "dependencies": {
     "@dataexit/runtime": "0.1.0",
     "@dataexit/shared": "0.1.0",
+    "@modelcontextprotocol/sdk": "^1.17.0",
     "zod": "^3.23.8"
   }
 }
