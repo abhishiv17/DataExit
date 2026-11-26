@@ -125,6 +125,7 @@ Current request-engine output plus the fields the approval screen needs. The moc
 
 As in `servers/tracker`: `id, companyId, companyName, type, status, sentAt, deadlineAt, gmailMessageId, calendarEventId, sourceRef, evidence[]`.
 The mock adds `escalation: {en, hi}` (rendered `escalation_grievance_officer`) on overdue rows. **Ask for A:** `draft_escalation` should return rendered text, not just template vars.
+*ext* (added): `next_action` on top-level rows (`null` on escalation rows): `{ action: "approve" | "send" | "file_personally", request_id, level? }`, `{ action: "escalate", level }`, `{ action: "wait", until }`, or `{ action: "verify_identity" | "offer_restrict" | "none" }`. Use it for the row's button. `escalate_request` now returns rendered text in `draft.subject` / `draft.body`, plus `recipient_source`.
 
 ### AuditEvent
 

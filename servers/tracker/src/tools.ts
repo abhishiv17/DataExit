@@ -19,7 +19,9 @@ export const registerTracker: Register = (server, ctx) => {
     ctx,
     "list_requests",
     {
-      description: "List the user's requests with status, deadline, days left and classified replies. Marks overdue requests as no_reply first.",
+      description:
+        "List the user's requests with status, deadline, days left, classified replies and next_action (approve / send / wait / escalate / " +
+        "verify_identity / offer_restrict / file_personally / none). Marks overdue requests as no_reply first.",
       inputSchema: {
         status: StatusZ.optional(),
         company_id: z.string().optional(),
@@ -51,8 +53,9 @@ export const registerTracker: Register = (server, ctx) => {
     "classify_reply",
     {
       description:
-        "Classify a company's reply. With only text: returns the rules' classification. With request_id + message_id: records it on the request; " +
-        "pass classification to record your own judgement when the rules said unclear.",
+        "Classify a company's reply. With only text: returns the rules' classification. With request_id + message_id (from check_replies' needs_review): " +
+        "records it on the request with the message's own date; pass classification to record your own judgement when the rules said unclear. " +
+        "The message must be a company reply in that request's Gmail thread.",
       inputSchema: {
         text: z.string().optional(),
         request_id: z.string().optional(),
@@ -71,8 +74,9 @@ export const registerTracker: Register = (server, ctx) => {
     "escalate_request",
     {
       description:
-        "Draft the next escalation for an ignored or refused request: reminder → grievance officer → Data Protection Board complaint (DPB drafts are for " +
-        "the user to file personally). Refuses when a bank or telecom validly cited KYC/licence retention: offer restrict-use instead.",
+        "Draft the next escalation for an ignored, refused or redirected request: reminder → grievance officer → Data Protection Board complaint (DPB drafts are for " +
+        "the user to file personally). Redirects go straight to the address the company gave. Refuses when the request is already confirmed (also via an " +
+        "escalation), when ID was asked for, or when a bank or telecom validly cited KYC/licence retention: offer restrict-use instead.",
       inputSchema: {
         request_id: z.string(),
         level: z.enum(["reminder", "grievance_officer", "dpb"]).optional(),

@@ -41,10 +41,10 @@ Gmail and Calendar are accessed by **our** servers through the Gmail/Calendar AP
 
 | Tool | Does |
 | --- | --- |
-| `list_requests` | Marks overdue `sent` requests `no_reply` first. |
+| `list_requests` | Marks overdue `sent` requests `no_reply` first. Each top-level request carries `next_action` (`approve / send / wait / escalate / verify_identity / offer_restrict / file_personally / none`, with `level`, `request_id` or `until`). |
 | `check_replies` | Reads new messages in each request's thread (bodies transiently), classifies by rules: confirmed / id_requested / refused_retention / redirected / acknowledged. Unclear ones go to `needs_review` for the agent. |
-| `classify_reply` | Rules-only classification of text, or records a classification (the agent's when the rules were unclear). |
-| `escalate_request` | Ladder reminder (after 30 days) → grievance officer (after the deadline or a refusal) → DPB complaint draft (after the grievance officer's period). Refuses for confirmed, ID requested, or a valid retention refusal of erasure. Creates a linked draft that goes through approve/send. |
+| `classify_reply` | Rules-only classification of text, or records a classification (the agent's when the rules were unclear). The message must be a company reply in the request's thread; it is recorded with the message's own date. |
+| `escalate_request` | Ladder reminder (after 30 days) → grievance officer (after the deadline or a refusal) → DPB complaint draft (after the grievance officer's period). Redirects and refusals skip the reminder; a redirect goes to the address in the company's reply (`recipient_source` says where the address came from). Refuses for confirmed (also via an escalation), ID requested, or a valid retention refusal of erasure. Creates a linked draft that goes through approve/send. A confirmed escalation marks the original `confirmed`. |
 | `export_evidence` | ZIP in `.data/evidence/`: requests, timeline, Gmail ids, sent texts, full audit chain and its verification. |
 | `weekly_digest` | Counts, new signups, replies, upcoming deadlines, escalation candidates, ready text (en/hi). |
 | `get_audit_log` | Events and chain verification. |

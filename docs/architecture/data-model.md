@@ -37,6 +37,8 @@ stateDiagram-v2
   sent --> no_reply: deadline passes
   no_reply --> escalated: escalate_request (grievance officer / DPB)
   refused_retention --> escalated: only if no valid retention duty
+  redirected --> escalated: to the address the company gave
+  escalated --> confirmed: the escalation is confirmed
 ```
 
 Escalations are child requests (`parent_id`, `escalation_level`) that go through the same approve/send pipeline. DPB complaint drafts have `sendable: false`.

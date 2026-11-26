@@ -31,11 +31,29 @@ function daysLeft(r: DataRequest, now: Date): number | null {
   return r.deadline ? Math.ceil((new Date(r.deadline).getTime() - now.getTime()) / DAY_MS) : null;
 }
 
-/** Marks sent requests past their deadline with no conclusive reply as no_reply. */
+/** A request is resolved once it or any escalation of it is confirmed. */
+async function markRootConfirmed(ctx: Ctx, root: DataRequest, via: DataRequest): Promise<DataRequest> {
+  if (root.status === "confirmed" || root.cancelled_at) return root;
+  const next = { ...root, status: "confirmed" as const };
+  await ctx.store.saveRequest(next);
+  await audit(ctx, {
+    actor: "agent",
+    action: "status_change",
+    target: root.id,
+    details: { from: root.status, to: "confirmed", reason: `${via.escalation_level ?? "escalation"} confirmed`, escalation_id: via.id },
+  });
+  return next;
+}
+
+/**
+ * Marks sent requests past their deadline with no conclusive reply as no_reply, and resolves
+ * originals whose escalation (own Gmail thread, e.g. to the grievance officer) was confirmed.
+ */
 export async function refreshOverdue(ctx: Ctx): Promise<DataRequest[]> {
   const now = ctx.now();
   const changed: DataRequest[] = [];
-  for (const r of await ctx.store.listRequests(ctx.userId)) {
+  const all = await ctx.store.listRequests(ctx.userId);
+  for (const r of all) {
     if (r.status !== "sent" || !r.deadline || new Date(r.deadline) > now) continue;
     if (r.replies.some((x) => CONCLUSIVE.has(x.classification))) continue;
     const next = { ...r, status: "no_reply" as const };
@@ -43,7 +61,136 @@ export async function refreshOverdue(ctx: Ctx): Promise<DataRequest[]> {
     await audit(ctx, { actor: "agent", action: "status_change", target: r.id, details: { from: r.status, to: "no_reply", reason: "deadline passed" } });
     changed.push(next);
   }
+  for (const child of all) {
+    if (!child.parent_id || child.status !== "confirmed" || child.cancelled_at) continue;
+    const root = all.find((r) => r.id === child.parent_id);
+    if (root) await markRootConfirmed(ctx, root, child);
+  }
   return changed;
+}
+
+function familyOf(all: DataRequest[], id: string): { root: DataRequest; children: DataRequest[] } | null {
+  const first = all.find((r) => r.id === id);
+  if (!first) return null;
+  const root = first.parent_id ? (all.find((r) => r.id === first.parent_id) ?? first) : first;
+  return { root, children: all.filter((r) => r.parent_id === root.id && !r.cancelled_at) };
+}
+
+const LADDER: EscalationLevel[] = ["reminder", "grievance_officer", "dpb"];
+
+export type RecipientSource = "user" | "company_reply" | "directory" | "original_recipient" | "none";
+
+export type EscalationPlan =
+  | { ok: true; level: EscalationLevel; pending: DataRequest | null; recipient: string | null; recipient_source: RecipientSource }
+  | { ok: false; code: string; message: string; hint?: string; until?: string };
+
+/**
+ * The escalation ladder as a pure decision, shared by escalate_request and list_requests' next_action:
+ * reminder (after 30 days) → grievance officer (after the deadline, a refusal or a redirect) → DPB draft
+ * (after the grievance officer's period). Redirects and refusals skip the reminder: re-sending to the same
+ * mailbox achieves nothing.
+ */
+export function planEscalation(
+  root: DataRequest,
+  children: DataRequest[],
+  company: { retention_rule: string | null; grievance_email?: string | null } | null,
+  now: Date,
+  input: { level?: EscalationLevel; recipient?: string } = {},
+): EscalationPlan {
+  if (!root.sent_at) return { ok: false, code: "NOT_SENT", message: "Only sent requests can be escalated." };
+  if (root.cancelled_at) return { ok: false, code: "CANCELLED", message: "This request was cancelled." };
+  if (root.status === "confirmed" || children.some((c) => c.status === "confirmed")) {
+    return { ok: false, code: "ALREADY_RESOLVED", message: `${root.company_name} already confirmed this request.` };
+  }
+  const sent = children.filter((c) => c.sent_at).sort((a, b) => a.sent_at!.localeCompare(b.sent_at!));
+  const latest = sent.at(-1);
+  if (root.status === "id_requested" || (latest && latest.status === "id_requested")) {
+    return {
+      ok: false,
+      code: "ID_REQUESTED",
+      message: `${root.company_name} asked for identity verification.`,
+      hint: "Guide the user: they may verify through the company's official app or website. Data Exit never sends ID documents. Do not escalate yet.",
+    };
+  }
+  if (root.status === "refused_retention" && root.type === "erase" && retentionConvertsErase(company?.retention_rule ?? null)) {
+    return {
+      ok: false,
+      code: "RETENTION_REFUSAL",
+      message: `${root.company_name} cited a legal duty to keep the data, which is valid for this company.`,
+      hint: "Do not escalate. Offer a restrict-use request instead (draft_request with type=restrict).",
+    };
+  }
+
+  // An unsent escalation draft is the next step; otherwise the rung after the highest one sent.
+  const rank = (c: DataRequest) => LADDER.indexOf(c.escalation_level!);
+  const drafted = children.filter((c) => !c.sent_at).sort((a, b) => rank(b) - rank(a))[0];
+  const highest = Math.max(-1, ...sent.map(rank));
+  let level = input.level ?? drafted?.escalation_level ?? LADDER[Math.min(highest + 1, LADDER.length - 1)];
+  if (!input.level && level === "reminder" && (root.status === "redirected" || root.status === "refused_retention")) level = "grievance_officer";
+
+  const pending = children.find((c) => c.escalation_level === level && !c.sent_at) ?? null;
+  const overdue = root.status === "no_reply" || (!!root.deadline && new Date(root.deadline) < now);
+  if (!pending && level === "reminder") {
+    const due = new Date(new Date(root.sent_at).getTime() + REMINDER_AFTER_DAYS * DAY_MS).toISOString();
+    if (now.toISOString() < due && !overdue) {
+      return { ok: false, code: "TOO_EARLY", message: `A reminder is due from ${due.slice(0, 10)}.`, until: due };
+    }
+  }
+  if (!pending && level === "grievance_officer" && !overdue && !["refused_retention", "no_reply", "redirected"].includes(root.status)) {
+    return { ok: false, code: "TOO_EARLY", message: `The company has until ${root.deadline?.slice(0, 10)} to respond.`, until: root.deadline ?? undefined };
+  }
+  if (!pending && level === "dpb") {
+    const go = sent.filter((c) => c.escalation_level === "grievance_officer").at(-1);
+    const goDone = go && (go.status === "no_reply" || go.status === "refused_retention" || (go.deadline && new Date(go.deadline) < now));
+    if (!goDone) {
+      return {
+        ok: false,
+        code: "GRIEVANCE_FIRST",
+        message: "A Data Protection Board complaint comes after the Grievance Officer has had the prescribed time to respond.",
+        hint: go ? `Wait until ${go.deadline?.slice(0, 10)}.` : "Escalate to the grievance officer first.",
+        ...(go?.deadline ? { until: go.deadline } : {}),
+      };
+    }
+  }
+
+  // Who it goes to, and where that address came from (ground rule 7: cite the source).
+  if (level === "dpb") return { ok: true, level, pending, recipient: null, recipient_source: "none" };
+  if (level === "reminder") return { ok: true, level, pending, recipient: root.recipient, recipient_source: "original_recipient" };
+  if (input.recipient) return { ok: true, level, pending, recipient: input.recipient, recipient_source: "user" };
+  const redirect = [...root.replies].reverse().find((x) => x.redirect_to?.length)?.redirect_to?.[0];
+  if (root.status === "redirected" && redirect) return { ok: true, level, pending, recipient: redirect, recipient_source: "company_reply" };
+  if (company?.grievance_email) return { ok: true, level, pending, recipient: company.grievance_email, recipient_source: "directory" };
+  return { ok: true, level, pending, recipient: root.recipient, recipient_source: "original_recipient" };
+}
+
+export type NextAction =
+  | { action: "none" | "approve" | "send" | "file_personally" | "verify_identity" | "offer_restrict"; request_id?: string; level?: EscalationLevel }
+  | { action: "escalate"; level: EscalationLevel }
+  | { action: "wait"; until: string | null };
+
+/** What the user (or the UI) should do next with a top-level request. */
+export function nextAction(root: DataRequest, children: DataRequest[], company: Parameters<typeof planEscalation>[2], now: Date): NextAction {
+  if (root.cancelled_at || root.status === "confirmed") return { action: "none" };
+  if (root.status === "draft") return { action: "approve", request_id: root.id };
+  if (root.status === "approved") return { action: "send", request_id: root.id };
+  const plan = planEscalation(root, children, company, now);
+  if (plan.ok) {
+    const p = plan.pending;
+    if (!p) return { action: "escalate", level: plan.level };
+    if (p.status === "draft") return { action: "approve", request_id: p.id, level: plan.level };
+    return { action: p.sendable ? "send" : "file_personally", request_id: p.id, level: plan.level };
+  }
+  switch (plan.code) {
+    case "ID_REQUESTED":
+      return { action: "verify_identity" };
+    case "RETENTION_REFUSAL":
+      return { action: "offer_restrict" };
+    case "TOO_EARLY":
+    case "GRIEVANCE_FIRST":
+      return { action: "wait", until: plan.until ?? null };
+    default:
+      return { action: "none" };
+  }
 }
 
 export async function listRequests(
@@ -52,7 +199,10 @@ export async function listRequests(
 ) {
   await refreshOverdue(ctx);
   const now = ctx.now();
-  const rows = (await ctx.store.listRequests(ctx.userId))
+  const all = await ctx.store.listRequests(ctx.userId);
+  const next = (r: DataRequest): NextAction | null =>
+    r.parent_id ? null : nextAction(r, all.filter((c) => c.parent_id === r.id && !c.cancelled_at), ctx.directory.get(r.company_id) ?? null, now);
+  const rows = all
     .filter((r) => input.include_cancelled || !r.cancelled_at)
     .filter((r) => !input.status || r.status === input.status)
     .filter((r) => !input.company_id || r.company_id === input.company_id)
@@ -73,6 +223,7 @@ export async function listRequests(
       replies: r.replies,
       undo_until: r.undo_until,
       cancelled: !!r.cancelled_at,
+      next_action: next(r),
     }));
   const by_status: Record<string, number> = {};
   for (const r of rows) by_status[r.status] = (by_status[r.status] ?? 0) + 1;
@@ -95,6 +246,10 @@ async function recordReply(
     target: req.id,
     details: { message_id: reply.message_id, classification: reply.classification, by: reply.classified_by, from: req.status, to: status },
   });
+  if (next.parent_id && status === "confirmed") {
+    const root = await ctx.store.getRequest(ctx.userId, next.parent_id);
+    if (root) await markRootConfirmed(ctx, root, next);
+  }
   return next;
 }
 
@@ -163,16 +318,34 @@ export async function classifyReply(
     return { classification: rules.kind, matched_rule: rules.matched, redirect_to: rules.redirect_to };
   }
   if (!input.message_id) throw new UserFacingError("BAD_INPUT", "message_id is required with request_id.");
-  const req = await ctx.store.getRequest(ctx.userId, input.request_id);
+  let req = await ctx.store.getRequest(ctx.userId, input.request_id);
   if (!req) throw new UserFacingError("UNKNOWN_REQUEST", `No request with id ${input.request_id}.`);
+  // Replies to a reminder sent in the original thread belong to the original (as in check_replies).
+  if (req.parent_id) {
+    const parent = await ctx.store.getRequest(ctx.userId, req.parent_id);
+    if (parent && parent.gmail_thread_id && parent.gmail_thread_id === req.gmail_thread_id) req = parent;
+  }
+  if (!req.gmail_thread_id) throw new UserFacingError("NOT_SENT", "This request has not been sent, so it has no replies.");
+  // The message must be a company reply in this request's own thread: the evidence bundle relies on it.
+  const me = await ctx.gmail.userEmail();
+  const msg = (await ctx.gmail.getThread(req.gmail_thread_id)).find((m) => m.id === input.message_id);
+  if (!msg) {
+    throw new UserFacingError("UNKNOWN_MESSAGE", `Message ${input.message_id} is not in the Gmail thread of this request.`, "Use the message_id from check_replies' needs_review.");
+  }
+  if (msg.from_email === me || msg.id === req.gmail_message_id) {
+    throw new UserFacingError("NOT_A_REPLY", "That message was sent by the user, not by the company.");
+  }
   const kind = input.classification ?? rules?.kind;
   if (!kind || kind === "unclear") {
     throw new UserFacingError("UNCLEAR", "The rules could not classify this reply.", "Read it and pass classification explicitly.");
   }
   const redirect = input.redirect_to ?? rules?.redirect_to ?? [];
+  if (kind === "redirected" && !redirect.length) {
+    throw new UserFacingError("BAD_INPUT", "A redirected reply needs the address the company pointed to.", "Pass redirect_to with the email from the reply.");
+  }
   const next = await recordReply(ctx, req, {
     message_id: input.message_id,
-    received_at: ctx.now().toISOString(),
+    received_at: msg.date,
     classification: kind === "acknowledged" ? "sent" : kind,
     classified_by: input.classification ? "agent" : "rules",
     ...(kind === "redirected" && redirect.length ? { redirect_to: redirect } : {}),
@@ -180,69 +353,32 @@ export async function classifyReply(
   return { request_id: next.id, status: next.status, classification: kind };
 }
 
-const LADDER: EscalationLevel[] = ["reminder", "grievance_officer", "dpb"];
-
 /** Next step on the ladder: reminder → grievance officer → DPB complaint draft. Creates a draft for approval. */
 export async function escalateRequest(ctx: Ctx, input: { request_id: string; level?: EscalationLevel; recipient?: string }) {
-  const now = ctx.now();
   await refreshOverdue(ctx);
   const all = await ctx.store.listRequests(ctx.userId);
-  let root = all.find((r) => r.id === input.request_id);
-  if (!root) throw new UserFacingError("UNKNOWN_REQUEST", `No request with id ${input.request_id}.`);
-  if (root.parent_id) root = all.find((r) => r.id === root!.parent_id) ?? root;
-  if (!root.sent_at) throw new UserFacingError("NOT_SENT", "Only sent requests can be escalated.");
-  if (root.status === "confirmed") throw new UserFacingError("ALREADY_RESOLVED", `${root.company_name} already confirmed this request.`);
-  if (root.status === "id_requested") {
-    throw new UserFacingError(
-      "ID_REQUESTED",
-      `${root.company_name} asked for identity verification.`,
-      "Guide the user: they may verify through the company's official app or website. Data Exit never sends ID documents. Do not escalate yet.",
-    );
-  }
-  const company = ctx.directory.get(root.company_id);
-  if (root.status === "refused_retention" && root.type === "erase" && retentionConvertsErase(company?.retention_rule ?? null)) {
-    throw new UserFacingError(
-      "RETENTION_REFUSAL",
-      `${root.company_name} cited a legal duty to keep the data, which is valid for this company.`,
-      "Do not escalate. Offer a restrict-use request instead (draft_request with type=restrict).",
-    );
-  }
+  const fam = familyOf(all, input.request_id);
+  if (!fam) throw new UserFacingError("UNKNOWN_REQUEST", `No request with id ${input.request_id}.`);
+  const { root, children } = fam;
+  const plan = planEscalation(root, children, ctx.directory.get(root.company_id) ?? null, ctx.now(), input);
+  if (!plan.ok) throw new UserFacingError(plan.code, plan.message, plan.hint);
+  const { level } = plan;
+  if (plan.pending) return { level, draft: publicDraft(plan.pending), note: "An escalation draft at this level already exists." };
 
-  const children = all.filter((r) => r.parent_id === root!.id && !r.cancelled_at);
-  const sentLevels = new Set(children.filter((c) => c.sent_at).map((c) => c.escalation_level));
-  const level = input.level ?? LADDER.find((l) => !sentLevels.has(l)) ?? "dpb";
-  const pendingDraft = children.find((c) => c.escalation_level === level && !c.sent_at);
-  if (pendingDraft) return { level, draft: publicDraft(pendingDraft), note: "An escalation draft at this level already exists." };
-
-  const overdue = root.status === "no_reply" || (!!root.deadline && new Date(root.deadline) < now);
-  if (level === "reminder") {
-    const due = new Date(root.sent_at).getTime() + REMINDER_AFTER_DAYS * DAY_MS;
-    if (now.getTime() < due && !overdue) {
-      throw new UserFacingError("TOO_EARLY", `A reminder is due from ${new Date(due).toISOString().slice(0, 10)}.`);
-    }
-  }
-  if (level === "grievance_officer" && !overdue && !["refused_retention", "no_reply", "redirected"].includes(root.status)) {
-    throw new UserFacingError("TOO_EARLY", `The company has until ${root.deadline?.slice(0, 10)} to respond.`);
-  }
-  if (level === "dpb") {
-    const go = children.find((c) => c.escalation_level === "grievance_officer" && c.sent_at);
-    const goDone = go && (go.status === "no_reply" || go.status === "refused_retention" || (go.deadline && new Date(go.deadline) < now));
-    if (!goDone) {
-      throw new UserFacingError(
-        "GRIEVANCE_FIRST",
-        "A Data Protection Board complaint comes after the Grievance Officer has had the prescribed time to respond.",
-        go ? `Wait until ${go.deadline?.slice(0, 10)}.` : "Escalate to the grievance officer first.",
-      );
-    }
-  }
-
-  const child = await draftEscalation(ctx, root, level, input.recipient);
+  const child = await draftEscalation(ctx, root, level, plan.recipient ?? undefined);
   if (level !== "reminder" && root.status !== "escalated") {
     await ctx.store.saveRequest({ ...root, status: "escalated" });
+    await audit(ctx, { actor: "agent", action: "status_change", target: root.id, details: { from: root.status, to: "escalated", level } });
   }
-  await audit(ctx, { actor: "agent", action: "escalate_request", target: root.id, details: { level, escalation_id: child.id } });
+  await audit(ctx, {
+    actor: "agent",
+    action: "escalate_request",
+    target: root.id,
+    details: { level, escalation_id: child.id, recipient_source: plan.recipient_source },
+  });
   return {
     level,
+    recipient_source: plan.recipient_source,
     draft: publicDraft(child),
     note:
       level === "dpb"
@@ -323,9 +459,20 @@ export async function weeklyDigest(ctx: Ctx, input: { days?: number; language?: 
 
   const count = (s: RequestStatus) => live.filter((r) => r.status === s).length;
   const newSignups = footprints.filter((f) => f.first_seen >= since).map((f) => ({ company_id: f.company_id, name: f.display_name, first_seen: f.first_seen }));
-  const recentReplies = live.flatMap((r) =>
-    r.replies.filter((x) => x.received_at >= since).map((x) => ({ request_id: r.id, company: r.company_name, classification: x.classification, received_at: x.received_at })),
-  );
+  const recentReplies = requests
+    .filter((r) => !r.cancelled_at)
+    .flatMap((r) =>
+      r.replies
+        .filter((x) => x.received_at >= since)
+        .map((x) => ({
+          request_id: r.parent_id ?? r.id,
+          company: r.company_name,
+          to: r.escalation_level ?? "request",
+          classification: x.classification,
+          received_at: x.received_at,
+        })),
+    )
+    .sort((a, b) => a.received_at.localeCompare(b.received_at));
   const upcoming = live
     .filter((r) => r.status === "sent" && r.deadline && r.deadline >= now.toISOString() && r.deadline <= soon)
     .map((r) => ({ request_id: r.id, company: r.company_name, deadline: r.deadline }));
