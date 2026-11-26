@@ -14,6 +14,8 @@ node servers/scam-shield/dist/index.js
 
 This uses MCP over stdio, so it is meant for an MCP client rather than a terminal conversation. The all-in-one server also registers `check_scam` (`npm start`). Set `SCAM_AI_PROVIDER=none` to run without any provider call.
 
+For a local HTTP MCP connector, set a random `MCP_HTTP_SECRET` of at least 24 characters and run `node servers/scam-shield/dist/index.js --http`. The default listener is `127.0.0.1:8788`; the endpoint is `/mcp/<secret>`. A remote connector needs an HTTPS deployment and a secret kept out of logs and chat messages.
+
 ## Provider configuration
 
 In the local, git-ignored `.env`:
