@@ -7,46 +7,17 @@ import {
   monthsSince,
   sensitivityScore,
   type Company,
+  type EvidenceRef,
   type Footprint,
   type Sensitivity,
 } from "@dataexit/shared";
+import { ACCOUNT_KINDS, ACCOUNT_PHRASES, ACTIVITY_PHRASES, classifySubject, maskSubject, type EvidenceKind } from "./signals.js";
 
-/**
- * Subject phrases that mark a relationship with a company: signups, OTPs, orders, receipts.
- * Searched as headers only (format=metadata); bodies are never fetched during discovery.
- */
-export const SIGNUP_SUBJECT_PHRASES = [
-  "welcome",
-  "verify your email",
-  "confirm your email",
-  "verify your account",
-  "activate your account",
-  "account created",
-  "thanks for signing up",
-  "thank you for signing up",
-  "registration",
-  "successfully registered",
-  "otp",
-  "one time password",
-  "verification code",
-  "login code",
-  "password reset",
-  "reset your password",
-  "your order",
-  "order confirmed",
-  "order placed",
-  "booking confirmed",
-  "receipt",
-  "invoice",
-  "payment received",
-  "payment successful",
-  "transaction alert",
-  "subscription",
-  "kyc",
-  "e-statement",
-];
+export { classifySubject, maskSubject, ACCOUNT_PHRASES, ACTIVITY_PHRASES, type EvidenceKind } from "./signals.js";
+/** All Gmail search phrases (kept for callers of the old name). */
+export const SIGNUP_SUBJECT_PHRASES = [...ACCOUNT_PHRASES, ...ACTIVITY_PHRASES];
 
-const MAX_EVIDENCE_IDS = 20;
+const MAX_EVIDENCE = 20;
 
 /** Request statuses that count as an open request on a node in the data map. */
 const OPEN = new Set(["draft", "approved", "sent", "id_requested", "redirected", "no_reply", "escalated"]);
@@ -55,69 +26,90 @@ interface Group {
   key: string;
   company: Company | null;
   domains: Set<string>;
-  ids: string[];
-  first: string;
-  last: string;
-  count: number;
+  evidence: EvidenceRef[];
+  signals: Partial<Record<EvidenceKind, number>>;
 }
 
-/** Groups messages by company. Brands under one legal entity share a directory id, so they merge. */
+/**
+ * Groups classified messages by company. Brands under one legal entity share a directory id, so they merge.
+ * Messages whose subject is neither an account nor a usage signal (marketing, chit-chat) are dropped here.
+ */
 export function groupMessages(messages: MessageMeta[], directory: Directory, userEmail: string): Map<string, Group> {
   const userDomain = userEmail.split("@")[1] ?? "";
   const groups = new Map<string, Group>();
   for (const m of messages) {
     const domain = m.from_domain;
     if (!domain || PERSONAL_DOMAINS.has(domain) || domain === userDomain || m.from_email === userEmail) continue;
+    const kind = classifySubject(m.subject);
+    if (!kind) continue;
     const { key, company, domain: reg } = directory.keyForDomain(domain);
-    const g = groups.get(key) ?? { key, company, domains: new Set<string>(), ids: [], first: m.date, last: m.date, count: 0 };
+    const g = groups.get(key) ?? { key, company, domains: new Set<string>(), evidence: [], signals: {} };
     g.domains.add(company ? domain : reg);
-    g.ids.push(m.id);
-    g.count++;
-    if (m.date < g.first) g.first = m.date;
-    if (m.date > g.last) g.last = m.date;
+    g.evidence.push({ message_id: m.id, date: m.date, kind, subject: maskSubject(m.subject), from_domain: domain });
+    g.signals[kind] = (g.signals[kind] ?? 0) + 1;
     groups.set(key, g);
   }
   return groups;
 }
 
+/** Earliest account proof first (when they signed up), then the newest messages (how recently used). */
+function pickEvidence(all: EvidenceRef[]): EvidenceRef[] {
+  const list = [...new Map(all.map((e) => [e.message_id, e])).values()].sort((a, b) => b.date.localeCompare(a.date));
+  const proof = [...list].reverse().find((e) => ACCOUNT_KINDS.has(e.kind));
+  const rest = list.filter((e) => e !== proof);
+  return (proof ? [proof, ...rest] : rest).slice(0, MAX_EVIDENCE);
+}
+
+function addSignals(a: Footprint["signals"] = {}, b: Footprint["signals"] = {}): Partial<Record<EvidenceKind, number>> {
+  const out: Partial<Record<EvidenceKind, number>> = { ...a };
+  for (const [k, v] of Object.entries(b) as Array<[EvidenceKind, number]>) out[k] = (out[k] ?? 0) + v;
+  return out;
+}
+
 /** incremental: g holds only messages newer than the last scan, so counts add up. Otherwise g is the full picture. */
 function mergeFootprint(ctx: Ctx, g: Group, prev: Footprint | undefined, incremental: boolean): Footprint {
-  const first = prev && prev.first_seen < g.first ? prev.first_seen : g.first;
-  const last = prev && prev.last_interaction > g.last ? prev.last_interaction : g.last;
-  // Newest evidence first, capped.
-  const ids = [...new Set([...g.ids, ...(prev?.evidence_message_ids ?? [])])].slice(0, MAX_EVIDENCE_IDS);
+  const carried = incremental ? (prev?.evidence ?? []) : [];
+  const all = [...g.evidence, ...carried];
+  const evidence = pickEvidence(all);
+  const dates = all.map((e) => e.date).sort();
+  const first = prev && prev.first_seen < dates[0] ? prev.first_seen : dates[0];
+  // Last use = newest account or usage signal. Marketing never gets here, so it cannot make a dormant account look active.
+  const newest = dates[dates.length - 1];
+  const last = incremental && prev && prev.last_interaction > newest ? prev.last_interaction : newest;
+  const signals = incremental ? addSignals(prev?.signals, g.signals) : g.signals;
+  const joinDates = all.filter((e) => e.kind === "signup" || e.kind === "welcome" || e.kind === "otp").map((e) => e.date);
+  if (incremental && prev?.signed_up_at) joinDates.push(prev.signed_up_at);
   const matched = !!g.company;
   return {
     user_id: ctx.userId,
     company_id: g.key,
     first_seen: first,
     last_interaction: last,
-    evidence_message_ids: ids,
-    sensitivity_score: sensitivityScore({
-      data_categories: g.company?.data_categories ?? [],
-      last_interaction: last,
-      matched,
-      now: ctx.now(),
-    }),
+    evidence_message_ids: evidence.map((e) => e.message_id),
+    sensitivity_score: sensitivityScore({ data_categories: g.company?.data_categories ?? [], last_interaction: last, matched, now: ctx.now() }),
     matched,
     display_name: g.company ? Directory.displayName(g.company) : g.key.replace(/^unknown:/, ""),
     domains: [...new Set([...(prev?.domains ?? []), ...g.domains])],
-    message_count: incremental ? (prev?.message_count ?? 0) + g.count : Math.max(g.count, prev?.message_count ?? 0),
+    message_count: Object.values(signals).reduce((n, v) => n + (v ?? 0), 0),
+    signals,
+    signed_up_at: joinDates.sort()[0] ?? null,
+    evidence,
   };
 }
 
 export async function discoverFootprint(ctx: Ctx, input: { since?: string; max_messages?: number } = {}) {
   const now = ctx.now();
-  const after = input.since
-    ? new Date(input.since)
-    : new Date(now.getTime() - ctx.config.discoveryLookbackYears * 365 * DAY_MS);
+  const years = ctx.config.discoveryLookbackYears;
+  // Default: the whole mailbox. Old signups are the most forgotten accounts, so they must not fall outside a window.
+  const after = input.since ? new Date(input.since) : years > 0 ? new Date(now.getTime() - years * 365 * DAY_MS) : undefined;
+  const max = Math.min(input.max_messages ?? ctx.config.discoveryMaxMessages, ctx.config.discoveryMaxMessages);
   const userEmail = await ctx.gmail.userEmail();
-  const messages = await ctx.gmail.search({
-    subject_any: SIGNUP_SUBJECT_PHRASES,
-    after,
-    exclude_sent: true,
-    max: Math.min(input.max_messages ?? ctx.config.discoveryMaxMessages, ctx.config.discoveryMaxMessages),
-  });
+  // Two searches, so a busy inbox full of receipts can never push old signup and OTP mails past the cap.
+  const [accountMsgs, activityMsgs] = await Promise.all([
+    ctx.gmail.search({ subject_any: ACCOUNT_PHRASES, after, exclude_sent: true, max }),
+    ctx.gmail.search({ subject_any: ACTIVITY_PHRASES, after, exclude_sent: true, max }),
+  ]);
+  const messages = [...new Map([...accountMsgs, ...activityMsgs].map((m) => [m.id, m])).values()];
 
   const existing = new Map((await ctx.store.listFootprints(ctx.userId)).map((f) => [f.company_id, f]));
   // An incremental scan (since given) adds to counts; a full scan replaces them, so nothing double-counts.
@@ -143,20 +135,31 @@ export async function discoverFootprint(ctx: Ctx, input: { since?: string; max_m
   }
   await ctx.store.upsertFootprints(ctx.userId, updated);
   await ctx.store.saveSettings(ctx.userId, { last_scan_at: now.toISOString(), user_email: userEmail });
+
+  const signals: Partial<Record<EvidenceKind, number>> = {};
+  for (const g of groups.values()) for (const [k, v] of Object.entries(g.signals) as Array<[EvidenceKind, number]>) signals[k] = (signals[k] ?? 0) + v;
+  const used = [...groups.values()].reduce((n, g) => n + g.evidence.length, 0);
+  const truncated = accountMsgs.length >= max || activityMsgs.length >= max;
   await audit(ctx, {
     actor: "agent",
     action: "discover_footprint",
-    details: { scanned_messages: messages.length, new_companies: created.length, since: after.toISOString() },
+    details: { scanned_messages: messages.length, used_messages: used, new_companies: created.length, since: after?.toISOString() ?? null, truncated },
   });
 
   const map = await getDataMap(ctx, { limit: 15 });
   return {
     scanned_messages: messages.length,
-    since: after.toISOString(),
+    used_messages: used,
+    signals,
+    since: after?.toISOString() ?? "whole mailbox",
+    truncated,
     new_companies: created.map((f) => f.company_id),
     headline: map.headline,
     top_risk: map.nodes,
-    note: "Headers only were read. Call get_data_map for the full graph.",
+    note:
+      "Headers only were read. Signup, welcome and OTP emails prove an account; orders, payments and statements prove use; marketing is ignored. " +
+      (truncated ? "The message cap was reached: call again with a larger max_messages for a complete picture. " : "") +
+      "Call get_data_map for the full graph.",
   };
 }
 
@@ -172,11 +175,15 @@ export interface DataMapNode {
   retention_rule: string | null;
   sector: string | null;
   first_seen: string;
+  signed_up_at: string | null;
   last_interaction: string;
   months_inactive: number;
   message_count: number;
+  signals: Partial<Record<EvidenceKind, number>>;
   domains: string[];
   evidence_message_ids: string[];
+  /** "Why we found it": up to 3 messages, signup proof first. */
+  evidence: EvidenceRef[];
   open_request: { id: string; type: string; status: string } | null;
 }
 
@@ -204,11 +211,14 @@ export async function getDataMap(ctx: Ctx, input: { limit?: number; unused_month
       retention_rule: c?.retention_rule ?? null,
       sector: c?.sector ?? null,
       first_seen: f.first_seen,
+      signed_up_at: f.signed_up_at ?? null,
       last_interaction: f.last_interaction,
       months_inactive: monthsSince(f.last_interaction, now),
       message_count: f.message_count,
+      signals: f.signals ?? {},
       domains: f.domains,
       evidence_message_ids: f.evidence_message_ids.slice(0, 5),
+      evidence: (f.evidence ?? []).slice(0, 3),
       open_request: openByCompany.get(f.company_id) ?? null,
     };
   });
@@ -220,6 +230,7 @@ export async function getDataMap(ctx: Ctx, input: { limit?: number; unused_month
     hold_id_or_bank: all.filter((n) => n.holds_id_or_bank).length,
     high_sensitivity: all.filter((n) => n.sensitivity === "high").length,
     unrecognised: all.filter((n) => !n.matched).length,
+    signed_up: all.filter((n) => n.signed_up_at).length,
   };
 
   let nodes = all;
@@ -259,6 +270,9 @@ export async function checkNewSignups(ctx: Ctx) {
       company_id: id,
       name: f.display_name,
       first_seen: f.first_seen,
+      signed_up_at: f.signed_up_at ?? null,
+      found_by: f.signed_up_at ? "signup_or_otp" : "receipt_only",
+      evidence: (f.evidence ?? []).slice(0, 3),
       evidence_message_ids: f.evidence_message_ids.slice(0, 3),
       likely_data: c?.data_categories ?? [],
       sensitivity: c?.sensitivity ?? "low",

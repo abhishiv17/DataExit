@@ -4,7 +4,7 @@ An app about data rights has to hold as little data as possible itself.
 
 ## We store
 
-- Company matches and message **IDs**, dates and sender domains (Gmail metadata).
+- Company matches and message **IDs**, dates, sender domains and subject lines (Gmail metadata), with runs of 4+ digits masked so OTP codes and order or account numbers are not kept.
 - Requests we drafted and sent, their status and the audit log.
 - User's name and email needed to fill request templates.
 

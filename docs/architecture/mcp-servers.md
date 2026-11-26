@@ -14,7 +14,7 @@ Gmail and Calendar are accessed by **our** servers through the Gmail/Calendar AP
 
 | Tool | Does |
 | --- | --- |
-| `discover_footprint` | Searches Gmail **headers only** for signup, OTP, order, receipt and KYC subjects; drops personal senders; maps domains to companies (brands merge under one legal entity; unknown senders kept as `unknown:<domain>`); scores and saves footprints. Full scans replace counts, incremental scans add. |
+| `discover_footprint` | Reads Gmail **headers only**, over the **whole mailbox** by default. Two searches: account proof (signup, verify, welcome, OTP, password reset, KYC) and usage (orders, payments, deliveries, statements, wallet top-ups), so receipts can never push old signups past the cap. Each subject is classified (`servers/discovery/src/signals.ts`); marketing is dropped, so it never counts as use. Records `signals`, `signed_up_at` and `evidence` per company. Drops personal senders; maps domains to companies (brands merge under one legal entity; unknown senders kept as `unknown:<domain>`); scores and saves footprints. Full scans replace counts, incremental scans add. |
 | `get_data_map` | Graph JSON: headline, nodes sorted by score (cap 80), `others` cluster, `top_risk_dormant`. |
 | `check_new_signups` | Incremental scan since the last scan; privacy summary and auto-expiry suggestion per new company. For a scheduled task. |
 

@@ -25,9 +25,14 @@ Fields in the build-plan contract are unchanged. Extra fields marked *ext* are a
 | --- | --- | --- |
 | `user_id`, `company_id` | string | `company_id` is `unknown:<domain>` for senders not in the directory |
 | `first_seen`, `last_interaction` | ISO string | |
-| `evidence_message_ids` | string[] | newest first, max 20 |
+| `evidence_message_ids` | string[] | earliest signup proof first, then newest; max 20 |
 | `sensitivity_score` | 0-100 | see *Prioritisation* |
 | *ext* `matched`, `display_name`, `domains`, `message_count` | | |
+| *ext* `signals` | `{ otp?, signup?, welcome?, account?, receipt?: number }` | messages per signal. otp/signup/welcome/account prove an account; receipt (orders, payments, deliveries, wallet top-ups) proves use. Marketing is not counted. |
+| *ext* `signed_up_at` | ISO \| null | earliest signup, welcome or OTP email |
+| *ext* `evidence` | `{ message_id, date, kind, subject, from_domain }[]` | "why we found it"; subjects are headers with 4+ digit runs masked (no OTP codes stored) |
+
+`last_interaction` is the newest signup, OTP, account or receipt email. A newsletter never makes an account look active.
 
 ### Prioritisation (`sensitivity_score`)
 
@@ -70,7 +75,7 @@ Also available: `get_data_map`, `check_new_signups`, `get_retention_rules`, `rep
 | B's piece | Call | Use |
 | --- | --- | --- |
 | Data-map graph | `get_data_map` | `headline`, `headline_text`, `nodes[]` (≤80, sorted by score), `others` cluster, `top_risk_dormant` |
-| Node click "why found" | node `evidence_message_ids` | Gmail link `https://mail.google.com/mail/u/0/#all/<id>` |
+| Node click "why found" | node `evidence` (kind, date, subject; up to 3) and `evidence_message_ids` | Gmail link `https://mail.google.com/mail/u/0/#all/<id>` |
 | Approval screen | `draft_request` → `approve_request` → `send_request`; `undo_request` | show `tier`, `retention_note`, full `body` for `full_review`, countdown to `undo_until` |
 | Status timeline | `list_requests`, `get_audit_log` | |
 | Digest / WhatsApp | `weekly_digest` | `text` is ready to send (en/hi) |
