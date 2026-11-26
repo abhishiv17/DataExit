@@ -13,13 +13,13 @@ export const FLAGS: Flag[] = [
     id: "asks_otp",
     weight: 45,
     // No \b around Devanagari: JS word boundaries are ASCII-only.
-    pattern: /(\botp\b|one[- ]time password|verification code|ओटीपी)[\s\S]{0,60}(\bshare|\bsend|\btell|\bgive|\bforward|\bbata|\bbhej|\bde do|बताएं|बताएँ|बताइए|बताओ|भेजें|भेजो)|\b(share|send|tell|bata|bhej)\w*[\s\S]{0,30}(\botp\b|ओटीपी)/i,
+    pattern: /(\botp\b|one[- ]time password|verification code|ओटीपी|ಒಟಿಪಿ)[\s\S]{0,60}(\bshare|\bsend|\btell|\bgive|\bforward|\bbata|\bbhej|\bde do|बताएं|बताएँ|बताइए|बताओ|भेजें|भेजो|ಹೇಳಿ|ಕಳುಹಿಸಿ|ಹಂಚಿಕೊಳ್ಳಿ)|\b(share|send|tell|bata|bhej)\w*[\s\S]{0,30}(\botp\b|ओटीपी|ಒಟಿಪಿ)/i,
     reason: { en: "It asks you to share an OTP. No bank, government office or company ever asks for your OTP.", hi: "इसमें OTP माँगा गया है। कोई बैंक, सरकारी दफ़्तर या कंपनी कभी OTP नहीं माँगती।" },
   },
   {
     id: "asks_pin",
     weight: 45,
-    pattern: /(enter|daalo|dalein|dale|डालें|डालो)\s+(your\s+)?(upi\s+)?pin|pin\s+(daal|dal|enter)|pin (to|for) receiv|receive (money|payment|amount)[\s\S]{0,40}pin/i,
+    pattern: /(enter|daalo|dalein|dale|डालें|डालो)\s+(your\s+)?(upi\s+)?pin|pin\s+(daal|dal|enter)|pin (to|for) receiv|receive (money|payment|amount)[\s\S]{0,40}pin|(PIN|ಪಿನ್)[\s\S]{0,30}(ಹಾಕಿ|ನಮೂದಿಸಿ|ಹೇಳಿ)/i,
     reason: { en: "It asks you to enter your UPI PIN. You never need a PIN to receive money; a PIN only sends money out.", hi: "इसमें UPI PIN डालने को कहा गया है। पैसे पाने के लिए PIN की ज़रूरत नहीं होती, PIN डालने से पैसे जाते हैं।" },
   },
   {
@@ -31,19 +31,19 @@ export const FLAGS: Flag[] = [
   {
     id: "kyc_threat",
     weight: 30,
-    pattern: /(kyc|केवाईसी|pan)[\s\S]{0,60}(expire|expired|update|pending|block|suspend|band|बंद|अपडेट)/i,
+    pattern: /(kyc|केवाईसी|pan|ಕೆವೈಸಿ)[\s\S]{0,60}(expire|expired|update|pending|block|suspend|band|बंद|अपडेट|ಮುಚ್ಚ|ನಿರ್ಬಂಧ|ನವೀಕರಿಸಿ)/i,
     reason: { en: "It threatens that your account will be blocked unless you update KYC through a link. Banks do not do this by SMS or WhatsApp.", hi: "इसमें KYC अपडेट न करने पर खाता बंद होने की धमकी है। बैंक ऐसा SMS या WhatsApp से नहीं करते।" },
   },
   {
     id: "block_threat",
     weight: 20,
-    pattern: /(account|card|sim|connection|electricity|bijli|बिजली|खाता|सिम)[\s\S]{0,50}(block|suspend|disconnect|deactivat|cut off|band ho|kat ja|kaat|बंद हो|कट)/i,
+    pattern: /(account|card|sim|connection|electricity|bijli|बिजली|खाता|सिम|ಖಾತೆ|ಸಿಮ್|ವಿದ್ಯುತ್)[\s\S]{0,50}(block|suspend|disconnect|deactivat|cut off|band ho|kat ja|kaat|बंद हो|कट|ಮುಚ್ಚ|ಕಡಿತ|ಸ್ಥಗಿತ)/i,
     reason: { en: "It threatens to cut off your account, SIM or electricity to rush you.", hi: "इसमें खाता, सिम या बिजली काटने की धमकी देकर जल्दबाज़ी कराई जा रही है।" },
   },
   {
     id: "authority_threat",
     weight: 35,
-    pattern: /(cbi|police|customs|narcotics|\bncb\b|\bed\b officer|enforcement directorate|trai|cyber cell|digital arrest|arrest warrant|court notice|पुलिस|गिरफ़्तार|parcel[\s\S]{0,40}(seized|drugs|illegal))/i,
+    pattern: /(cbi|police|customs|narcotics|\bncb\b|\bed\b officer|enforcement directorate|trai|cyber cell|digital arrest|arrest warrant|court notice|पुलिस|गिरफ़्तार|ಪೊಲೀಸ್|ಡಿಜಿಟಲ್ ಬಂಧನ|ಬಂಧನ ವಾರಂಟ್|parcel[\s\S]{0,40}(seized|drugs|illegal))/i,
     reason: { en: "It claims to be police, CBI, customs or a court. Officials never demand money or video calls on WhatsApp; 'digital arrest' does not exist.", hi: "यह पुलिस, CBI, कस्टम या कोर्ट होने का दावा करता है। अधिकारी WhatsApp पर पैसे या वीडियो कॉल नहीं माँगते; 'डिजिटल अरेस्ट' जैसा कुछ नहीं होता।" },
   },
   {
@@ -61,7 +61,7 @@ export const FLAGS: Flag[] = [
   {
     id: "job_task",
     weight: 25,
-    pattern: /(work from home|part[- ]time job|ghar baithe|घर बैठे|daily (income|earning)|earn ₹?\s?\d[\d,]*\s*(per|daily|\/day|a day)|like (and|&) (earn|subscribe)|youtube (like|task)|telegram task|prepaid task)/i,
+    pattern: /(work from home|part[- ]time job|ghar baithe|घर बैठे|daily (income|earning)|earn ₹?\s?\d[\d,]*\s*(per|daily|\/day|a day)|like (and|&) (earn|subscribe)|youtube (like|task)|telegram task|prepaid task|ದಿನಕ್ಕೆ[\s\S]{0,35}(ರೂಪಾಯಿ|ಗಳಿಸಿ)|ಕೆಲಸ[\s\S]{0,50}(ಮುಂಗಡ|ಹಣ ಕಳುಹಿಸಿ)|ಮೊದಲು ಹಣ ಕಳುಹಿಸಿ)/i,
     reason: { en: "It offers easy money for simple tasks. These 'task jobs' later ask you to pay a deposit.", hi: "इसमें आसान काम के बदले पैसे का लालच है। ऐसी 'टास्क जॉब' बाद में जमा राशि माँगती हैं।" },
   },
   {
@@ -91,7 +91,7 @@ export const FLAGS: Flag[] = [
   {
     id: "urgency",
     weight: 10,
-    pattern: /(urgent|immediately|within 24 hours|today only|last (chance|date)|turant|abhi|jaldi|तुरंत|अभी|आज ही)/i,
+    pattern: /(urgent|immediately|within 24 hours|today only|last (chance|date)|turant|abhi|jaldi|तुरंत|अभी|आज ही|ತಕ್ಷಣ|ಈಗಲೇ|ಇಂದೇ)/i,
     reason: { en: "It pushes you to act immediately.", hi: "इसमें तुरंत कुछ करने का दबाव है।" },
   },
 ];
@@ -118,4 +118,4 @@ export const OFFICIAL_DOMAINS: Record<string, string[]> = {
 export const URL_SHORTENERS = ["bit.ly", "tinyurl.com", "cutt.ly", "rb.gy", "t.ly", "is.gd", "shorturl.at", "tiny.cc", "ow.ly", "goo.su"];
 export const RISKY_TLDS = [".xyz", ".top", ".click", ".online", ".site", ".info", ".live", ".buzz", ".shop", ".icu", ".vip", ".cc", ".tk"];
 
-export const AFTER_FRAUD = /(paise kat gaye|paisa kat gaya|money (was )?(debited|deducted|lost|gone)|lost (₹|rs|money)|पैसे कट गए|पैसे चले गए|fraud ho gaya|ठगी|scammed|i (paid|sent) (them|him|her))/i;
+export const AFTER_FRAUD = /(paise kat gaye|paisa kat gaya|money (was )?(debited|deducted|lost|gone)|lost (₹|rs|money)|पैसे कट गए|पैसे चले गए|fraud ho gaya|ठगी|scammed|i (paid|sent) (them|him|her)|ಹಣ ಕಳೆದುಕೊಂಡೆ|ಹಣ ಕಳುಹಿಸಿದೆ|ಹಣ ಕಡಿತವಾಯಿತು|ವಂಚನೆಗೆ ಒಳಗಾದೆ)/i;

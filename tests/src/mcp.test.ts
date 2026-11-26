@@ -21,6 +21,7 @@ test("all-in-one MCP server: contract tools, real calls, structured errors", asy
     GMAIL_FIXTURE: join(FIXTURES, "inbox.json"),
     DIRECTORY_CSV: join(FIXTURES, "companies.csv"),
     SEND_MODE: "dry_run",
+    SCAM_AI_PROVIDER: "none",
     DATAEXIT_NOW: "2026-11-24T10:00:00+05:30",
     LOG_LEVEL: "warn",
     DATABASE_URL: "",
@@ -65,6 +66,32 @@ test("all-in-one MCP server: contract tools, real calls, structured errors", asy
     const bad = await call("draft_request", { company_ids: [], type: "erase" });
     assert.equal(bad.isError, true);
     assert.match(bad.data.raw, /company_ids/);
+  } finally {
+    await client.close();
+  }
+});
+
+test("standalone scam-shield MCP serves Kannada checks over stdio", async () => {
+  const client = new Client({ name: "scam-test", version: "0" });
+  const env: Record<string, string> = {
+    ...(process.env as Record<string, string>),
+    DATAEXIT_DATA_DIR: mkdtempSync(join(tmpdir(), "dataexit-scam-mcp-")),
+    GMAIL_BACKEND: "fixture",
+    SEND_MODE: "dry_run",
+    SCAM_AI_PROVIDER: "none",
+    LOG_LEVEL: "warn",
+    DATABASE_URL: "",
+  };
+  await client.connect(new StdioClientTransport({ command: process.execPath, args: [join(ROOT, "servers", "scam-shield", "dist", "index.js")], env }));
+  try {
+    const { tools } = await client.listTools();
+    assert.deepEqual(tools.map((tool) => tool.name), ["check_scam"]);
+    const result = await client.callTool({ name: "check_scam", arguments: { text: "ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಖಾತೆ ಮುಚ್ಚುತ್ತದೆ. OTP ಹೇಳಿ." } }) as { content: Array<{ text: string }>; isError?: boolean };
+    assert.equal(result.isError, undefined);
+    const data = JSON.parse(result.content[0].text);
+    assert.equal(data.language, "kn");
+    assert.ok(data.flags.some((flag: { id: string }) => flag.id === "asks_otp"));
+    assert.equal(data.ai.status, "disabled");
   } finally {
     await client.close();
   }

@@ -7,7 +7,8 @@
   "types": "dist/tools.d.ts",
   "exports": {
     ".": "./dist/tools.js",
-    "./ops": "./dist/ops.js"
+    "./ops": "./dist/ops.js",
+    "./ai": "./dist/ai.js"
   },
   "bin": { "dataexit-scam-shield": "dist/index.js" },
   "scripts": {
