@@ -227,7 +227,7 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 
 | Part | Status |
 | --- | --- |
-| MCP servers (discovery, directory, request engine, tracker, scam shield) | ✅ **Real.** Built and tested: `npm test` runs 16 tests (unit, Postgres store contract, end-to-end, MCP protocol). |
+| MCP servers (discovery, directory, request engine, tracker, scam shield) | ✅ **Real.** Built and tested: `npm test` runs 30 tests (unit, Postgres store contract, end-to-end, MCP protocol, discovery, tracker, scam shield, Telegram). |
 | Gmail discovery and sending, Calendar deadlines | ✅ **Real** via our own OAuth client. Offline fixture backend for demos (`GMAIL_BACKEND=fixture`). Live sends are disabled (`SEND_MODE=sandbox`). |
 | Policy layer: tiers, 10-minute undo, hash-chained audit | ✅ **Real**, in `packages/policy`, and mirrored in the web UI (SubtleCrypto SHA-256). |
 | Company directory | ✅ **Real data**: 290 Indian companies. 7 grievance contacts are verified from each company's privacy policy; the rest are `verified: false` and never guessed. |
@@ -243,7 +243,7 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 | Desktop | 97 | 100 | 100 | 100 |
 | Mobile | 90 | 100 | 100 | 100 |
 
-16/16 tests pass · 0 console errors across all views · accessibility 100 on all 5 views · works at 390 px wide. Details and before/after numbers: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
+30/30 tests pass · 0 console errors across all views · accessibility 100 on all 5 views · works at 390 px wide. Details and before/after numbers: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
 
 ---
 
