@@ -79,6 +79,7 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 | Policy layer: tiers, 10-minute undo, hash-chained audit | **Real**, in `packages/policy`, and mirrored in the web UI (SubtleCrypto SHA-256). |
 | Company directory | **Real data**: 290 Indian companies. 7 grievance contacts verified from each company's privacy policy; the rest are `verified: false` and never guessed. |
 | `check_scam` + ElevenLabs voice | **Real and live** on AWS Lambda. |
+| Telegram AI and voice bot | **Built for local testing** via long polling and Sarvam speech/chat APIs. Requires BotFather token, chat ID and Sarvam key; see [setup](apps/telegram-bot/README.md). |
 | Web app (data map, approvals, tracker) | **Real UI on seeded data**: a deterministic demo inbox of 656 messages. Next step: point `apps/web/src/api.ts` at the MCP HTTP server. |
 | WhatsApp bot, SMS on Android, missed-call line | **Designed, not built.** The rural UI is a WhatsApp-style mock-up. |
 
@@ -97,9 +98,10 @@ Node 22+.
 
 ```bash
 npm install
-npm test            # build + 16 tests
+npm test            # build + tests
 npm run demo:seed   # regenerate the demo inbox and the web app's mock data
 npm run web         # web app at http://127.0.0.1:5173
+npm run telegram    # Telegram AI and voice bot (after local token, chat IDs and Sarvam key are set)
 npm start           # all MCP tools in one server over stdio (Claude Code reads .mcp.json)
 npm run start:http  # same over HTTP for claude.ai custom connectors (needs MCP_HTTP_SECRET)
 ```
@@ -110,6 +112,7 @@ Connect to Claude Desktop, claude.ai or real Gmail: [docs/development/setup.md](
 
 ```
 apps/web/                  Web app: data map (D3), review & approve, tracker, rural scam check (Vite + TypeScript)
+apps/telegram-bot/         Local Telegram AI and voice bot for private chats and test groups
 infra/voice-lambda/        AWS Lambda: serves the web app, /api/check, /api/tts (ElevenLabs)
 packages/
   shared/                  Contract types, sensitivity scoring, DPDP constants

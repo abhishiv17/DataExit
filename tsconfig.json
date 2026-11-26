@@ -13,6 +13,7 @@
     { "path": "servers/tracker" },
     { "path": "servers/scam-shield" },
     { "path": "servers/dataexit" },
+    { "path": "apps/telegram-bot" },
     { "path": "tests" }
   ]
 }

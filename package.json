@@ -17,7 +17,8 @@
     "servers/tracker",
     "servers/scam-shield",
     "servers/dataexit",
-    "apps/web"
+    "apps/web",
+    "apps/telegram-bot"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -33,7 +34,8 @@
     "db:seed-directory": "node servers/dataexit/dist/cli/seed-directory.js",
     "directory:build": "tsc -b packages/shared && node scripts/build-directory.mjs",
     "demo:seed": "tsc -b && node demo/seed-inbox/generate.mjs",
-    "web": "npm run dev -w @dataexit/web"
+    "web": "npm run dev -w @dataexit/web",
+    "telegram": "tsc -b apps/telegram-bot && node apps/telegram-bot/dist/index.js"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
