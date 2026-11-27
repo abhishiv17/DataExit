@@ -26,6 +26,43 @@ test("Kannada scam rules detect OTP, job deposit and lost money without AI", () 
   assert.doesNotMatch(unclear.reply_text, /ಸುರಕ್ಷಿತವಾಗಿದೆ/);
 });
 
+test("every demo sample gets the right verdict; genuine OTP SMS are not flagged", () => {
+  // The sample texts shown in apps/web/src/scam.ts (rural mode), checked by the same code the Lambda runs.
+  const samples: Array<[string, string, "scam" | "likely_scam" | "no_red_flags"]> = [
+    ["bank KYC", "प्रिय ग्राहक, आपका बैंक खाता आज रात बंद हो जाएगा। तुरंत KYC अपडेट करें: http://bit.ly/kyc-upd8", "scam"],
+    ["electricity", "प्रिय उपभोक्ता, आपका पिछला बिल अपडेट नहीं हुआ है। आज रात 9:30 बजे बिजली कट जाएगी। तुरंत बिजली अधिकारी को 98XXXXX412 पर कॉल करें।", "likely_scam"],
+    ["farmer scheme", "PM Kisan की अगली किस्त पाने के लिए आपके मोबाइल पर आया OTP इस नंबर पर बताएं।", "scam"],
+    ["QR cashback", "आपको ₹2,000 कैशबैक मिला है। पैसे पाने के लिए QR स्कैन करें और UPI पिन डालें।", "scam"],
+    ["digital arrest", "This is Mumbai Police Cyber Cell. A parcel in your name has drugs. You are under digital arrest. Join the video call now and do not tell your family.", "scam"],
+    ["lottery", "Congratulations! You won ₹25,00,000 in the KBC lucky draw. Pay ₹5,000 processing fee to claim.", "scam"],
+    ["part-time job", "Part time job! Like YouTube videos and earn ₹3000 daily. Join: t.me/earn_daily_job", "scam"],
+    ["real OTP", "482913 is your OTP to log in. Do not share it with anyone. It is valid for 10 minutes.", "no_red_flags"],
+  ];
+  for (const [name, text, verdict] of samples) {
+    const r = checkScam({ text });
+    assert.equal(r.verdict, verdict, `${name}: got ${r.verdict} ${r.score} [${r.flags.map((f) => f.id)}]`);
+  }
+
+  for (const text of [
+    "123456 is your OTP for login to HDFC Bank NetBanking. Do not share this OTP with anyone. -HDFC Bank",
+    "आपका OTP 552301 है। इसे किसी को न बताएं।",
+    "ನಿಮ್ಮ OTP 552301. ಯಾರೊಂದಿಗೂ ಹಂಚಿಕೊಳ್ಳಬೇಡಿ.",
+  ]) {
+    const r = checkScam({ text });
+    assert.equal(r.verdict, "no_red_flags", `${text}: ${r.flags.map((f) => f.id)}`);
+    assert.doesNotMatch(r.reply_text, /\bsafe\b|सुरक्षित है/);
+  }
+
+  // "Do not share … except with our officer" is still an OTP request.
+  const trick = checkScam({ text: "Do not share this OTP with anyone except our bank officer. Tell him the OTP when he calls." });
+  assert.ok(trick.flags.some((f) => f.id === "asks_otp"));
+
+  // Every flag has a Kannada reason.
+  const kn = checkScam({ text: "This is CBI. Parcel has drugs. Join the video call now, do not tell your family. Scan QR to receive refund. Pay fee to claim. Like YouTube videos, earn ₹3000 daily. Call 98765 43210. t.me/x", language: "kn" });
+  assert.ok(kn.flags.length >= 8);
+  for (const f of kn.flags) assert.ok(f.reason && /[ಀ-೿]/.test(f.reason), `${f.id} has no Kannada reason`);
+});
+
 test("Groq and Anthropic adapters keep rule verdict and safety line", async () => {
   const calls: Array<{ url: string; init: RequestInit }> = [];
   const mock = (async (url: string | URL | Request, init?: RequestInit) => {

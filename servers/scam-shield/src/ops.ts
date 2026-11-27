@@ -1,4 +1,4 @@
-import { AFTER_FRAUD, FLAGS, OFFICIAL_DOMAINS, RISKY_TLDS, URL_SHORTENERS } from "./rules.js";
+import { AFTER_FRAUD, CHAT_INVITE_HOSTS, DONT_SHARE_NOTICE, FLAGS, OFFICIAL_DOMAINS, RISKY_TLDS, SHARE_EXCEPTION, URL_SHORTENERS } from "./rules.js";
 
 export type Verdict = "scam" | "likely_scam" | "suspicious" | "no_red_flags";
 export type ScamLanguage = "en" | "hi" | "kn";
@@ -65,6 +65,10 @@ function urlFlags(text: string, lang: ScamLanguage): Array<{ id: string; weight:
     const host = raw.replace(/^https?:\/\//i, "").split("/")[0].toLowerCase();
     if (!host.includes(".") || /^\d+(\.\d+)*$/.test(host)) continue;
     if (/^(gov|nic)\.in$/.test(host)) continue;
+    if (CHAT_INVITE_HOSTS.includes(host)) {
+      out.push({ id: "chat_invite_link", weight: 15, detail: host, reason: lang === "kn" ? `ಲಿಂಕ್ (${host}) ನಿಮ್ಮನ್ನು ಅಪರಿಚಿತರ ಚಾಟ್ ಗುಂಪಿಗೆ ಕರೆದೊಯ್ಯುತ್ತದೆ; ಕೆಲಸ ಮತ್ತು ಹೂಡಿಕೆ ವಂಚನೆಗಳು ಹೀಗೆ ಶುರುವಾಗುತ್ತವೆ.` : lang === "hi" ? `लिंक (${host}) आपको अनजान चैट ग्रुप में ले जाता है; जॉब और निवेश स्कैम ऐसे ही शुरू होते हैं।` : `The link (${host}) moves you into a stranger's chat group, which is how job and investment scams start.` });
+      continue;
+    }
     if (URL_SHORTENERS.includes(host)) {
       out.push({ id: "short_link", weight: 15, detail: host, reason: lang === "kn" ? `ಚಿಕ್ಕ ಲಿಂಕ್ (${host}) ನಿಜವಾದ ವಿಳಾಸವನ್ನು ಮರೆಮಾಡುತ್ತದೆ.` : lang === "hi" ? `छोटा लिंक (${host}) असली पता छिपाता है।` : `A short link (${host}) hides where it really goes.` });
       continue;
@@ -93,6 +97,13 @@ function urlFlags(text: string, lang: ScamLanguage): Array<{ id: string; weight:
 const KN_REASONS: Record<string, string> = {
   asks_otp: "ಈ ಸಂದೇಶವು OTP ಕೇಳುತ್ತದೆ. ಬ್ಯಾಂಕ್ ಅಥವಾ ಸರ್ಕಾರಿ ಕಚೇರಿ ನಿಮ್ಮ OTP ಕೇಳುವುದಿಲ್ಲ.",
   asks_pin: "ಇದು UPI PIN ಕೇಳುತ್ತದೆ. ಹಣ ಸ್ವೀಕರಿಸಲು PIN ಹಾಕಬೇಕಾಗಿಲ್ಲ.",
+  qr_to_receive: "ಹಣ ಪಡೆಯಲು QR ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಹೇಳುತ್ತದೆ. QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿದರೆ ಹಣ ಹೋಗುತ್ತದೆ, ಬರುವುದಿಲ್ಲ.",
+  parcel_drugs: "ನಿಮ್ಮ ಹೆಸರಿನ ಪಾರ್ಸೆಲ್‌ನಲ್ಲಿ ಮಾದಕ ವಸ್ತು ಇದೆ ಎನ್ನುತ್ತದೆ; ಇದು 'ಡಿಜಿಟಲ್ ಬಂಧನ' ವಂಚನೆಯ ಆರಂಭ.",
+  video_call: "ವೀಡಿಯೊ ಕರೆಗೆ ಬರಲು ಹೇಳುತ್ತದೆ. ಪೊಲೀಸ್ ಅಥವಾ ನ್ಯಾಯಾಲಯ ವೀಡಿಯೊ ಕರೆಯಲ್ಲಿ ಬಂಧಿಸುವುದಿಲ್ಲ.",
+  secrecy: "ಕುಟುಂಬ ಅಥವಾ ಬ್ಯಾಂಕ್‌ಗೆ ಹೇಳಬೇಡಿ ಎನ್ನುತ್ತದೆ; ಯಾರೂ ತಡೆಯದಂತೆ ವಂಚಕರು ನಿಮ್ಮನ್ನು ಒಂಟಿಯಾಗಿಸುತ್ತಾರೆ.",
+  fee_to_claim: "ಹಣ ಪಡೆಯುವ ಮೊದಲು ಶುಲ್ಕ ಕೇಳುತ್ತದೆ. ನಿಜವಾದ ಬಹುಮಾನ ಅಥವಾ ಮರುಪಾವತಿಗೆ ಮೊದಲು ಹಣ ಕೇಳುವುದಿಲ್ಲ.",
+  task_scam: "ವೀಡಿಯೊ ಲೈಕ್ ಅಥವಾ ರೇಟಿಂಗ್‌ಗೆ ಹಣ ನೀಡುವುದಾಗಿ ಹೇಳುತ್ತದೆ; ಮೊದಲು ಸ್ವಲ್ಪ ಕೊಟ್ಟು ನಂತರ ದೊಡ್ಡ ಠೇವಣಿ ಕೇಳುತ್ತಾರೆ.",
+  call_number: "ಸಂದೇಶದಲ್ಲಿನ ಸಂಖ್ಯೆಗೆ ಕರೆ ಮಾಡಲು ಹೇಳುತ್ತದೆ. ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್, ಬಿಲ್ ಅಥವಾ ಕಾರ್ಡ್‌ನಲ್ಲಿರುವ ಸಂಖ್ಯೆಗೆ ಮಾತ್ರ ಕರೆ ಮಾಡಿ.",
   asks_aadhaar_or_card: "ಸಂದೇಶದ ಮೂಲಕ ಆಧಾರ್, ಕಾರ್ಡ್ ಅಥವಾ ಬ್ಯಾಂಕ್ ವಿವರಗಳನ್ನು ಕೇಳುತ್ತಿದೆ.",
   kyc_threat: "KYC ನವೀಕರಿಸದಿದ್ದರೆ ಖಾತೆ ಸ್ಥಗಿತಗೊಳಿಸುವುದಾಗಿ ಬೆದರಿಸುತ್ತದೆ.",
   block_threat: "ಖಾತೆ, SIM ಅಥವಾ ವಿದ್ಯುತ್ ಸಂಪರ್ಕ ಕಡಿತಗೊಳಿಸುವುದಾಗಿ ಹೆದರಿಸಿ ತುರ್ತು ನಿರ್ಧಾರಕ್ಕೆ ಒತ್ತಾಯಿಸುತ್ತದೆ.",
@@ -110,7 +121,9 @@ const KN_REASONS: Record<string, string> = {
 export function checkScam(input: { text: string; language?: ScamLanguage }) {
   const lang = input.language ?? (/[\u0c80-\u0cff]/.test(input.text) ? "kn" : /[ऀ-ॿ]/.test(input.text) ? "hi" : "en");
   const text = input.text.slice(0, 10_000);
-  const hits = FLAGS.filter((f) => f.pattern.test(text)).map((f) => ({ id: f.id, weight: f.weight, reason: lang === "kn" ? KN_REASONS[f.id] : f.reason[lang], detail: null as string | null }));
+  // A genuine OTP SMS says "do not share it with anyone"; drop that warning before the OTP rule looks for "share".
+  const otpText = SHARE_EXCEPTION.test(text) ? text : text.replace(DONT_SHARE_NOTICE, " ");
+  const hits = FLAGS.filter((f) => f.pattern.test(f.id === "asks_otp" ? otpText : text)).map((f) => ({ id: f.id, weight: f.weight, reason: lang === "kn" ? KN_REASONS[f.id] : f.reason[lang], detail: null as string | null }));
   const links = urlFlags(text, lang);
   const flags = [...hits, ...links].sort((a, b) => b.weight - a.weight);
   const score = Math.min(100, flags.reduce((n, f) => n + f.weight, 0));

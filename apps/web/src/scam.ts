@@ -2,7 +2,7 @@
 // message and decides). Rules here only drive the demo. Output shape is in docs/contract.md.
 // Ground rule 5: every reply says the bot never asks for OTP, PIN or Aadhaar.
 
-export type Verdict = "scam" | "suspicious" | "no_signals";
+export type Verdict = "scam" | "likely_scam" | "suspicious" | "no_signals";
 export interface Bi { hi: string; en: string }
 export interface ScamSignal { id: string; label: Bi; strong: boolean }
 export interface ScamCheck { verdict: Verdict; signals: ScamSignal[]; summary: Bi; nextSteps: Bi[]; neverAsk: Bi }
@@ -54,10 +54,7 @@ export function checkScam(text: string): ScamCheck {
   const verdict: Verdict = signals.some((s) => s.strong) ? "scam" : signals.length ? "suspicious" : "no_signals";
   const has = (id: string) => signals.some((s) => s.id === id);
 
-  const summary: Bi =
-    verdict === "scam" ? { hi: "यह धोखा (स्कैम) है। इसका जवाब न दें।", en: "This is a scam. Do not respond to it." }
-    : verdict === "suspicious" ? { hi: "यह संदिग्ध लगता है। सावधान रहें।", en: "This looks suspicious. Be careful." }
-    : { hi: "मुझे इसमें धोखे के संकेत नहीं मिले। फिर भी OTP या PIN किसी को न बताएँ।", en: "I found no scam signs. Still, never share your OTP or PIN." };
+  const summary = SUMMARY[verdict];
 
   const nextSteps: Bi[] = [];
   if (verdict !== "no_signals") {
@@ -71,6 +68,19 @@ export function checkScam(text: string): ScamCheck {
   nextSteps.push({ hi: "पैसे कट गए हों तो तुरंत 1930 पर कॉल करें।", en: "If money was taken, call 1930 right away." });
 
   return { verdict, signals, summary, nextSteps, neverAsk: NEVER_ASK };
+}
+
+const SUMMARY: Record<Verdict, Bi> = {
+  scam: { hi: "यह धोखा (स्कैम) है। इसका जवाब न दें।", en: "This is a scam. Do not respond to it." },
+  likely_scam: { hi: "यह धोखा लग रहा है। इसका जवाब न दें।", en: "This looks like a scam. Do not respond to it." },
+  suspicious: { hi: "यह संदिग्ध लगता है। सावधान रहें।", en: "This looks suspicious. Be careful." },
+  no_signals: { hi: "मुझे इसमें धोखे के संकेत नहीं मिले। फिर भी OTP या PIN किसी को न बताएँ।", en: "I found no scam signs. Still, never share your OTP or PIN." },
+};
+
+/** The real check_scam verdict (from the Lambda) replaces the local one, so the bubble and the badge always agree. */
+export function withServerVerdict(check: ScamCheck, server: string): ScamCheck {
+  const verdict: Verdict = server === "scam" || server === "likely_scam" || server === "suspicious" ? server : "no_signals";
+  return { ...check, verdict, summary: SUMMARY[verdict] };
 }
 
 export const AFTER_FRAUD: Bi[] = [

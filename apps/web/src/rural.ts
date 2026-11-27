@@ -5,7 +5,7 @@
 // In production this runs on the WhatsApp bot (apps/whatsapp-bot) calling check_scam.
 
 import { gsap } from "gsap";
-import { AFTER_FRAUD, checkScam, LOAN_APP_CLEANUP, NEVER_ASK, SAMPLES, SIM_CHECK, type Bi, type ScamCheck } from "./scam";
+import { AFTER_FRAUD, checkScam, LOAN_APP_CLEANUP, NEVER_ASK, SAMPLES, SIM_CHECK, withServerVerdict, type Bi, type ScamCheck } from "./scam";
 
 type Lang = "hi" | "en";
 interface ServerCheck { verdict: string; score: number; flags: Array<{ id: string }> }
@@ -27,6 +27,7 @@ const UI: Record<string, Bi> = {
   sim: { hi: "मेरे नाम पर SIM जाँचें", en: "Check SIMs in my name" },
   loan: { hi: "लोन ऐप साफ़ करें", en: "Clean up a loan app" },
   scam: { hi: "धोखा", en: "Scam" },
+  likely_scam: { hi: "शायद धोखा", en: "Likely scam" },
   suspicious: { hi: "संदिग्ध", en: "Suspicious" },
   no_signals: { hi: "कोई संकेत नहीं", en: "No signs found" },
   why: { hi: "क्यों:", en: "Why:" },
@@ -171,7 +172,7 @@ export function mountRural(host: HTMLElement) {
     if (VOICE_API) {
       fetch(`${VOICE_API}/check`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, language: lang }) })
         .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-        .then((j: ServerCheck) => { bot.server = j; })
+        .then((j: ServerCheck) => { bot.server = j; bot.check = withServerVerdict(bot.check!, j.verdict); })
         .catch(() => { bot.server = "offline"; })
         .finally(render);
     }
