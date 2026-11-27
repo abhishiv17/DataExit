@@ -49,13 +49,30 @@ export class BrowserAuditLog {
 
   all(): readonly AuditEvent[] { return this.events; }
 
-  async verify(): Promise<number | null> {
-    let prev = GENESIS_HASH;
-    for (const e of this.events) {
-      const { prevHash, hash, ...rest } = e;
-      if (prevHash !== prev || (await sha256(prev + canonicalJson(rest))) !== hash) return e.seq;
-      prev = hash;
-    }
-    return null;
+  verify(): Promise<number | null> { return verifyChain(this.events); }
+
+  /**
+   * Tamper demo: on a copy of the chain, edit entry `seq` and even recompute its own hash,
+   * as an attacker would. Returns where verification breaks. The real chain is untouched.
+   */
+  async tamperTest(seq: number): Promise<number | null> {
+    const copy = this.events.map((e) => ({ ...e, details: { ...e.details } }));
+    const i = seq - 1;
+    if (!copy[i]) return null;
+    const prevHash = copy[i].prevHash;
+    const edited: Record<string, unknown> = { ...copy[i], details: { ...copy[i].details, edited: "someone changed this entry" } };
+    delete edited.prevHash; delete edited.hash;
+    copy[i] = { ...edited, prevHash, hash: await sha256(prevHash + canonicalJson(edited)) } as AuditEvent;
+    return verifyChain(copy);
   }
+}
+
+async function verifyChain(events: readonly AuditEvent[]): Promise<number | null> {
+  let prev = GENESIS_HASH;
+  for (const e of events) {
+    const { prevHash, hash, ...rest } = e;
+    if (prevHash !== prev || (await sha256(prev + canonicalJson(rest))) !== hash) return e.seq;
+    prev = hash;
+  }
+  return null;
 }

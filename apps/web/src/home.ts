@@ -156,7 +156,7 @@ export function mountHome(host: HTMLElement, footprints: FootprintView[], go: (v
         <div><b data-count="5">0</b><span>MCP servers</span></div>
         <div><b data-count="23">0</b><span>tools</span></div>
         <div><b data-count="290">0</b><span>Indian companies in the directory</span></div>
-        <div><b data-count="16">0</b><span>automated tests passing</span></div>
+        <div><b data-count="31">0</b><span>automated tests passing</span></div>
       </div>
       <div class="stack"><span>AWS Lambda · ap-south-1</span><span>ElevenLabs voice</span><span>Gmail + Calendar</span><span>Postgres</span><span>TypeScript</span></div>
     </section>

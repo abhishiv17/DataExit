@@ -12,7 +12,7 @@ It works inside apps people already use (Gmail, Calendar, WhatsApp), and **nothi
 ![Track 1: Make MCP Matter](https://img.shields.io/badge/wHACKiest_2026-Track_1:_Make_MCP_Matter-1e2b25)
 ![Best Use of AWS](https://img.shields.io/badge/bonus-Best_Use_of_AWS-c2410c)
 ![Best Use of ElevenLabs](https://img.shields.io/badge/bonus-Best_Use_of_ElevenLabs-c2410c)
-![Tests](https://img.shields.io/badge/tests-16%2F16_passing-2f6b55)
+![Tests](https://img.shields.io/badge/tests-31%2F31_passing-2f6b55)
 ![Lighthouse a11y](https://img.shields.io/badge/accessibility-100-2f6b55)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Node_22-3178c6)
 
@@ -227,7 +227,7 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 
 | Part | Status |
 | --- | --- |
-| MCP servers (discovery, directory, request engine, tracker, scam shield) | ✅ **Real.** Built and tested: `npm test` runs 30 tests (unit, Postgres store contract, end-to-end, MCP protocol, discovery, tracker, scam shield, Telegram). |
+| MCP servers (discovery, directory, request engine, tracker, scam shield) | ✅ **Real.** Built and tested: `npm test` runs 31 tests (unit, Postgres store contract, end-to-end, MCP protocol, discovery, tracker, scam shield, Telegram). |
 | Gmail discovery and sending, Calendar deadlines | ✅ **Real** via our own OAuth client. Offline fixture backend for demos (`GMAIL_BACKEND=fixture`). Live sends are disabled (`SEND_MODE=sandbox`). |
 | Policy layer: tiers, 10-minute undo, hash-chained audit | ✅ **Real**, in `packages/policy`, and mirrored in the web UI (SubtleCrypto SHA-256). |
 | Company directory | ✅ **Real data**: 290 Indian companies. 7 grievance contacts are verified from each company's privacy policy; the rest are `verified: false` and never guessed. |
@@ -243,7 +243,7 @@ Deployment details: [docs/architecture/deployment-aws.md](docs/architecture/depl
 | Desktop | 97 | 100 | 100 | 100 |
 | Mobile | 90 | 100 | 100 | 100 |
 
-30/30 tests pass · 0 console errors across all views · accessibility 100 on all 5 views · works at 390 px wide. Details and before/after numbers: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
+31/31 tests pass · 0 console errors across all views · accessibility 100 on all 5 views · works at 390 px wide. Details and before/after numbers: [docs/hackathon/metrics.md](docs/hackathon/metrics.md).
 
 ---
 

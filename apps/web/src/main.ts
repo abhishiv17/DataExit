@@ -375,6 +375,8 @@ function renderSelectionBar() {
 // Live: drafts, approvals, undo, reject and send are MCP tool calls; the server enforces tiers and
 // the undo window, and the drawer shows the server's audit chain.
 const reviewKey = (r: ReviewItem) => r.draft.companyId;
+/** Requests the law changed (erase → restrict use, e.g. banks under RBI KYC) come first, so they are seen. */
+const reviewOrder = () => [...state.review].sort((a, b) => Number(b.draft.changed) - Number(a.draft.changed));
 
 async function startReview() {
   const existing = new Set(state.review.map(reviewKey));
@@ -395,6 +397,10 @@ async function startReview() {
       state.review.push({ draft, lang: "en", status: "pending", undoUntil: null, open: false });
       await audit.append({ actor: "agent", action: "propose", target: draft.companyId, sourceRef: draft.sourceRef, details: { type: draft.requestType, tier: draft.tier, changedFrom: draft.changed ? draft.goal : null } });
     }
+    // Ground rule 2: a full-review request is approved with its text on screen. Open the first
+    // card's email so it can be approved in one tap; the others open when you press approve.
+    const first = reviewOrder().find((r) => r.status === "pending");
+    if (first?.draft.tier === "high" && !state.review.some((r) => r.open)) first.open = true;
   }
   state.selected.clear(); graph?.refresh(); renderSelectionBar();
   setView("review");
@@ -459,7 +465,7 @@ function renderReview() {
       </div>
     </div>
     <div class="note legal">${basisNote} Section numbers are marked [verify] until checked.</div>
-    <div class="cards">${state.review.map(cardHtml).join("")}</div>`;
+    <div class="cards">${reviewOrder().map(cardHtml).join("")}</div>`;
   host.querySelector("#approve-medium")?.addEventListener("click", async () => {
     for (const r of oneTap) if (r.status === "pending") await approve(r);
   });
@@ -576,6 +582,8 @@ async function onCardAction(id: string, act: string) {
 
 async function approve(r: ReviewItem) {
   const id = r.draft.companyId;
+  // Ground rule 2 (demo and live): show the full text before a full-review approval.
+  if (r.draft.tier === "high" && !r.open) { r.open = true; renderReview(); return; }
   if (!LIVE) {
     await audit.append({ actor: "user", action: "approve", target: id, sourceRef: r.draft.sourceRef, details: { type: r.draft.requestType, tier: r.draft.tier, language: r.lang } });
     if (r.draft.tier === "high") { r.status = "undo"; r.undoUntil = Date.now() + UNDO_MS; }
@@ -583,7 +591,6 @@ async function approve(r: ReviewItem) {
     renderReview();
     return;
   }
-  if (r.draft.tier === "high" && !r.open) { r.open = true; renderReview(); return; }
   if (r.draft.needsRecipient && !r.recipient) { r.error = "Add the company's privacy email first."; renderReview(); return; }
   r.busy = true; r.note = undefined; renderReview();
   const res = await live(
@@ -828,11 +835,24 @@ async function renderAudit() {
   const label = (target: string) => state.byId.get(target)?.company.name ?? state.names.get(target) ?? target;
   $("#audit").innerHTML = `
     <div class="audit-head"><h3>Audit log${LIVE ? " · server" : ""}</h3><span class="${broken ? "warn" : "ok"}">${broken ? `Chain broken at #${broken}` : "✓ Hash chain intact"}</span></div>
+    ${!LIVE && events.length >= 2 ? `<div class="tamper">
+      ${tamperResult
+        ? `<div class="warn small">✗ Edited entry #${tamperResult.edited} (and recomputed its hash): chain broken at #${tamperResult.brokenAt}. The real log is untouched.</div>
+           <button class="link" id="tamper-reset">Reset</button>`
+        : `<button class="ghost" id="tamper-test" title="Works on a copy; the real log is not changed">Try editing entry #1</button>`}
+    </div>` : ""}
     <ol class="audit-list">${[...events].reverse().map((e) => `
-      <li><span class="seq">#${e.seq}</span> <b>${esc(e.actor)}</b> ${esc(e.action.replace(/_request$/, ""))} <span class="muted">${esc(label(e.target))}</span>
+      <li class="${tamperResult && e.seq === tamperResult.edited ? "tampered" : ""}"><span class="seq">#${e.seq}</span> <b>${esc(e.actor)}</b> ${esc(e.action.replace(/_request$/, ""))} <span class="muted">${esc(label(e.target))}</span>
       <div class="small muted mono">${new Date(e.at).toLocaleTimeString("en-IN")} · ${e.hash.slice(0, 12)}… ← ${e.prevHash.slice(0, 8)}…</div></li>`).join("")}
     </ol>`;
+  $("#audit").querySelector("#tamper-test")?.addEventListener("click", async () => {
+    const brokenAt = await audit.tamperTest(1);
+    tamperResult = brokenAt ? { edited: 1, brokenAt } : null;
+    void renderAudit();
+  });
+  $("#audit").querySelector("#tamper-reset")?.addEventListener("click", () => { tamperResult = null; void renderAudit(); });
 }
+let tamperResult: { edited: number; brokenAt: number } | null = null;
 
 // ---------- boot ----------
 (async () => {

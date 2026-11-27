@@ -16,7 +16,7 @@ Live: https://isozxdci5aem2ewbe7utcwv6i40oulpk.lambda-url.ap-south-1.on.aws/
 
 | Area | Status |
 | --- | --- |
-| 5 MCP servers, 23 tools, policy layer, Postgres/JSON store, Gmail/Calendar OAuth | ✅ Built, 30 tests pass (`npm test`) |
+| 5 MCP servers, 23 tools, policy layer, Postgres/JSON store, Gmail/Calendar OAuth | ✅ Built, 31 tests pass (`npm test`) |
 | Company directory: 290 Indian companies, retention duties, 7 verified grievance contacts | ✅ |
 | Demo inbox: 656 messages → 214 companies / 61 dormant 3y+ / 12 high-risk | ✅ Deterministic (`npm run demo:seed`) |
 | Web app: landing page, data map, review & approve (tiers, EN/HI, undo, audit), tracker (digest, escalation, report card) | ✅ On seeded data; redesign live since 24 Nov |
