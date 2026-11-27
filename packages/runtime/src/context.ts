@@ -59,7 +59,10 @@ export interface ContextOverrides {
 export async function createContext(name: string, o: ContextOverrides = {}): Promise<Ctx> {
   const config = loadConfig(o.env ?? process.env, o.config);
   const log = o.log ?? createLogger(config.logLevel, name);
-  const now = o.now ?? (config.fixedNow ? () => new Date(config.fixedNow!) : () => new Date());
+  // DATAEXIT_NOW starts the clock at a given moment and lets it run, so a demo can jump ahead to
+  // overdue deadlines while undo windows still elapse in real time.
+  const offset = config.fixedNow ? Date.parse(config.fixedNow) - Date.now() : 0;
+  const now = o.now ?? (config.fixedNow ? () => new Date(Date.now() + offset) : () => new Date());
 
   let sql: SqlClient | null = null;
   let store = o.store;

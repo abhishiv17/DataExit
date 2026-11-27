@@ -477,3 +477,19 @@ main { min-height: calc(100vh - 60px); }
 @keyframes logo-exit { 0%, 18% { transform: translateX(0); } 42% { transform: translateX(-3.5px); } 60%, 100% { transform: translateX(0); } }
 @keyframes logo-bit { 0%, 14% { opacity: 0; transform: translateX(0); } 22% { opacity: 1; } 55%, 100% { opacity: 0; transform: translateX(-11px); } }
 @keyframes logo-shine { 0%, 70% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+
+/* ---------- live MCP mode ---------- */
+.source-badge { font-size: 12.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.source-badge.source-live { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); background: var(--accent-soft); }
+.notice { max-width: 1440px; margin: 12px auto 0; padding: 10px 14px; border-radius: 10px; display: flex; gap: 12px; align-items: center; font-size: 14px; line-height: 1.45; }
+.notice[hidden] { display: none; }
+.notice span { flex: 1; }
+.notice-error { background: color-mix(in srgb, var(--danger) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--danger) 40%, var(--line)); color: var(--high-ink); }
+.notice-info { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); color: var(--ink); }
+.notice button.link { border: 0; background: none; padding: 2px 6px; }
+.tracker-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.name-form { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 520px; margin: 0 auto; }
+.name-form input, .recipient-input input { font: inherit; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); width: 100%; box-sizing: border-box; }
+.recipient-input { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.note.warn { color: var(--high-ink); }
+button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }

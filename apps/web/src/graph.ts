@@ -13,6 +13,8 @@ export const SECTOR_LABEL: Record<string, string> = {
   fintech: "Fintech & loans", broker: "Investing", insurance: "Insurance", telecom: "Telecom",
   health: "Health", travel: "Travel & rides", edtech: "Education", gaming: "Gaming",
   utility: "Media & apps", government: "Government", other: "Jobs, property & more",
+  // Directory sectors the legacy demo data does not use.
+  quick_commerce: "Food & grocery", entertainment: "Media & apps",
 };
 
 interface Node extends d3.SimulationNodeDatum {

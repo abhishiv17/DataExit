@@ -3,7 +3,8 @@ import {
   isHighSensitivity, RETENTION_LABELS, RIGHTS_IN_FORCE_FROM, sensitivityBand,
   type DataCategory, type FootprintView, type Language, type RequestStatus,
 } from "@dataexit/shared/ui";
-import { draftRequest, getFootprint, listRequests, type Draft, type TrackedRequest } from "./api";
+import * as api from "./api";
+import { LIVE, McpUnavailable, ToolError, type Draft, type EscalationDraft, type TrackedRequest, type UiAuditEvent } from "./api";
 import { BrowserAuditLog } from "./audit";
 import { createGraph, SECTOR_LABEL, type GraphHandle } from "./graph";
 import { gsap } from "gsap";
@@ -29,11 +30,21 @@ const TYPE_LABEL: Record<string, string> = {
 const STATUS_LABEL: Partial<Record<RequestStatus, string>> = {
   sent: "Sent", acknowledged: "Acknowledged", id_requested: "Asked for ID", confirmed: "Confirmed",
   rejected: "Refused", overdue: "Ignored (overdue)", escalated_go: "Escalated", closed: "Closed", cancelled: "Cancelled",
+  redirected: "Redirected",
+};
+const ESCALATE_LABEL: Record<string, string> = {
+  reminder: "Send a reminder", grievance_officer: "Escalate to grievance officer", dpb: "Draft a Data Protection Board complaint",
 };
 
 // ---------- state ----------
 type ReviewStatus = "pending" | "undo" | "sent" | "cancelled" | "skipped";
-interface ReviewItem { draft: Draft; lang: Language; status: ReviewStatus; undoUntil: number | null; open: boolean }
+interface ReviewItem {
+  draft: Draft; lang: Language; status: ReviewStatus; undoUntil: number | null; open: boolean;
+  /** Live: last refusal from the server for this card, and the recipient the user typed. */
+  error?: string; note?: string; recipient?: string; busy?: boolean;
+  /** Live: SEND_MODE=dry_run previewed it; nothing left the server. */
+  dryRun?: boolean;
+}
 
 const audit = new BrowserAuditLog("demo-user");
 const state = {
@@ -48,7 +59,58 @@ const state = {
   tracked: [] as TrackedRequest[],
   escalating: null as string | null,
   escalationLang: "en" as Language,
+  // Live only
+  escalation: null as EscalationDraft | null,
+  escalationNote: null as string | null,
+  pendingSends: new Map<string, number>(), // escalation request id → undo window end
+  digest: null as string | null,
+  needName: false,
+  sendNote: null as string | null,
+  serverAudit: { events: [] as UiAuditEvent[], brokenAt: null as number | null },
+  names: new Map<string, string>(), // request id → company name, for the audit drawer
 };
+
+// ---------- live helpers ----------
+function showNotice(msg: string | null, kind: "error" | "info" = "error") {
+  const host = $("#notice");
+  host.hidden = !msg;
+  host.className = `notice notice-${kind}`;
+  host.innerHTML = msg ? `<span>${esc(msg)}</span><button class="link" aria-label="Dismiss">✕</button>` : "";
+  host.querySelector("button")?.addEventListener("click", () => showNotice(null));
+}
+function errorText(e: unknown): string {
+  if (e instanceof ToolError) return e.hint ? `${e.message} ${e.hint}` : e.message;
+  if (e instanceof McpUnavailable) return `${e.message} Start it with: npm run start:http`;
+  return (e as Error).message;
+}
+/** Runs a live call; on failure shows the reason and returns undefined. Refreshes the server audit log. */
+async function live<T>(fn: () => Promise<T>, onError?: (msg: string, e: unknown) => void): Promise<T | undefined> {
+  try {
+    return await fn();
+  } catch (e) {
+    const msg = errorText(e);
+    if (onError) onError(msg, e); else showNotice(msg);
+    return undefined;
+  } finally {
+    void refreshServerAudit();
+  }
+}
+async function refreshServerAudit() {
+  if (!LIVE) return;
+  try { state.serverAudit = await api.getAuditLog(); renderAudit(); } catch { /* the notice already explains */ }
+}
+async function refreshTracked() {
+  if (!LIVE) return;
+  const rows = await live(() => api.listRequests());
+  if (!rows) return;
+  state.tracked = rows;
+  for (const r of rows) state.names.set(r.id, r.companyName);
+  for (const r of rows) {
+    const fp = state.byId.get(r.companyId);
+    if (fp) fp.status = r.status === "confirmed" ? "closed" : "request_open";
+  }
+  state.digest = (await live(() => api.weeklyDigest(state.escalationLang))) ?? null;
+}
 let graph: GraphHandle | null = null;
 type View = "home" | "map" | "review" | "tracker" | "rural";
 let ruralMounted = false;
@@ -84,10 +146,12 @@ document.querySelector("#app")!.innerHTML = `
       <button class="link-btn" data-scroll=".tech">Technology</button>
     </nav>
     <span class="spacer"></span>
+    <span class="source-badge app-only source-${LIVE ? "live" : "demo"}" title="${LIVE ? `Data and actions come from the Data Exit MCP tools at ${esc(api.MCP_URL)}` : "Seeded demo data; nothing leaves the browser"}">${LIVE ? "● Live MCP" : "Demo data"}</span>
     <button id="audit-toggle" class="ghost app-only" title="Every action is logged in a tamper-evident hash chain">Audit log <span id="audit-count">0</span></button>
     <button class="primary home-only" data-view="map">Open the demo →</button>
   </header>
   <div class="guide app-only" id="guide"></div>
+  <div id="notice" class="notice" role="status" hidden></div>
   <main>
     <section id="view-home" class="view view-home"></section>
     <section id="view-map" class="view">
@@ -128,11 +192,11 @@ const GUIDE: Record<Exclude<View, "home">, { step: string; title: string; body: 
   map: {
     step: "Step 1 of 3", title: "Who has Priya's data?",
     body: "Every dot is a company we found in Priya's inbox, from sign-up, OTP and receipt emails. <b>Further from the centre</b> means she hasn't used it for longer. <b>Orange</b> means it holds ID, bank or health data. Click any dot to see the email it came from.",
-    next: "Select the 12 riskiest", action: () => { pickHighRisk(); },
+    next: "Select the riskiest", action: () => { pickHighRisk(); },
   },
   review: {
     step: "Step 2 of 3", title: "Approve the requests",
-    body: "Data Exit wrote one request per company, addressed to its grievance officer. The two banks must keep KYC data by law, so it asks them to <b>restrict use</b> instead of erasing. <b>Nothing is sent until you approve.</b> High-risk requests wait 10 minutes so you can undo.",
+    body: "Data Exit wrote one request per company, addressed to its grievance officer. Companies that must keep some data by law (bank KYC, telecom, insurance) get a <b>restrict use</b> request instead of erasure. <b>Nothing is sent until you approve.</b> High-risk requests wait 10 minutes so you can undo.",
     next: "Next: track the replies", action: () => setView("tracker"),
   },
   tracker: {
@@ -151,14 +215,17 @@ function renderGuide(v: View) {
   const host = $("#guide");
   if (v === "home") { host.innerHTML = ""; return; }
   const g = GUIDE[v];
+  const next = v === "map" ? `Select the ${riskiest().length} riskiest` : g.next;
   host.innerHTML = `
     <div class="guide-inner">
       <div class="guide-text">
-        <div class="guide-step"><span class="step-pill">${g.step}</span> <span class="persona">Demo inbox: "Priya" (made up) · nothing is really sent</span></div>
+        <div class="guide-step"><span class="step-pill">${g.step}</span> <span class="persona">${LIVE
+          ? `Live MCP tools · every action goes through the policy layer${state.sendNote ? ` · ${esc(state.sendNote)}` : ""}`
+          : `Demo inbox: "Priya" (made up) · nothing is really sent`}</span></div>
         <h1>${g.title}</h1>
         <p>${g.body}</p>
       </div>
-      <button class="primary guide-next">${g.next} →</button>
+      <button class="primary guide-next">${next} →</button>
     </div>`;
   host.querySelector(".guide-next")!.addEventListener("click", g.action);
   if (!reduceMotion) gsap.from(host.querySelectorAll(".guide-step, h1, p, .guide-next"), { y: 14, autoAlpha: 0, duration: 0.5, stagger: 0.06, ease: "power3.out", clearProps: "all" });
@@ -222,9 +289,9 @@ function renderHeadline() {
     <div class="stat hot"><b>${high.length}</b><span>of those hold her Aadhaar, PAN, bank or health data</span></div>`;
 }
 
+const riskiest = () => state.footprints.filter((f) => f.highSensitivity && age(f) > 3 && isOpen(f));
 function pickHighRisk() {
-  const high = state.footprints.filter((f) => f.highSensitivity && age(f) > 3);
-  state.selected = new Set(high.filter(isOpen).map((f) => f.company.id));
+  state.selected = new Set(riskiest().map((f) => f.company.id));
   state.filter = "highDormant";
   renderFilters(); graph?.setMatch(FILTERS[state.filter].fn); renderSelectionBar();
 }
@@ -246,7 +313,7 @@ function renderPanel() {
   const host = $("#panel");
   const fp = state.focused ? state.byId.get(state.focused) : null;
   if (!fp) {
-    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h2>Click any dot on the map</h2><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select the 12 riskiest</b> above to jump straight to the riskiest ones.</p></div>`;
+    host.innerHTML = `<div class="panel-empty"><div class="hand">👆</div><h2>Click any dot on the map</h2><p>You'll see:</p><ul><li>the email that revealed the company</li><li>what data it probably holds</li><li>whether the law lets it keep that data</li></ul><p class="small muted">Or press <b>Select the riskiest</b> above to jump straight to the riskiest ones.</p></div>`;
     return;
   }
   const c = fp.company;
@@ -266,7 +333,9 @@ function renderPanel() {
     </dl>
     <h4>Data they likely hold</h4>
     <div class="cats">${c.dataCategories.map((k) => `<span class="cat ${isHighSensitivity({ dataCategories: [k] }) ? "cat-high" : ""}">${esc(CATEGORY_LABEL[k])}</span>`).join("")}</div>
-    ${c.retentionDuties.length ? `<div class="note">⚖ Must keep some data under ${esc(c.retentionDuties.map((d) => RETENTION_LABELS[d]).join(", "))}. We'll ask them to <b>restrict use</b> instead of erasing.</div>` : ""}
+    ${c.retentionDuties.length ? `<div class="note">⚖ Must keep some data under ${esc(c.retentionDuties.map((d) => RETENTION_LABELS[d]).join(", "))}.${c.retentionDuties.some((d) => d !== "tax")
+      ? ` We'll ask them to <b>restrict use</b> instead of erasing.`
+      : ` Tax records stay, but the rest can still be erased.`}</div>` : ""}
     <h4>Why we found it</h4>
     <ul class="evidence">${fp.evidence.map((e) => `
       <li><span class="kind kind-${e.kind}">${e.kind}</span>
@@ -302,24 +371,74 @@ function renderSelectionBar() {
 }
 
 // ---------- review & approve ----------
+// Demo: the browser simulates the pipeline and keeps its own audit chain.
+// Live: drafts, approvals, undo, reject and send are MCP tool calls; the server enforces tiers and
+// the undo window, and the drawer shows the server's audit chain.
+const reviewKey = (r: ReviewItem) => r.draft.companyId;
+
 async function startReview() {
-  const existing = new Map(state.review.map((r) => [r.draft.companyId, r]));
-  for (const id of state.selected) {
-    if (existing.has(id)) continue;
-    const draft = await draftRequest(id);
-    if (!draft) continue;
-    const item: ReviewItem = { draft, lang: "en", status: "pending", undoUntil: null, open: false };
-    state.review.push(item);
-    await audit.append({ actor: "agent", action: "propose", target: id, sourceRef: draft.sourceRef, details: { type: draft.requestType, tier: draft.tier, changedFrom: draft.changed ? draft.goal : null } });
+  const existing = new Set(state.review.map(reviewKey));
+  const ids = [...state.selected].filter((id) => !existing.has(id));
+  if (LIVE) {
+    if (ids.length) {
+      const res = await live(() => api.draftRequests(ids, state.byId), (msg, e) => {
+        if (e instanceof ToolError && e.code === "NEED_USER_NAME") state.needName = true;
+        else showNotice(msg);
+      });
+      if (!res) { setView("review"); return; }
+      addLiveDrafts(res.drafts);
+      if (res.skipped.length) showNotice(`Skipped ${res.skipped.length}: ${res.skipped.map((s) => `${state.byId.get(s.companyId)?.company.name ?? s.companyId} (${s.reason})`).join("; ")}`, "info");
+    }
+  } else {
+    const { drafts } = await api.draftRequests(ids, state.byId);
+    for (const draft of drafts) {
+      state.review.push({ draft, lang: "en", status: "pending", undoUntil: null, open: false });
+      await audit.append({ actor: "agent", action: "propose", target: draft.companyId, sourceRef: draft.sourceRef, details: { type: draft.requestType, tier: draft.tier, changedFrom: draft.changed ? draft.goal : null } });
+    }
   }
   state.selected.clear(); graph?.refresh(); renderSelectionBar();
   setView("review");
+}
+
+function addLiveDrafts(drafts: Draft[]) {
+  for (const draft of drafts) {
+    state.names.set(draft.requestId!, draft.companyName);
+    const undoUntil = draft.undoUntil ? Date.parse(draft.undoUntil) : null;
+    const item: ReviewItem = {
+      draft, lang: draft.language ?? "en", open: draft.tier === "high",
+      status: draft.serverStatus === "approved" ? "undo" : "pending",
+      undoUntil: draft.serverStatus === "approved" ? (undoUntil ?? Date.now()) : null,
+    };
+    const at = state.review.findIndex((r) => reviewKey(r) === draft.companyId);
+    if (at >= 0) state.review[at] = item; else state.review.push(item);
+    const fp = state.byId.get(draft.companyId);
+    if (fp) fp.status = "request_open";
+  }
 }
 
 function renderReview() {
   const host = $("#view-review");
   const pending = state.review.filter((r) => r.status === "pending");
   $("#review-count").textContent = pending.length ? String(pending.length) : "";
+  if (LIVE && state.needName) {
+    host.innerHTML = `<form class="empty name-form" id="name-form">
+      <h2>Whose name goes on the requests?</h2>
+      <p>Companies match requests to accounts by name. Use the name registered with them. It is saved on the Data Exit server, not sent anywhere else.</p>
+      <input id="user-name" required minlength="2" autocomplete="name" placeholder="Full name" />
+      <button class="primary" type="submit">Draft the requests →</button>
+    </form>`;
+    host.querySelector<HTMLFormElement>("#name-form")!.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const userName = (host.querySelector("#user-name") as HTMLInputElement).value.trim();
+      const ids = [...state.selected];
+      const res = await live(() => api.draftRequests(ids, state.byId, { userName }));
+      if (!res) return;
+      state.needName = false;
+      addLiveDrafts(res.drafts);
+      state.selected.clear(); graph?.refresh(); renderSelectionBar(); renderReview();
+    });
+    return;
+  }
   if (!state.review.length) {
     host.innerHTML = `<div class="empty"><h2>Nothing to review yet</h2><p>Start at step 1: pick companies on the data map, then draft requests.</p><button class="primary" id="to-map">Go to step 1 →</button></div>`;
     host.querySelector("#to-map")!.addEventListener("click", () => setView("map"));
@@ -329,79 +448,124 @@ function renderReview() {
   const basisNote = new Date() < RIGHTS_IN_FORCE_FROM
     ? `Before ${fmtDate(RIGHTS_IN_FORCE_FROM.toISOString())}, these are <b>policy-based (courtesy) requests</b>: DPDP data-principal rights are not yet in force.`
     : `These are statutory requests under the DPDP Act, 2023.`;
+  const oneTap = pending.filter((r) => r.draft.tier !== "high" && !(LIVE && r.draft.needsRecipient));
   host.innerHTML = `
     <div class="review-head">
       <div>
-        <div class="summary-pills"><span><b>${state.review.length}</b> drafted</span><span><b>${state.review.length - restricted}</b> erase</span><span class="sp-warn"><b>${restricted}</b> switched to restrict-use (law)</span><span class="sp-ok"><b>${state.review.filter((r) => r.status === "sent").length}</b> sent</span></div>
+        <div class="summary-pills"><span><b>${state.review.length}</b> drafted</span><span><b>${state.review.length - restricted}</b> erase</span><span class="sp-warn"><b>${restricted}</b> switched to restrict-use (law)</span><span class="sp-ok"><b>${state.review.filter((r) => r.status === "sent" && !r.dryRun).length}</b> sent</span></div>
       </div>
       <div class="actions">
-        ${pending.some((r) => r.draft.tier !== "high") ? `<button class="ghost" id="approve-medium">Approve all one-tap (${pending.filter((r) => r.draft.tier !== "high").length})</button>` : ""}
+        ${oneTap.length ? `<button class="ghost" id="approve-medium">Approve all one-tap (${oneTap.length})</button>` : ""}
       </div>
     </div>
     <div class="note legal">${basisNote} Section numbers are marked [verify] until checked.</div>
     <div class="cards">${state.review.map(cardHtml).join("")}</div>`;
   host.querySelector("#approve-medium")?.addEventListener("click", async () => {
-    for (const r of state.review.filter((x) => x.status === "pending" && x.draft.tier !== "high")) await approve(r);
+    for (const r of oneTap) if (r.status === "pending") await approve(r);
   });
   host.querySelectorAll<HTMLElement>("[data-act]").forEach((el) => el.addEventListener("click", () => onCardAction(el.dataset.id!, el.dataset.act!)));
+  host.querySelectorAll<HTMLInputElement>("[data-recipient]").forEach((el) => el.addEventListener("input", () => {
+    const r = state.review.find((x) => reviewKey(x) === el.dataset.recipient);
+    if (r) r.recipient = el.value.trim();
+  }));
 }
 
 function cardHtml(r: ReviewItem): string {
   const d = r.draft;
-  const fp = state.byId.get(d.companyId)!;
-  const src = fp.evidence.find((e) => e.messageId === d.sourceRef) ?? fp.evidence[0];
-  const t = d[r.lang];
+  const fp = state.byId.get(d.companyId);
+  const src = fp?.evidence.find((e) => e.messageId === d.sourceRef) ?? fp?.evidence[0];
+  const t = d[r.lang] ?? d.en ?? d.hi!;
   const id = esc(d.companyId);
   const remaining = r.undoUntil ? Math.max(0, r.undoUntil - Date.now()) : 0;
   const mm = String(Math.floor(remaining / 60000)).padStart(2, "0"), ss = String(Math.floor((remaining % 60000) / 1000)).padStart(2, "0");
+  // Ground rule 2: full-review requests are approved only with the full text on screen.
+  const mustRead = d.tier === "high" && !r.open;
+  const canSwitchLang = !LIVE || r.status === "pending";
   return `
   <article class="card status-${r.status}" data-card="${id}">
     <div class="card-top">
       <div>
         <h2>${esc(d.companyName)}</h2>
-        <div class="muted small">${esc(SECTOR_LABEL[d.sector] ?? d.sector)} · unused since ${fmtDate(fp.lastSeen)}</div>
+        <div class="muted small">${esc(SECTOR_LABEL[d.sector] ?? d.sector)}${fp ? ` · unused since ${fmtDate(fp.lastSeen)}` : ""}</div>
       </div>
       <div class="pills">
         <span class="pill type-${d.requestType}">${TYPE_LABEL[d.requestType]}</span>
         <span class="pill tier-${d.tier}" title="Approval tier">${d.tier === "high" ? "Full review · 10-min undo" : d.tier === "medium" ? "One-tap" : "Auto-eligible"}</span>
       </div>
     </div>
-    ${d.changed ? `<div class="note">⚖ You asked to erase, but they ${esc(d.reason.charAt(0).toLowerCase() + d.reason.slice(1))}. Asking them to <b>restrict use</b> to that legal purpose instead.</div>` : `<p class="small">Holds: ${fp.company.dataCategories.map((k) => esc(CATEGORY_LABEL[k])).join(", ")}</p>`}
-    <p class="small source">Source: “${esc(src.subject)}” · ${fmtDate(src.date)}</p>
-    <p class="small ${d.needsRecipient ? "warn" : ""}">${d.needsRecipient
-      ? "Grievance contact not verified yet. Test sends go to the sandbox inbox."
-      : d.recipient
-        ? `To: <b>${esc(d.recipient)}</b> <a href="${esc(d.recipientSource)}" target="_blank" rel="noopener">(source)</a>`
-        : `Submit via their <a href="${esc(d.recipientForm)}" target="_blank" rel="noopener">privacy request form</a>; we'll pre-fill the text for you to paste.`}</p>
+    ${d.changed ? `<div class="note">⚖ You asked to erase, but they ${esc(d.reason.charAt(0).toLowerCase() + d.reason.slice(1))} Asking them to <b>restrict use</b> to that legal purpose instead.</div>` : fp ? `<p class="small">Holds: ${fp.company.dataCategories.map((k) => esc(CATEGORY_LABEL[k])).join(", ")}</p>` : ""}
+    ${src ? `<p class="small source">Source: “${esc(src.subject)}” · ${fmtDate(src.date)}</p>` : ""}
+    ${recipientHtml(r)}
     <div class="lang">
-      <button data-act="lang-en" data-id="${id}" aria-pressed="${r.lang === "en"}">English</button>
-      <button data-act="lang-hi" data-id="${id}" aria-pressed="${r.lang === "hi"}">हिन्दी</button>
+      <button data-act="lang-en" data-id="${id}" aria-pressed="${r.lang === "en"}" ${canSwitchLang ? "" : "disabled"}>English</button>
+      <button data-act="lang-hi" data-id="${id}" aria-pressed="${r.lang === "hi"}" ${canSwitchLang ? "" : "disabled"}>हिन्दी</button>
       <button data-act="toggle" data-id="${id}" class="link">${r.open ? "Hide email" : "Show email"}</button>
     </div>
     ${r.open ? `<div class="email" lang="${r.lang}"><div class="subj">${esc(t.subject)}</div><pre>${esc(t.body)}</pre></div>` : ""}
+    ${r.error ? `<div class="note warn small">${esc(r.error)}</div>` : ""}
     <div class="card-actions">
       ${r.status === "pending" ? `
-        <button class="ghost" data-act="skip" data-id="${id}">Skip</button>
-        <button class="primary" data-act="approve" data-id="${id}">${d.tier === "high" ? "I've reviewed it — approve" : "Approve"}</button>` : ""}
+        <button class="ghost" data-act="skip" data-id="${id}" ${r.busy ? "disabled" : ""}>Skip</button>
+        <button class="primary" data-act="approve" data-id="${id}" ${r.busy ? "disabled" : ""}>${mustRead ? "Read the full email to approve" : d.tier === "high" ? "I've reviewed it — approve" : "Approve"}</button>` : ""}
       ${r.status === "undo" ? `
         <span class="countdown">Sending in <b data-countdown="${id}">${mm}:${ss}</b></span>
-        <button class="ghost" data-act="ff" data-id="${id}" title="Demo only">Skip wait</button>
-        <button class="danger" data-act="undo" data-id="${id}">Undo</button>` : ""}
+        ${LIVE ? "" : `<button class="ghost" data-act="ff" data-id="${id}" title="Demo only">Skip wait</button>`}
+        <button class="danger" data-act="undo" data-id="${id}" ${r.busy ? "disabled" : ""}>Undo</button>` : ""}
       ${r.status === "sent" && d.recipientForm ? `<span class="ok">✓ Approved · open the form and paste the request</span>` : ""}
-      ${r.status === "sent" && !d.recipientForm ? `<span class="ok">✓ Sent from your Gmail · deadline ${fmtDate(new Date(Date.now() + 90 * 864e5).toISOString())} added to Calendar</span>` : ""}
+      ${r.status === "sent" && !d.recipientForm ? `<span class="ok">${esc(r.note ?? `✓ Sent from your Gmail · deadline ${fmtDate(new Date(Date.now() + 90 * 864e5).toISOString())} added to Calendar`)}</span>` : ""}
+      ${r.status === "pending" && r.note ? `<span class="muted">${esc(r.note)}</span>` : ""}
       ${r.status === "cancelled" ? `<span class="muted">Undone. Nothing was sent.</span>` : ""}
       ${r.status === "skipped" ? `<span class="muted">Skipped.</span>` : ""}
     </div>
   </article>`;
 }
 
+function recipientHtml(r: ReviewItem): string {
+  const d = r.draft;
+  if (LIVE && d.needsRecipient) {
+    return r.status === "pending"
+      ? `<label class="small warn recipient-input">No verified grievance contact. Their privacy email (from their privacy policy):
+          <input type="email" data-recipient="${esc(d.companyId)}" value="${esc(r.recipient ?? "")}" placeholder="privacy@company.com" /></label>`
+      : `<p class="small">To: <b>${esc(r.recipient ?? "")}</b> (you gave this address)</p>`;
+  }
+  if (d.needsRecipient) return `<p class="small warn">Grievance contact not verified yet. Test sends go to the sandbox inbox.</p>`;
+  if (d.recipient) return `<p class="small">To: <b>${esc(d.recipient)}</b>${d.recipientSource ? ` <a href="${esc(d.recipientSource)}" target="_blank" rel="noopener">(source)</a>` : ""}</p>`;
+  return `<p class="small">Submit via their <a href="${esc(d.recipientForm)}" target="_blank" rel="noopener">privacy request form</a>; we'll pre-fill the text for you to paste.</p>`;
+}
+
 async function onCardAction(id: string, act: string) {
-  const r = state.review.find((x) => x.draft.companyId === id)!;
-  if (act === "lang-en" || act === "lang-hi") r.lang = act === "lang-en" ? "en" : "hi";
+  const r = state.review.find((x) => reviewKey(x) === id)!;
+  r.error = undefined;
+  if (act === "lang-en" || act === "lang-hi") {
+    const lang: Language = act === "lang-en" ? "en" : "hi";
+    if (LIVE && !r.draft[lang] && r.status === "pending") {
+      r.busy = true; renderReview();
+      const d = await live(() => api.redraftInLanguage(r.draft, lang, state.byId), (msg) => { r.error = msg; });
+      r.busy = false;
+      if (d) { r.draft = d; state.names.set(d.requestId!, d.companyName); }
+    }
+    if (r.draft[lang]) r.lang = lang;
+  }
   else if (act === "toggle") r.open = !r.open;
   else if (act === "approve") await approve(r);
-  else if (act === "skip") { r.status = "skipped"; await audit.append({ actor: "user", action: "reject", target: id, sourceRef: r.draft.sourceRef, details: {} }); }
-  else if (act === "undo") { r.status = "cancelled"; r.undoUntil = null; await audit.append({ actor: "user", action: "undo", target: id, sourceRef: r.draft.sourceRef, details: {} }); }
+  else if (act === "skip") {
+    if (LIVE) {
+      const ok = await live(async () => { await api.reject(r.draft.requestId!, "skipped in review"); return true; }, (m) => { r.error = m; });
+      if (ok) r.status = "skipped";
+    } else {
+      r.status = "skipped";
+      await audit.append({ actor: "user", action: "reject", target: id, sourceRef: r.draft.sourceRef, details: {} });
+    }
+  }
+  else if (act === "undo") {
+    if (LIVE) {
+      const ok = await live(async () => { await api.undo(r.draft.requestId!); return true; }, (m) => { r.error = m; });
+      if (ok) { r.status = "pending"; r.undoUntil = null; r.note = "Undone. Nothing was sent; you can approve again."; }
+    } else {
+      r.status = "cancelled"; r.undoUntil = null;
+      await audit.append({ actor: "user", action: "undo", target: id, sourceRef: r.draft.sourceRef, details: {} });
+    }
+  }
   else if (act === "ff") r.undoUntil = Date.now();
   renderReview();
   if (!reduceMotion && (act === "approve" || act === "undo")) {
@@ -412,65 +576,151 @@ async function onCardAction(id: string, act: string) {
 
 async function approve(r: ReviewItem) {
   const id = r.draft.companyId;
-  await audit.append({ actor: "user", action: "approve", target: id, sourceRef: r.draft.sourceRef, details: { type: r.draft.requestType, tier: r.draft.tier, language: r.lang } });
-  if (r.draft.tier === "high") { r.status = "undo"; r.undoUntil = Date.now() + UNDO_MS; }
-  else await send(r);
+  if (!LIVE) {
+    await audit.append({ actor: "user", action: "approve", target: id, sourceRef: r.draft.sourceRef, details: { type: r.draft.requestType, tier: r.draft.tier, language: r.lang } });
+    if (r.draft.tier === "high") { r.status = "undo"; r.undoUntil = Date.now() + UNDO_MS; }
+    else await send(r);
+    renderReview();
+    return;
+  }
+  if (r.draft.tier === "high" && !r.open) { r.open = true; renderReview(); return; }
+  if (r.draft.needsRecipient && !r.recipient) { r.error = "Add the company's privacy email first."; renderReview(); return; }
+  r.busy = true; r.note = undefined; renderReview();
+  const res = await live(
+    () => api.approve(r.draft.requestId!, { reviewed: r.draft.tier === "high", ...(r.draft.needsRecipient ? { recipient: r.recipient } : {}) }),
+    (msg) => { r.error = msg; },
+  );
+  r.busy = false;
+  if (res) {
+    const until = res.undoUntil ? Date.parse(res.undoUntil) : 0;
+    if (until > Date.now()) { r.status = "undo"; r.undoUntil = until; }
+    else await send(r);
+  }
   renderReview();
 }
 
 async function send(r: ReviewItem) {
-  r.status = "sent"; r.undoUntil = null;
-  const sentAt = new Date();
-  await audit.append({ actor: "agent", action: "send", target: r.draft.companyId, sourceRef: r.draft.sourceRef, details: { type: r.draft.requestType, language: r.lang, sandbox: r.draft.needsRecipient } });
-  state.tracked.unshift({
-    id: `req-${r.draft.companyId}-${sentAt.getTime()}`, companyId: r.draft.companyId, companyName: r.draft.companyName,
-    type: r.draft.requestType, status: "sent", sentAt: sentAt.toISOString(),
-    deadlineAt: new Date(sentAt.getTime() + 90 * 864e5).toISOString(),
-    gmailMessageId: null, calendarEventId: null, sourceRef: r.draft.sourceRef, evidence: [],
-  });
-  const fp = state.byId.get(r.draft.companyId);
-  if (fp) fp.status = "request_open";
+  if (!LIVE) {
+    r.status = "sent"; r.undoUntil = null;
+    const sentAt = new Date();
+    await audit.append({ actor: "agent", action: "send", target: r.draft.companyId, sourceRef: r.draft.sourceRef, details: { type: r.draft.requestType, language: r.lang, sandbox: r.draft.needsRecipient } });
+    state.tracked.unshift({
+      id: `req-${r.draft.companyId}-${sentAt.getTime()}`, companyId: r.draft.companyId, companyName: r.draft.companyName,
+      type: r.draft.requestType, status: "sent", sentAt: sentAt.toISOString(),
+      deadlineAt: new Date(sentAt.getTime() + 90 * 864e5).toISOString(),
+      gmailMessageId: null, calendarEventId: null, sourceRef: r.draft.sourceRef, evidence: [],
+    });
+    const fp = state.byId.get(r.draft.companyId);
+    if (fp) fp.status = "request_open";
+    return;
+  }
+  const id = r.draft.requestId!;
+  const res = await live(() => api.send([id]), (msg) => { r.error = msg; });
+  if (!res) return;
+  state.sendNote = res.modeNote;
+  const sent = res.sent.find((x) => x.id === id);
+  if (sent) {
+    r.status = "sent"; r.undoUntil = null;
+    r.note = `✓ ${res.mode === "live" ? "Sent from your Gmail" : res.mode === "sandbox" ? "Sent to the sandbox inbox (not the company)" : "Sent"}${sent.deadline ? ` · deadline ${fmtDate(sent.deadline)} added to Calendar` : ""}`;
+    await refreshTracked();
+  } else if (res.previews.includes(id)) {
+    r.status = "sent"; r.undoUntil = null; r.dryRun = true;
+    r.note = "Dry run: nothing was sent (SEND_MODE=dry_run on the server).";
+  } else if (res.pending.includes(id)) {
+    r.undoUntil = Date.now() + 5000; // the server's clock says not yet; try again shortly
+  } else {
+    r.error = res.blocked.find((b) => b.id === id)?.message ?? "Not sent.";
+    r.status = "pending"; r.undoUntil = null;
+  }
+  renderGuide(state.view);
 }
 
-// Undo-window ticker
+// Undo-window ticker: sends once the window has passed (demo and live), plus approved escalations (live).
+let ticking = false;
 setInterval(async () => {
-  let changed = false;
-  for (const r of state.review) {
-    if (r.status === "undo" && r.undoUntil && r.undoUntil <= Date.now()) { await send(r); changed = true; }
-  }
-  if (changed && state.view === "review") renderReview();
-  else if (state.view === "review") {
-    document.querySelectorAll<HTMLElement>("[data-countdown]").forEach((el) => {
-      const r = state.review.find((x) => x.draft.companyId === el.dataset.countdown);
-      if (!r?.undoUntil) return;
-      const ms = Math.max(0, r.undoUntil - Date.now());
-      el.textContent = `${String(Math.floor(ms / 60000)).padStart(2, "0")}:${String(Math.floor((ms % 60000) / 1000)).padStart(2, "0")}`;
-    });
+  if (ticking) return;
+  ticking = true;
+  try {
+    let changed = false;
+    for (const r of state.review) {
+      if (r.status === "undo" && r.undoUntil && r.undoUntil <= Date.now()) { await send(r); changed = true; }
+    }
+    for (const [id, until] of state.pendingSends) {
+      if (until > Date.now()) continue;
+      const res = await live(() => api.send([id]));
+      if (res?.pending.includes(id)) { state.pendingSends.set(id, Date.now() + 5000); continue; }
+      state.pendingSends.delete(id);
+      if (res) {
+        state.escalationNote = res.sent.some((s) => s.id === id)
+          ? `✓ Escalation sent. ${res.modeNote}`
+          : res.previews.includes(id) ? "Dry run: nothing was sent." : (res.blocked[0]?.message ?? null);
+      }
+      await refreshTracked();
+      if (state.view === "tracker") renderTracker();
+    }
+    if (changed && state.view === "review") renderReview();
+    else if (state.view === "review") {
+      document.querySelectorAll<HTMLElement>("[data-countdown]").forEach((el) => {
+        const r = state.review.find((x) => reviewKey(x) === el.dataset.countdown);
+        if (!r?.undoUntil) return;
+        const ms = Math.max(0, r.undoUntil - Date.now());
+        el.textContent = `${String(Math.floor(ms / 60000)).padStart(2, "0")}:${String(Math.floor((ms % 60000) / 1000)).padStart(2, "0")}`;
+      });
+    }
+  } finally {
+    ticking = false;
   }
 }, 1000);
 
 // ---------- tracker + digest ----------
+/** Which ladder step a row offers: live uses the tracker's next_action; the demo offers it on overdue rows. */
+function escalationOffer(r: TrackedRequest): string | null {
+  if (!LIVE) return r.status === "overdue" ? "grievance_officer" : null;
+  return r.nextAction?.action === "escalate" ? r.nextAction.level : null;
+}
+
+function nextActionNote(r: TrackedRequest): string {
+  const n = r.nextAction;
+  if (!LIVE || !n) return "";
+  if (n.action === "wait" && n.until) return `<div class="small muted">Next step from ${fmtDate(n.until)}</div>`;
+  if (n.action === "offer_restrict") return `<div class="note small">They may keep this data by law. Ask them to restrict its use instead.</div>`;
+  if (n.action === "approve" || n.action === "send") return `<div class="small muted">An escalation draft is waiting for your approval.</div>`;
+  if (n.action === "file_personally") return `<div class="small muted">A Data Protection Board complaint is drafted for you to file yourself.</div>`;
+  return "";
+}
+
 function renderTracker() {
   const host = $("#view-tracker");
   const all = state.tracked;
   const count = (s: RequestStatus) => all.filter((r) => r.status === s).length;
+  const offers = all.filter((r) => escalationOffer(r));
   const overdue = all.filter((r) => r.status === "overdue");
-  const digest = `${count("confirmed")} confirmed deletion, ${count("id_requested")} asked for ID, ${overdue.length} ignored you.${overdue.length ? " Escalate?" : ""}`;
-  const esc_r = state.escalating ? all.find((r) => r.id === state.escalating) : null;
+  const digest = LIVE && state.digest
+    ? state.digest
+    : `${count("confirmed")} confirmed deletion, ${count("id_requested")} asked for ID, ${overdue.length} ignored you.${overdue.length ? " Escalate?" : ""}`;
+  const escR = state.escalating ? all.find((r) => r.id === state.escalating) : null;
+  const liveEsc = LIVE && escR && state.escalation ? state.escalation : null;
   host.innerHTML = `
     <div class="tracker-layout">
       <div>
-        <h2>Priya's requests</h2>
+        <div class="tracker-head">
+          <h2>${LIVE ? "Your requests" : "Priya's requests"}</h2>
+          ${LIVE ? `<button class="ghost" id="check-replies">Check replies</button>` : ""}
+        </div>
         <p class="muted">Each bar fills up towards the 90-day deadline. Deadlines are also added to Google Calendar.</p>
+        ${LIVE && !all.length ? `<div class="empty"><p>Nothing sent yet. Approve requests in step 2 and they appear here.</p></div>` : ""}
         <ol class="timeline">${all.map((r) => {
-          const pct = Math.min(100, ((Date.now() - +new Date(r.sentAt)) / (+new Date(r.deadlineAt) - +new Date(r.sentAt))) * 100);
+          const span = +new Date(r.deadlineAt) - +new Date(r.sentAt);
+          const pct = span > 0 ? Math.min(100, ((Date.now() - +new Date(r.sentAt)) / span) * 100) : 100;
+          const level = escalationOffer(r);
           return `<li class="tl st-${r.status}">
             <div class="tl-head"><b>${esc(r.companyName)}</b><span class="pill st-${r.status}">${STATUS_LABEL[r.status] ?? r.status}</span></div>
             <div class="small muted">${TYPE_LABEL[r.type] ?? r.type} · sent ${fmtDate(r.sentAt)} · deadline ${fmtDate(r.deadlineAt)}</div>
             <div class="bar"><i style="width:${pct}%"></i></div>
             ${r.evidence.length ? `<div class="small">Reply kept as evidence: <code>${esc(r.evidence[0])}</code></div>` : ""}
             ${r.status === "id_requested" ? `<div class="note small">They asked you to verify your identity. Reply from your registered email. Never send an Aadhaar or PAN copy unless you choose to.</div>` : ""}
-            ${r.status === "overdue" ? `<button class="primary small-btn" data-escalate="${esc(r.id)}">Escalate to grievance officer</button>` : ""}
+            ${nextActionNote(r)}
+            ${level ? `<button class="primary small-btn" data-escalate="${esc(r.id)}">${ESCALATE_LABEL[level] ?? "Escalate"}</button>` : ""}
           </li>`;
         }).join("")}</ol>
       </div>
@@ -478,31 +728,77 @@ function renderTracker() {
         <div class="digest">
           <div class="digest-head">Weekly digest · WhatsApp</div>
           <div class="bubble">${esc(digest)}</div>
-          ${overdue.length ? `<button class="primary block" data-escalate="${esc(overdue[0].id)}">Escalate ${esc(overdue[0].companyName)}</button>` : ""}
+          ${offers.length ? `<button class="primary block" data-escalate="${esc(offers[0].id)}">${esc(ESCALATE_LABEL[escalationOffer(offers[0])!] ?? "Escalate")}: ${esc(offers[0].companyName)}</button>` : ""}
           <div class="small muted">I will never ask for your OTP, PIN or Aadhaar.</div>
         </div>
         ${reportCardHtml(all)}
-        ${esc_r?.escalation ? `
+        ${state.escalationNote ? `<div class="note small">${esc(state.escalationNote)}</div>` : ""}
+        ${liveEsc ? `
+          <div class="email escalation">
+            <div class="small muted">${esc(ESCALATE_LABEL[liveEsc.level] ?? liveEsc.level)} · ${liveEsc.recipient ? `to <b>${esc(liveEsc.recipient)}</b>${liveEsc.recipientSource === "company_reply" ? " (the address in their reply)" : ""}` : "for you to file"}</div>
+            <div class="subj">${esc(liveEsc.subject)}</div>
+            <pre lang="${liveEsc.language}">${esc(liveEsc.body)}</pre>
+            ${liveEsc.sendable
+              ? `<button class="primary block" id="approve-escalation">I've reviewed it — approve${liveEsc.tier === "high" ? " (10-min undo)" : ""}</button>`
+              : `<div class="note small">The Data Exit server cannot send this. File it yourself on the Data Protection Board's portal once it is live.</div>`}
+          </div>` : ""}
+        ${!LIVE && escR?.escalation ? `
           <div class="email escalation">
             <div class="lang">
               <button data-elang="en" aria-pressed="${state.escalationLang === "en"}">English</button>
               <button data-elang="hi" aria-pressed="${state.escalationLang === "hi"}">हिन्दी</button>
             </div>
-            <div class="subj">${esc(esc_r.escalation[state.escalationLang].subject)}</div>
-            <pre>${esc(esc_r.escalation[state.escalationLang].body)}</pre>
+            <div class="subj">${esc(escR.escalation[state.escalationLang].subject)}</div>
+            <pre>${esc(escR.escalation[state.escalationLang].body)}</pre>
             <button class="primary block" id="approve-escalation">Approve escalation</button>
           </div>` : ""}
       </aside>
     </div>`;
-  host.querySelectorAll<HTMLElement>("[data-escalate]").forEach((b) => b.addEventListener("click", () => { state.escalating = b.dataset.escalate!; renderTracker(); }));
+  host.querySelectorAll<HTMLElement>("[data-escalate]").forEach((b) => b.addEventListener("click", () => openEscalation(b.dataset.escalate!)));
   host.querySelectorAll<HTMLElement>("[data-elang]").forEach((b) => b.addEventListener("click", () => { state.escalationLang = b.dataset.elang as Language; renderTracker(); }));
+  host.querySelector("#check-replies")?.addEventListener("click", async (ev) => {
+    const btn = ev.currentTarget as HTMLButtonElement;
+    btn.disabled = true; btn.textContent = "Checking…";
+    const res = await live(() => api.checkReplies());
+    if (res) {
+      showNotice(`${res.newReplies} new repl${res.newReplies === 1 ? "y" : "ies"} classified${res.needsReview ? `, ${res.needsReview} need a person to read them` : ""}${res.newlyOverdue ? `, ${res.newlyOverdue} now overdue` : ""}.`, "info");
+      await refreshTracked();
+    }
+    renderTracker();
+  });
   host.querySelector("#approve-escalation")?.addEventListener("click", async () => {
-    const r = esc_r!;
+    if (LIVE) {
+      const e = state.escalation!;
+      const res = await live(() => api.approve(e.requestId, { reviewed: true }));
+      if (!res) return;
+      state.pendingSends.set(e.requestId, res.undoUntil ? Date.parse(res.undoUntil) : Date.now());
+      state.escalationNote = res.undoUntil && Date.parse(res.undoUntil) > Date.now()
+        ? `Approved. It sends at ${new Date(res.undoUntil).toLocaleTimeString("en-IN")} unless you undo it.`
+        : "Approved. Sending…";
+      state.escalation = null; state.escalating = null;
+      renderTracker();
+      return;
+    }
+    const r = escR!;
     await audit.append({ actor: "user", action: "approve", target: r.id, sourceRef: r.gmailMessageId, details: { escalation: "grievance_officer" } });
     await audit.append({ actor: "agent", action: "status_change", target: r.id, sourceRef: r.gmailMessageId, details: { from: r.status, to: "escalated_go" } });
     r.status = "escalated_go"; state.escalating = null; renderTracker();
     if (!reduceMotion) gsap.from(".tl.st-escalated_go", { backgroundColor: "rgba(52,211,153,0.35)", duration: 1.2 });
   });
+}
+
+async function openEscalation(id: string) {
+  state.escalating = id;
+  state.escalationNote = null;
+  if (LIVE) {
+    state.escalation = null;
+    const draft = await live(() => api.escalate(id));
+    if (!draft) { state.escalating = null; renderTracker(); return; }
+    state.escalation = draft;
+    state.names.set(draft.requestId, state.tracked.find((r) => r.id === id)?.companyName ?? "");
+    await refreshTracked();
+  }
+  renderTracker();
 }
 
 function reportCardHtml(all: TrackedRequest[]): string {
@@ -524,25 +820,41 @@ function reportCardHtml(all: TrackedRequest[]): string {
 }
 
 // ---------- audit drawer ----------
+// Demo: the browser's own hash chain. Live: the server's chain from get_audit_log.
 async function renderAudit() {
-  const events = audit.all();
+  const events: UiAuditEvent[] = LIVE ? state.serverAudit.events : audit.all().map((e) => ({ ...e }));
   $("#audit-count").textContent = String(events.length);
-  const broken = await audit.verify();
+  const broken = LIVE ? state.serverAudit.brokenAt : await audit.verify();
+  const label = (target: string) => state.byId.get(target)?.company.name ?? state.names.get(target) ?? target;
   $("#audit").innerHTML = `
-    <div class="audit-head"><h3>Audit log</h3><span class="${broken ? "warn" : "ok"}">${broken ? `Chain broken at #${broken}` : "✓ Hash chain intact"}</span></div>
+    <div class="audit-head"><h3>Audit log${LIVE ? " · server" : ""}</h3><span class="${broken ? "warn" : "ok"}">${broken ? `Chain broken at #${broken}` : "✓ Hash chain intact"}</span></div>
     <ol class="audit-list">${[...events].reverse().map((e) => `
-      <li><span class="seq">#${e.seq}</span> <b>${esc(e.actor)}</b> ${esc(e.action)} <span class="muted">${esc(state.byId.get(e.target)?.company.name ?? e.target)}</span>
+      <li><span class="seq">#${e.seq}</span> <b>${esc(e.actor)}</b> ${esc(e.action.replace(/_request$/, ""))} <span class="muted">${esc(label(e.target))}</span>
       <div class="small muted mono">${new Date(e.at).toLocaleTimeString("en-IN")} · ${e.hash.slice(0, 12)}… ← ${e.prevHash.slice(0, 8)}…</div></li>`).join("")}
     </ol>`;
 }
 
 // ---------- boot ----------
 (async () => {
-  const fr = await getFootprint();
+  let fr;
+  try {
+    fr = await api.getFootprint();
+  } catch (e) {
+    showNotice(`Live data unavailable. ${errorText(e)}`);
+    setView(location.hash.slice(1) === "rural" ? "rural" : "home");
+    return;
+  }
   state.footprints = fr.footprints;
   state.scannedAt = new Date(fr.scannedAt);
   state.byId = new Map(fr.footprints.map((f) => [f.company.id, f]));
-  state.tracked = (await listRequests()).map((r) => ({ ...r }));
+  if (LIVE) {
+    await refreshTracked();
+    const open = await live(() => api.listOpenDrafts(state.byId));
+    if (open) addLiveDrafts(open);
+    await refreshServerAudit();
+  } else {
+    state.tracked = (await api.listRequests()).map((r) => ({ ...r }));
+  }
   renderHeadline(); renderFilters(); renderPanel(); renderAudit();
   // Deep links for rehearsal / backup demo: #map, #review-demo, #tracker, #rural; anything else opens the home page.
   const hash = location.hash.slice(1);

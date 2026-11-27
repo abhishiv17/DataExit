@@ -59,7 +59,7 @@ DIRECTORY_SOURCE=postgres npm start
 Needed only when running the servers as separate processes.
 
 ## Demo time travel
-`DATAEXIT_NOW=2027-03-01T10:00:00+05:30` fixes the clock, so requests sent today show as overdue and the escalation ladder can be demonstrated.
+`DATAEXIT_NOW=2027-03-01T10:00:00+05:30` starts the clock at that moment (it keeps running), so requests sent today show as overdue and the escalation ladder can be demonstrated, while undo windows still elapse.
 
 ## Useful scripts
 | Script | Does |

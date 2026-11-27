@@ -26,6 +26,8 @@ export const RETENTION_LABELS: Record<RetentionDuty, string> = {
   telecom_licence: "Telecom licence conditions",
   tax: "Tax record-keeping rules",
   medical: "Medical records rules",
+  sebi: "SEBI record-keeping rules",
+  insurance: "IRDAI record-keeping rules",
 };
 
 /** If a retention duty applies, erasure becomes restrict-use. */

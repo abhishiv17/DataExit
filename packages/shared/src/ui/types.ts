@@ -36,7 +36,9 @@ export type RetentionDuty =
   | "pmla"
   | "telecom_licence"
   | "tax"
-  | "medical";
+  | "medical"
+  | "sebi"
+  | "insurance";
 
 export interface GrievanceContact {
   email: string | null;
@@ -75,7 +77,7 @@ export interface Footprint {
 
 // ---- Contract shapes consumed by the UI (see docs/contract.md) ----
 
-export type EvidenceKind = "signup" | "welcome" | "otp" | "receipt" | "newsletter" | "reply";
+export type EvidenceKind = "signup" | "welcome" | "otp" | "account" | "receipt" | "newsletter" | "reply";
 
 /** Gmail metadata for the message a footprint was found from. Never a body. */
 export interface EvidenceRef {
@@ -130,6 +132,7 @@ export type RequestStatus =
   | "confirmed"
   | "rejected"
   | "overdue"
+  | "redirected"
   | "escalated_go"
   | "escalated_dpb"
   | "closed"
